@@ -12,9 +12,32 @@
       <input class="username-input" type="text" name="username-input" placeholder="Please enter your username...">
       <label class="password" for="password-input">Password</label>
       <input class="password-input" type="text" name="password-input" placeholder="Please enter your password...">
-      <button class="submit" type="button" name="button">Submit</button>
-      <h2 class="error">Please enter a valid username and password!</h2>
+      <button class="submit" type="button" name="submit-button">Submit</button>
+      <h3 class="error">Please enter a valid username and password!</h3>
     </form>
-    <!-- Do not include the index.js or main.bundle.js file here - it is done automatically by the webpack server -->
+    <main>
+      <section class="manager-view">
+        <h2>Welcome Manager Name!</h2>
+        <button class="logout" type="button" name="logout-button">Logout</button>
+        <label class="search-for-user" for="user-search">Search for a user:</label>
+        <input class="user-search" type="text" name="user-search" placeholder="Please enter the name of a user...">
+        <button class="logout" type="button" name="logout-button">Logout</button>
+        <div class="todays-date">
+          <h2>Today's Date</h2>
+        </div>
+        <div class="rooms-available-today">
+          <h2>Rooms Available Today</h2>
+        </div>
+        <div class="todays-revenue">
+          <h2>Today's Revenue</h2>
+        </div>
+        <div class="rooms-occupied-today">
+          <h2>Rooms Occupied Today(%)</h2>
+        </div>
+      </section>
+      <section class="customer-view">
+
+      </section>
+    </main>
   </body>
 </html>
