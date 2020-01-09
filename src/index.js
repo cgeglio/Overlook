@@ -21,7 +21,7 @@ import './images/welcome.png'
 let ids = [...Array(51).keys()];
 
 $('.login').keyup(checkInputs);
-$('.submit').click(validateLoginInfo)
+$('.submit').click(validateLoginInfo);
 
 function checkInputs() {
   if ($('.username-input').val() && $('.password-input').val()) {
@@ -36,7 +36,7 @@ function validateLoginInfo() {
     } else if (ids.find(i => `customer${i}` === $('.username-input').val()) && $('.password-input').val() === 'overlook2019') {
         showDashboard('customer');
     } else {
-      $('.login-input').val('')
+      $('.login-input').val('');
       $(".login-error").css("display", "flex");
     }
   }
