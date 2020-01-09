@@ -153,7 +153,7 @@ input .password-input {
 
 .manager-view {
   align-items: center;
-  display: flex;
+  display: none;
   flex-direction: column;
   justify-content: center;
 }
@@ -177,7 +177,7 @@ input .password-input {
   margin-top: 0;
 }
 
-.manager-dash {
+.dashboard {
   align-content: center;
   display: flex;
   flex-direction: row;
@@ -186,7 +186,7 @@ input .password-input {
   width: 100%
 }
 
-.manager-dash div {
+.dashboard div {
   align-items: center;
   display: flex;
   border: 1px solid $neon-base-color;
@@ -199,17 +199,18 @@ input .password-input {
   width: 250px;
 }
 
-.manager-dash h2 {
+.dashboard h2 {
+  font-size: 2em;
   margin: 0px;
 }
 
-.manager-welcome {
+.welcome {
   align-items: center;
   display: flex;
   flex-direction: row;
 }
 
-.manager-name {
+.name {
   margin: 0px 0px 0px 15px;
 }
 
@@ -222,5 +223,16 @@ input .password-input {
 }
 
 .customer-view {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.new-reservation {
   display: none;
+}
+
+.new-reservation-button {
+  margin-bottom: 20px;
 }

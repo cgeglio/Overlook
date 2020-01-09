@@ -27,9 +27,9 @@
     <main>
       <section class="manager-view">
         <div class="line"></div>
-        <div class="manager-welcome">
+        <div class="welcome">
           <img src="images/welcome.png" alt="the word welcome in neon letters" class="neon welcome">
-          <h2 class="manager-name">Name</h2>
+          <h2 class="name manager-name">Name</h2>
         </div>
         <div class="manager-searchbar">
           <label class="search-for-user" for="user-search">Search for a user:</label>
@@ -50,7 +50,7 @@
           <button class="new-reservation-button" type="button" name="new-reservation-button">Add Reservation</button>
           <button class="delete-reservation-button" type="button" name="delete-reservation-button">Delete Reservation</button>
         </div>
-        <section class="manager-dash">
+        <section class="dashboard">
           <div class="todays-date">
             <h2>Today's Date</h2>
           </div>
@@ -67,39 +67,44 @@
       </section>
       <section class="customer-view">
         <div class="line"></div>
-        <img src="images/welcome.png" alt="the word welcome in neon letters" class="neon">
-        <h2>Name</h2>
-        <button class="logout-button" type="button" name="logout-button">Logout</button>
+        <div class="welcome">
+          <img src="images/welcome.png" alt="the word welcome in neon letters" class="neon">
+          <h2 class="customer-name name">Name</h2>
+        </div>
         <button class="new-reservation-button" type="button" name="new-reservation-button">New Reservation</button>
-        <div class="select-new-reservation-date">
-          <h3>Select a Date</h3>
-          <h4>Calendar? Input?</h4>
-          <h3 class="error date-error">Please select a valid date!</h3>
-          <button class="continue-button" type="button" name="continue-button">Continue</button>
+        <div class="new-reservation">
+          <div class="select-new-reservation-date">
+            <h3>Select a Date</h3>
+            <h4>Calendar? Input?</h4>
+            <h3 class="error date-error">Please select a valid date!</h3>
+            <button class="continue-button" type="button" name="continue-button">Continue</button>
+          </div>
+          <div class="rooms-available-on-new-date">
+            <img src="images/vacancies.png" alt="the word vacancies in neon letters" class="neon">
+            <h3>Available Rooms</h3>
+            <img src="images/novacancies.png" alt="the words no vacancies in neon letters" class="neon">
+            <h4>Oh no! We don't have any available rooms for the date you've selected :(</h4>
+            <h4>Please click on the room you would like to reserve</h4>
+            <button class="filter-button" type="button" name="filter-button">Filter Rooms - Dropdown?</button>
+            <ul>
+              <li>Room 1</li>
+              <li>Room 2</li>
+            </ul>
+            <button class="select-button" type="button" name="select-button">Reserve Room</button>
+          </div>
+          <div class="confirmation-message">
+              <img src="images/GOTIT.png" alt="the words got it in neon letters" class="neon">
+            <h3>We have you down for ROOM X on DATE!</h3>
+          </div>
         </div>
-        <div class="rooms-available-on-new-date">
-          <img src="images/vacancies.png" alt="the word vacancies in neon letters" class="neon">
-          <h3>Available Rooms</h3>
-          <img src="images/novacancies.png" alt="the words no vacancies in neon letters" class="neon">
-          <h4>Oh no! We don't have any available rooms for the date you've selected :(</h4>
-          <h4>Please click on the room you would like to reserve</h4>
-          <button class="filter-button" type="button" name="filter-button">Filter Rooms - Dropdown?</button>
-          <ul>
-            <li>Room 1</li>
-            <li>Room 2</li>
-          </ul>
-          <button class="select-button" type="button" name="select-button">Reserve Room</button>
-        </div>
-        <div class="confirmation-message">
-            <img src="images/GOTIT.png" alt="the words got it in neon letters" class="neon">
-          <h3>We have you down for ROOM X on DATE!</h3>
-        </div>
-        <div class="customer-reservations">
-          <img src="images/reservations.png" alt="the word reservations in neon letters" class="neon">
-        </div>
-        <div class="customer-amount-spent">
-          <h2>Amount Spent</h2>
-        </div>
+        <section class="dashboard">
+          <div class="customer-reservations">
+            <h2>Reservations</h2>
+          </div>
+          <div class="customer-amount-spent">
+            <h2>Amount Spent</h2>
+          </div>
+        </section>
       </section>
     </main>
   </body>
