@@ -6,9 +6,11 @@ const User = require('../src/User')
 
 describe('User', () => {
   let user;
+  let reservation;
 
   beforeEach(() => {
     user = new User('Marlowe', 28)
+    reservation = {id: "5fwrgu4i7k55hl6t7", userID: 28, date: "2020/02/16", roomNumber: 7, roomServiceCharges: Array(0)}
   });
 
   it('should be an instance of a player', () => {
@@ -31,9 +33,20 @@ describe('User', () => {
     expect(user.reservations.length).to.equal(0)
   });
 
+  it('should be able to reserve a room', () => {
+    user.addReservation(reservation)
+    expect(user.reservations.length).to.equal(1)
+  });
 
+  it('should be able to remove a reservation', () => {
+    user.addReservation(reservation)
+    user.removeReservation(reservation)
+    expect(user.reservations.length).to.equal(0)
+  });
 
-
-
+  it('should be able to update the amount spent', () => {
+    user.updateAmountSpent(100)
+    expect(user.amountSpent).to.equal(100)
+  });
 
 });
