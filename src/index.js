@@ -18,10 +18,53 @@ import './images/vacancies.png'
 import './images/welcome.png'
 
 
-let ids = [...Array(51).keys()];
+let reservations = [];
+let rooms = [];
+let users = [];
+
 
 $('.login').keyup(checkInputs);
+$('.logout-button').click(resetAfterLogout);
 $('.submit').click(validateLoginInfo);
+
+
+function usersFetch() {
+  return fetch("https://fe-apps.herokuapp.com/api/v1/overlook/1904/users/users")
+    .then(data => data.json())
+    .then(data => data.users)
+    .then(userData => {
+      userData.forEach(user => users.push(user));
+    })
+    .catch(error => console.log(error))
+}
+
+function roomsFetch() {
+  return fetch("https://fe-apps.herokuapp.com/api/v1/overlook/1904/rooms/rooms")
+    .then(data => data.json())
+    .then(data => data.rooms)
+    .then(roomData => {
+      roomData.forEach(room => rooms.push(room))
+    })
+    .catch(error => console.log(error))
+}
+
+function reservationsFetch() {
+  return fetch("https://fe-apps.herokuapp.com/api/v1/overlook/1904/bookings/bookings")
+    .then(data => data.json())
+    .then(data => data.bookings)
+    .then(bookingData => {
+      bookingData.forEach(booking => reservations.push(booking))
+    })
+    .catch(error => console.log(error))
+}
+
+function getFetches() {
+  return Promise.all([usersFetch(), roomsFetch(), reservationsFetch()])
+}
+
+getFetches()
+  .then(() => console.log(users[2], rooms[0], reservations[3]))
+
 
 function checkInputs() {
   if ($('.username-input').val() && $('.password-input').val()) {
@@ -30,6 +73,7 @@ function checkInputs() {
 }
 
 function validateLoginInfo() {
+  let ids = [...Array(51).keys()];
   if (document.getElementById("active")) {
     if ($('.username-input').val() === 'manager' && $('.password-input').val() === 'overlook2019') {
       showDashboard('manager');
