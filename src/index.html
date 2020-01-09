@@ -2,26 +2,42 @@
 <html lang="en-US">
   <head>
     <title>NEON ROSE</title>
+    <link rel="icon" href="../images/neonroselogo.png" />
+    <link href="https://fonts.googleapis.com/css?family=DM+Serif+Display&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Poppins&display=swap" rel="stylesheet">
   </head>
   <body>
     <header>
-      <h1>NEON ROSE</h1>
+      <img src="images/rose-large.png" alt="illustrated neon rose" class="header-rose">
+      <button class="logout-button" type="button" name="logout-button">Logout</button>
     </header>
-    <form class="login">
-      <label class="username" for="username-input">Username</label>
-      <input class="username-input" type="text" name="username-input" placeholder="Please enter your username...">
-      <label class="password" for="password-input">Password</label>
-      <input class="password-input" type="text" name="password-input" placeholder="Please enter your password...">
-      <button class="submit" type="button" name="submit-button">Submit</button>
-      <h3 class="error">Please enter a valid username and password!</h3>
-    </form>
+    <section class="login-info">
+      <img src="images/neonRose.png" alt="the words neon rose in neon letters" class="neon">
+      <h2>We're buzzing to see you.</h2>
+      <form class="login">
+        <label class="username" for="username-input">Username</label>
+        <input class="username-input" type="text" name="username-input" placeholder="Username...">
+        <label class="password" for="password-input">Password</label>
+        <input class="password-input" type="text" name="password-input" placeholder="Password...">
+        <button class="submit" type="button" name="submit-button">Submit</button>
+        <h3 class="error login-error">Please enter a valid username and password!</h3>
+        <img src="images/rose-large.png" alt="illustrated neon rose" class="rose">
+      </form>
+    </section>
     <main>
       <section class="manager-view">
-        <h2>Welcome Manager Name!</h2>
-        <button class="logout-button" type="button" name="logout-button">Logout</button>
-        <label class="search-for-user" for="user-search">Search for a user:</label>
-        <input class="user-search" type="text" name="user-search" placeholder="Please enter the name of a user...">
-        <button class="search-button" type="button" name="search-button">Search</button>
+        <div class="line"></div>
+        <div class="welcome">
+          <img src="images/welcome.png" alt="the word welcome in neon letters" class="neon welcome">
+          <h2 class="name manager-name">Name</h2>
+        </div>
+        <div class="manager-searchbar">
+          <label class="search-for-user" for="user-search">Search for a user:</label>
+          <h3>Search for a user:</h3>
+          <input class="user-search" type="text" name="user-search" placeholder="Please enter the name of a user...">
+          <button class="search-button" type="button" name="search-button">Search</button>
+          <h3 class="error user-search-error">Please enter a valid name!</h3>
+        </div>
         <div class="user-search-results">
           <h2>User's Name</h2>
           <h3>Reservations</h3>
@@ -34,49 +50,61 @@
           <button class="new-reservation-button" type="button" name="new-reservation-button">Add Reservation</button>
           <button class="delete-reservation-button" type="button" name="delete-reservation-button">Delete Reservation</button>
         </div>
-        <div class="todays-date">
-          <h2>Today's Date</h2>
-        </div>
-        <div class="rooms-available-today">
-          <h2>Rooms Available Today</h2>
-        </div>
-        <div class="todays-revenue">
-          <h2>Today's Revenue</h2>
-        </div>
-        <div class="rooms-occupied-today">
-          <h2>Rooms Occupied Today(%)</h2>
-        </div>
+        <section class="dashboard">
+          <div class="todays-date">
+            <h2>Today's Date</h2>
+          </div>
+          <div class="rooms-available-today">
+            <h2>Rooms Available Today</h2>
+          </div>
+          <div class="todays-revenue">
+            <h2>Today's Revenue</h2>
+          </div>
+          <div class="rooms-occupied-today">
+            <h2>Rooms Occupied Today(%)</h2>
+          </div>
+        </section>
       </section>
       <section class="customer-view">
-        <h2>Welcome Customer Name!</h2>
-        <button class="logout-button" type="button" name="logout-button">Logout</button>
+        <div class="line"></div>
+        <div class="welcome">
+          <img src="images/welcome.png" alt="the word welcome in neon letters" class="neon">
+          <h2 class="customer-name name">Name</h2>
+        </div>
         <button class="new-reservation-button" type="button" name="new-reservation-button">New Reservation</button>
-        <div class="select-new-reservation-date">
-          <h3>Select a Date</h3>
-          <h4>Calendar? Input?</h4>
-          <h3 class="error">Please select a valid date!</h3>
-          <button class="continue-button" type="button" name="continue-button">Continue</button>
+        <div class="new-reservation">
+          <div class="select-new-reservation-date">
+            <h3>Select a Date</h3>
+            <h4>Calendar? Input?</h4>
+            <h3 class="error date-error">Please select a valid date!</h3>
+            <button class="continue-button" type="button" name="continue-button">Continue</button>
+          </div>
+          <div class="rooms-available-on-new-date">
+            <img src="images/vacancies.png" alt="the word vacancies in neon letters" class="neon">
+            <h3>Available Rooms</h3>
+            <img src="images/novacancies.png" alt="the words no vacancies in neon letters" class="neon">
+            <h4>Oh no! We don't have any available rooms for the date you've selected :(</h4>
+            <h4>Please click on the room you would like to reserve</h4>
+            <button class="filter-button" type="button" name="filter-button">Filter Rooms - Dropdown?</button>
+            <ul>
+              <li>Room 1</li>
+              <li>Room 2</li>
+            </ul>
+            <button class="select-button" type="button" name="select-button">Reserve Room</button>
+          </div>
+          <div class="confirmation-message">
+              <img src="images/GOTIT.png" alt="the words got it in neon letters" class="neon">
+            <h3>We have you down for ROOM X on DATE!</h3>
+          </div>
         </div>
-        <div class="rooms-available-on-new-date">
-          <h3>Available Rooms</h3>
-          <h4>Oh no! We don't have any available rooms for the date you've selected :(</h4>
-          <h4>Please click on the room you would like to reserve</h4>
-          <button class="filter-button" type="button" name="filter-button">Filter Rooms - Dropdown?</button>
-          <ul>
-            <li>Room 1</li>
-            <li>Room 2</li>
-          </ul>
-          <button class="select-button" type="button" name="select-button">Reserve Room</button>
-        </div>
-        <div class="confirmation-message">
-          <h3>Wonderful! We have you down for ROOM X on DATE!</h3>
-        </div>
-        <div class="customer-reservations">
-          <h2>Reservations</h2>
-        </div>
-        <div class="customer-amount-spent">
-          <h2>Amount Spent</h2>
-        </div>
+        <section class="dashboard">
+          <div class="customer-reservations">
+            <h2>Reservations</h2>
+          </div>
+          <div class="customer-amount-spent">
+            <h2>Amount Spent</h2>
+          </div>
+        </section>
       </section>
     </main>
   </body>
