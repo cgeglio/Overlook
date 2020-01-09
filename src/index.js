@@ -17,7 +17,7 @@ import './images/rose-large.png'
 import './images/vacancies.png'
 import './images/welcome.png'
 import User from "../src/User"
-import Room from "../src/Room"
+import Hotel from "../src/Hotel"
 import Reservation from "../src/Reservation"
 
 
