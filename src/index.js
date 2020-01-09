@@ -18,12 +18,13 @@ import './images/vacancies.png'
 import './images/welcome.png'
 
 
-let ids = [...Array(51).keys()];
-let users = [];
-let rooms = [];
 let reservations = [];
+let rooms = [];
+let users = [];
+
 
 $('.login').keyup(checkInputs);
+$('.logout-button').click(resetAfterLogout);
 $('.submit').click(validateLoginInfo);
 
 
@@ -61,7 +62,6 @@ function getFetches() {
   return Promise.all([usersFetch(), roomsFetch(), reservationsFetch()])
 }
 
-
 getFetches()
   .then(() => console.log(users[2], rooms[0], reservations[3]))
 
@@ -73,6 +73,7 @@ function checkInputs() {
 }
 
 function validateLoginInfo() {
+  let ids = [...Array(51).keys()];
   if (document.getElementById("active")) {
     if ($('.username-input').val() === 'manager' && $('.password-input').val() === 'overlook2019') {
       showDashboard('manager');
