@@ -10,7 +10,7 @@ $secondary-neon-color: hsla(320, 100%, 85%, 1);
 
 body {
   background-color: $primary-background;
-  color: hsla(360, 100%, 100%, 1);
+  color: $primary-font-color;
   font-family: $primary-font;
   text-align: center;
 }
@@ -110,7 +110,12 @@ button {
 }
 
 .submit {
+  cursor: none;
   grid-area: submit;
+  &:hover {
+    background-color: $primary-font-color;
+    box-shadow: none;
+  }
 }
 
 label .username {
@@ -237,4 +242,12 @@ input .password-input {
 
 .new-reservation-button {
   margin-bottom: 20px;
+}
+
+#active {
+  cursor: pointer;
+  &:hover {
+    background-color: $primary-neon-color;
+    box-shadow: $primary-box-shadow;
+  }
 }

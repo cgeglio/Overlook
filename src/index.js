@@ -16,3 +16,39 @@ import './images/reservations.png'
 import './images/rose-large.png'
 import './images/vacancies.png'
 import './images/welcome.png'
+
+
+let ids = [...Array(51).keys()];
+
+$('.login').keyup(checkInputs);
+$('.submit').click(validateLoginInfo)
+
+function checkInputs() {
+  if ($('.username-input').val() && $('.password-input').val()) {
+    $('.submit').attr("id", "active");
+  }
+}
+
+function validateLoginInfo() {
+  if (document.getElementById("active")) {
+    if ($('.username-input').val() === 'manager' && $('.password-input').val() === 'overlook2019') {
+      showDashboard('manager');
+    } else if (ids.find(i => `customer${i}` === $('.username-input').val()) && $('.password-input').val() === 'overlook2019') {
+        showDashboard('customer');
+    } else {
+      $('.login-input').val('')
+      $(".login-error").css("display", "flex");
+    }
+  }
+}
+
+function showDashboard(loginType) {
+  $('.login-info').css("display", "none");
+  $('header').css("display", "flex");
+  if (loginType === 'manager') {
+    $('.manager-view').css("display", "flex");
+  }
+  if (loginType === 'customer') {
+    $('.customer-view').css("display", "flex");
+  }
+}
