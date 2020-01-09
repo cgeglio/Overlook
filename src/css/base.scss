@@ -12,7 +12,9 @@ body {
 }
 
 header {
-  display: flex;
+  align-items: center;
+  display: none;
+  height: 50px;
   justify-content: space-between;
 }
 
@@ -53,6 +55,16 @@ button {
     background-color: hsla(320, 100%, 85%, 1) ;
     box-shadow: 0px 0px 10px 1px hsla(326, 100%, 63%, 1);
   }
+}
+
+.header-rose {
+  margin-left: 10px;
+  width: 60px;
+}
+
+.header-logo {
+  margin: 5px;
+  width: 40px;
 }
 
 .new-reservation-button,
@@ -109,9 +121,9 @@ input .password-input {
   grid-area: pinput;
 }
 
-.neon {
-  height: 40px;
-  margin: 10px;
+.login-info .neon {
+  height: 80px;
+  margin-top: 50px;
 }
 
 .rose {
@@ -120,10 +132,13 @@ input .password-input {
   margin-top: 45px;
 }
 
+.header-logout {
+  align-items: center;
+  display: flex;
+}
+
 .logout-button {
-  align-self: flex-end;
-  margin: 0px 10px 15px 0px;
-  visibility: visible;
+  margin: 0px;
 }
 
 .manager-view {
