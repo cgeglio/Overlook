@@ -1,13 +1,83 @@
 <!DOCTYPE html>
 <html lang="en-US">
   <head>
-    <title>Webpack Starter Kit</title>
+    <title>NEON ROSE</title>
   </head>
   <body>
-    <h1>Webpack Starter Kit</h1>
-
-    <img src="./images/turing-logo.png" alt="turing logo" height="100px" width="100px">
-
-    <!-- Do not include the index.js or main.bundle.js file here - it is done automatically by the webpack server -->
+    <header>
+      <h1>NEON ROSE</h1>
+    </header>
+    <form class="login">
+      <label class="username" for="username-input">Username</label>
+      <input class="username-input" type="text" name="username-input" placeholder="Please enter your username...">
+      <label class="password" for="password-input">Password</label>
+      <input class="password-input" type="text" name="password-input" placeholder="Please enter your password...">
+      <button class="submit" type="button" name="submit-button">Submit</button>
+      <h3 class="error">Please enter a valid username and password!</h3>
+    </form>
+    <main>
+      <section class="manager-view">
+        <h2>Welcome Manager Name!</h2>
+        <button class="logout-button" type="button" name="logout-button">Logout</button>
+        <label class="search-for-user" for="user-search">Search for a user:</label>
+        <input class="user-search" type="text" name="user-search" placeholder="Please enter the name of a user...">
+        <button class="search-button" type="button" name="search-button">Search</button>
+        <div class="user-search-results">
+          <h2>User's Name</h2>
+          <h3>Reservations</h3>
+          <ul>
+            <li>Reservation 1</li>
+            <li>Reservation 2</li>
+          </ul>
+          <h3>Total Amount Spent</h3>
+          <h4>$500</h4>
+          <button class="new-reservation-button" type="button" name="new-reservation-button">Add Reservation</button>
+          <button class="delete-reservation-button" type="button" name="delete-reservation-button">Delete Reservation</button>
+        </div>
+        <div class="todays-date">
+          <h2>Today's Date</h2>
+        </div>
+        <div class="rooms-available-today">
+          <h2>Rooms Available Today</h2>
+        </div>
+        <div class="todays-revenue">
+          <h2>Today's Revenue</h2>
+        </div>
+        <div class="rooms-occupied-today">
+          <h2>Rooms Occupied Today(%)</h2>
+        </div>
+      </section>
+      <section class="customer-view">
+        <h2>Welcome Customer Name!</h2>
+        <button class="logout-button" type="button" name="logout-button">Logout</button>
+        <button class="new-reservation-button" type="button" name="new-reservation-button">New Reservation</button>
+        <div class="select-new-reservation-date">
+          <h3>Select a Date</h3>
+          <h4>Calendar? Input?</h4>
+          <h3 class="error">Please select a valid date!</h3>
+          <button class="continue-button" type="button" name="continue-button">Continue</button>
+        </div>
+        <div class="rooms-available-on-new-date">
+          <h3>Available Rooms</h3>
+          <h4>Oh no! We don't have any available rooms for the date you've selected :(</h4>
+          <h4>Please click on the room you would like to reserve</h4>
+          <button class="filter-button" type="button" name="filter-button">Filter Rooms - Dropdown?</button>
+          <ul>
+            <li>Room 1</li>
+            <li>Room 2</li>
+          </ul>
+          <button class="select-button" type="button" name="select-button">Reserve Room</button>
+        </div>
+        <div class="confirmation-message">
+          <h3>Wonderful! We have you down for ROOM X on DATE!</h3>
+        </div>
+        <div class="customer-reservations">
+          <h2>Reservations</h2>
+        </div>
+        <div class="customer-amount-spent">
+          <h2>Amount Spent</h2>
+        </div>
+      </section>
+    </main>
   </body>
 </html>
