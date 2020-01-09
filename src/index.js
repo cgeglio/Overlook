@@ -52,3 +52,13 @@ function showDashboard(loginType) {
     $('.customer-view').css("display", "flex");
   }
 }
+
+function resetAfterLogout() {
+  $('.login-info').css("display", "flex");
+  $(".login-error").css("display", "none");
+  $('.customer-view').css("display", "none");
+  $('.manager-view').css("display", "none");
+  $('header').css("display", "none");
+  $('.login-input').val('');
+  $(".submit#active").removeAttr('id');
+}
