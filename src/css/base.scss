@@ -1,5 +1,5 @@
 /* This is an example of using Sass, otherwise plain CSS works too*/
-$primary-background: #1C1C1C;
+$primary-background: hsla(0, 0%, 11%, 1);
 $primary-font-color: hsla(360, 100%, 100%, 1);
 $primary-font: 'DM Serif Display', serif;
 $secondary-font: 'Poppins', sans-serif;
@@ -8,16 +8,109 @@ body {
   background-color: $primary-background;
   color: hsla(360, 100%, 100%, 1);
   font-family: $primary-font;
+  text-align: center;
 }
 
-.neon {
-  height: 80px;
+header {
+  align-items: center;
+  display: flex;
+  text-align: left;
 }
 
-.rose {
-  height: 80px;
+main {
+  display: none;
+}
+
+h2 {
+  font-size: 3em;
 }
 
 label {
   font-family: $secondary-font;
+  font-size: 1.5em;
+  width: 100px;
+
+}
+
+input {
+  border: 0;
+  border-radius: 2px;
+  height: 30px;
+  margin: 0px 30px 20px 0px;
+  text-indent: 5px;
+  width: 280px;
+}
+
+button {
+  border: 0;
+  border-radius: 2px;
+  cursor: pointer;
+  font-family: $primary-font;
+  font-size: 1em;
+  height: 30px;
+  margin-top: 10px;
+  width: 140px;
+  &:hover {
+    background-color: hsla(320, 100%, 85%, 1) ;
+    box-shadow: 0px 0px 10px 1px hsla(326, 100%, 63%, 1);
+  }
+}
+
+.login-info {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  margin-top: 3%;
+}
+
+.login {
+  display: grid;
+  height: 300px;
+  grid-template-areas:
+    "ulabel rose"
+    "uinput rose"
+    "plabel rose"
+    "pinput rose"
+    "submit submit"
+    "error error";
+}
+
+.error {
+  color: hsla(356, 68%, 54%, 1);
+  font-size: 1.5em;
+  display: none;
+}
+
+.login-error {
+  grid-area: error;
+}
+
+.submit {
+  grid-area: submit;
+}
+
+label .username {
+  grid-area: ulabel;
+}
+
+input .username-input {
+  grid-area: uinput;
+}
+
+label .password {
+  grid-area: plabel;
+}
+
+input .password-input {
+  grid-area: pinput;
+}
+
+.neon {
+  height: 60px;
+}
+
+.rose {
+  height: 140px;
+  grid-area: rose;
+  margin-top: 45px;
 }
