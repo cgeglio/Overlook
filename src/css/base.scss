@@ -12,13 +12,12 @@ body {
 }
 
 header {
-  align-items: center;
   display: flex;
-  text-align: left;
+  justify-content: space-between;
 }
 
 main {
-  display: none;
+  display: block;
 }
 
 h2 {
@@ -54,6 +53,11 @@ button {
     background-color: hsla(320, 100%, 85%, 1) ;
     box-shadow: 0px 0px 10px 1px hsla(326, 100%, 63%, 1);
   }
+}
+
+.new-reservation-button,
+.delete-reservation-button {
+  width: 150px;
 }
 
 .login-info {
@@ -114,4 +118,79 @@ input .password-input {
   height: 140px;
   grid-area: rose;
   margin-top: 45px;
+}
+
+.logout-button {
+  align-self: flex-end;
+  margin: 0px 10px 15px 0px;
+  visibility: visible;
+}
+
+.manager-view {
+  align-items: center;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.manager-searchbar {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  margin-right: 6%;
+}
+
+.manager-searchbar h3{
+  margin-right: 8px;
+}
+
+.search-for-user {
+  visibility: hidden;
+}
+
+.search-button {
+  margin-top: 0;
+}
+
+.manager-dash {
+  align-content: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.manager-dash div {
+  align-items: center;
+  display: flex;
+  border: 1px solid hsla(326, 100%, 63%, 1);
+  height: 250px;
+  justify-content: center;
+  margin-right: 10px;
+  text-align: center;
+  width: 250px;
+}
+
+.manager-dash h2 {
+  margin: 0px;
+}
+
+.manager-welcome {
+  display: flex;
+  flex-direction: row;
+}
+
+.manager-name {
+  margin: 0px;
+}
+
+.user-search {
+  margin: 0px 10px 0px 0px;
+}
+
+.user-search-results {
+  display: none;
+}
+
+.customer-view {
+  display: none;
 }
