@@ -1,6 +1,16 @@
 /* This is an example of using Sass, otherwise plain CSS works too*/
-$primary-background: pink;
+$primary-background: hsla(0, 0%, 0%, 1);
+$primary-font-color: hsla(360, 100%, 100%, 1);
 
 body {
   background-color: $primary-background;
+  color: hsla(360, 100%, 100%, 1);
+}
+
+.neon {
+  height: 50px;
+}
+
+.rose {
+  height: 90px;
 }
