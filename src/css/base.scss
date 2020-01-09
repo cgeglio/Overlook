@@ -3,6 +3,8 @@ $primary-background: hsla(0, 0%, 11%, 1);
 $primary-font-color: hsla(360, 100%, 100%, 1);
 $primary-font: 'DM Serif Display', serif;
 $secondary-font: 'Poppins', sans-serif;
+$box-shadow: 0px 0px 10px 1px hsla(326, 100%, 63%, 1);
+$neon-base-color: hsla(320, 100%, 85%, 1);
 
 body {
   background-color: $primary-background;
@@ -13,8 +15,8 @@ body {
 
 header {
   align-items: center;
-  display: none;
-  height: 50px;
+  display: flex;
+  height: 60px;
   justify-content: space-between;
 }
 
@@ -52,19 +54,23 @@ button {
   margin-top: 10px;
   width: 140px;
   &:hover {
-    background-color: hsla(320, 100%, 85%, 1) ;
-    box-shadow: 0px 0px 10px 1px hsla(326, 100%, 63%, 1);
+    background-color: $neon-base-color;
+    box-shadow: $box-shadow;
   }
 }
 
-.header-rose {
-  margin-left: 10px;
-  width: 60px;
+.line {
+  background-color: hsla(169, 93%, 66%, 1);
+  border-radius: 4px;
+  box-shadow: 0px 0px 10px .5px hsla(169, 100%, 50%, 1);
+  height: 2px;
+  margin: 10px 0px 20px 0px;
+  width: 99%
 }
 
-.header-logo {
-  margin: 5px;
-  width: 40px;
+.header-rose {
+  margin-left: 15px;
+  width: 80px;
 }
 
 .new-reservation-button,
@@ -74,7 +80,7 @@ button {
 
 .login-info {
   align-items: center;
-  display: flex;
+  display: none;
   flex-direction: column;
   margin-top: 3%;
 }
@@ -121,6 +127,10 @@ input .password-input {
   grid-area: pinput;
 }
 
+.neon {
+  height: 40px;
+}
+
 .login-info .neon {
   height: 80px;
   margin-top: 50px;
@@ -138,12 +148,12 @@ input .password-input {
 }
 
 .logout-button {
-  margin: 0px;
+  margin: 0px 10px 0px 0px;
 }
 
 .manager-view {
   align-items: center;
-  display: none;
+  display: flex;
   flex-direction: column;
   justify-content: center;
 }
@@ -171,16 +181,20 @@ input .password-input {
   align-content: center;
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   justify-content: center;
+  width: 100%
 }
 
 .manager-dash div {
   align-items: center;
   display: flex;
-  border: 1px solid hsla(326, 100%, 63%, 1);
+  border: 1px solid $neon-base-color;
+  border-radius: 4px;
+  box-shadow: $box-shadow;
   height: 250px;
   justify-content: center;
-  margin-right: 10px;
+  margin: 1%;
   text-align: center;
   width: 250px;
 }
@@ -190,12 +204,13 @@ input .password-input {
 }
 
 .manager-welcome {
+  align-items: center;
   display: flex;
   flex-direction: row;
 }
 
 .manager-name {
-  margin: 0px;
+  margin: 0px 0px 0px 15px;
 }
 
 .user-search {
