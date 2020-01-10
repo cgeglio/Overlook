@@ -38,8 +38,8 @@ function usersFetch() {
     .then(data => data.users)
     .then(userData => {
       userData.forEach(customer => {
-        user = new User(customer.name, customer.id);
-        users.push(user);
+        customer = new User(customer.name, customer.id);
+        users.push(customer);
       })
     })
     .catch(error => console.log(error))
@@ -88,6 +88,7 @@ function validateLoginInfo() {
     if ($('.username-input').val() === 'manager' && $('.password-input').val() === 'overlook2019') {
       showDashboard('manager');
     } else if (ids.find(i => `customer${i}` === $('.username-input').val()) && $('.password-input').val() === 'overlook2019') {
+        user = users.find(u => ('customer' + u.id) === $('.username-input').val())
         showDashboard('customer');
     } else {
       $('.login-input').val('');
@@ -99,13 +100,11 @@ function validateLoginInfo() {
 function showDashboard(loginType) {
   $('.login-info').css("display", "none");
   $('header').css("display", "flex");
-  if (loginType === 'manager') {
-    $('.manager-view').css("display", "flex");
-  }
-  if (loginType === 'customer') {
-    $('.customer-view').css("display", "flex");
-  }
+  $(`.${loginType}-view`).css("display", "flex");
+  populateDashboard(loginType);
 }
+
+
 
 function resetAfterLogout() {
   $('.login-info').css("display", "flex");
@@ -115,4 +114,11 @@ function resetAfterLogout() {
   $('header').css("display", "none");
   $('.login-input').val('');
   $(".submit#active").removeAttr('id');
+}
+
+function populateDashboard(loginType) {
+  if (loginType === 'customer') {
+    populateCustomerData();
+  }
+
 }
