@@ -7,12 +7,21 @@ class DomUpdate {
   }
 
   displayRevenue(revenue) {
-    $('.todays-revenue').text(`$${revenue} in Revenue Today`);
+    $('.todays-revenue').text(`$${revenue.toFixed(2)} in Revenue Today`);
+  }
+
+  displayAmountSpent(cost) {
+    $('.customer-amount-spent').text(`You Have Spent $${cost.toFixed(2)}`)
   }
 
   displayPercentageOccupied(occupied) {
     $('.rooms-occupied-today').text(`${occupied}% of Rooms are Occupied`);
   }
+
+  displayUserReservations(reservations) {
+    $('.customer-reservations').text(`You Have ${reservations.length} Reservations`);
+  }
+
 
 }
 
