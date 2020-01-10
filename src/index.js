@@ -22,6 +22,8 @@ import Hotel from "../src/Hotel"
 
 let date = new Date();
 let hotel;
+let monthNames = ["January", "February", "March", "April", "May", "June",
+"July", "August", "September", "October", "November", "December"];
 let reservations = [];
 let rooms = [];
 let today;
@@ -29,11 +31,12 @@ let user;
 let users = [];
 
 
+$('#exit-popup-button').click(togglePopup);
 $('.login').keyup(checkInputs);
 $('.logout-button').click(resetAfterLogout);
 $('.shield').click(togglePopup);
-$('#exit-popup-button').click(togglePopup);
-$('.see-reservations-button').click(togglePopup);
+$('.see-reservations-button').click(viewReservations);
+$('.see-spent-button').click(viewCharges);
 $('.submit').click(validateLoginInfo);
 
 
@@ -89,12 +92,18 @@ function createDate() {
 }
 
 function displayDate() {
-  let monthNames = ["January", "February", "March", "April", "May", "June",
-  "July", "August", "September", "October", "November", "December"];
   let y = date.getFullYear();
   let d = String(date.getDate()).padStart(2, '0');
-  $('.todays-date').text(`${ monthNames[date.getMonth()]
+  $('.todays-date').text(`${monthNames[date.getMonth()]
   } ${d}, ${y}`);
+}
+
+function formatReservationDate(day) {
+  day = day.split('/').join('');
+  let y = day.split('').slice(0, 4).join('');
+  let m = day.split('').slice(4, 6).join('');
+  let d = day.split('').slice(6, 8).join('');
+  return `${monthNames[m -1]} ${d}, ${y}`
 }
 
 function checkInputs() {
@@ -120,6 +129,7 @@ function validateLoginInfo() {
 
 function showDashboard(loginType) {
   $('.login-info').css("display", "none");
+  $('.customer-name').text(user.name.split(' ')[0]);
   $('header').css("display", "flex");
   $(`.${loginType}-view`).css("display", "flex");
   populateDashboard(loginType);
@@ -146,6 +156,26 @@ function populateDashboard(loginType) {
     hotel.calculateCost("userID", user.id);
     user.reservations = hotel.findReservations("userID", user.id);
   }
+}
+
+function viewReservations() {
+  $('#popup').append("<img src='images/reservations.png' alt='the word reservations in neon letters' class='neon'>");
+  $('#popup').append("<ul class='charges'></ul>")
+  let details = user.reservations.sort((a, b) => new Date(a.date) - new Date(b.date)).map(r => {
+    return `${formatReservationDate(r.date)}: Room ${r.roomNumber}, $${hotel.rooms.find(o => o.number === r.roomNumber).costPerNight}`
+  });
+  details.forEach(d=> $('.charges').append(`<li>${d}</li>`));
+  togglePopup();
+}
+
+function viewCharges() {
+  $('#popup').append("<h2 class='charges-heading'>All Charges</h2>");
+  $('#popup').append("<ul class='charges'></ul>")
+  let details = user.reservations.sort((a, b) => new Date(a.date) - new Date(b.date)).map(r => {
+    return `${formatReservationDate(r.date)}: Room ${r.roomNumber}, $${hotel.rooms.find(o => o.number === r.roomNumber).costPerNight}`
+  });
+  details.forEach(d=> $('.charges').append(`<li>${d}</li>`));
+  togglePopup();
 }
 
 function togglePopup() {
