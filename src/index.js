@@ -19,6 +19,7 @@ import './images/welcome.png'
 import User from "../src/User"
 import Hotel from "../src/Hotel"
 
+
 let date = new Date();
 let hotel;
 let reservations = [];
@@ -133,9 +134,13 @@ function resetAfterLogout() {
 
 function populateDashboard(loginType) {
   if (loginType === 'manager') {
-    displayDate()
+    displayDate();
     hotel.findAvailableRooms(today);
-    hotel.calculateRevenue(today);
+    hotel.calculateCost("date", today);
     hotel.calculatePercentageOccupied(today);
+  }
+  if (loginType === 'customer') {
+    hotel.calculateCost("userID", user.id);
+    user.reservations = hotel.findReservations("userID", user.id);
   }
 }
