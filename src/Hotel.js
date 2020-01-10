@@ -19,20 +19,24 @@ class Hotel {
       return acc;
     }, []);
     domUpdates.displayAvailableRooms(available);
+    return available;
   }
 
   calculateRevenue(date) {
-    return this.findReservations(date).reduce((acc, r) => {
+    let revenue = this.findReservations(date).reduce((acc, r) => {
       let room = this.rooms.find(room => r.roomNumber === room.number)
       acc += room.costPerNight;
       return acc;
     }, 0)
+    domUpdates.displayRevenue(revenue);
+    return revenue;
   }
 
   calculatePercentageOccupied(date) {
-    return (this.findReservations(date).length/this.rooms.length)*100
+    let occupied = (this.findReservations(date).length/this.rooms.length)*100;
+    domUpdates.displayPercentageOccupied(occupied);
+    return occupied;
   }
-
 }
 
 export default Hotel;
