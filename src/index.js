@@ -19,7 +19,7 @@ import './images/welcome.png'
 import User from "../src/User"
 import Hotel from "../src/Hotel"
 
-
+let date = new Date();
 let hotel;
 let reservations = [];
 let rooms = [];
@@ -78,11 +78,19 @@ function instantiateHotel() {
 }
 
 function createDate() {
-  let date = new Date();
-  let yyyy = date.getFullYear();
-  let mm = String(date.getMonth() + 1).padStart(2, '0');
-  let dd = String(date.getDate()).padStart(2, '0');
-  today = yyyy + '/' + mm + '/' + dd;
+  let y = date.getFullYear();
+  let m = String(date.getMonth() + 1).padStart(2, '0');
+  let d = String(date.getDate()).padStart(2, '0');
+  today = y + '/' + m + '/' + d;
+}
+
+function displayDate() {
+  let monthNames = ["January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"];
+  let y = date.getFullYear();
+  let d = String(date.getDate()).padStart(2, '0');
+  $('.todays-date').text(`${ monthNames[date.getMonth()]
+  } ${d}, ${y}`);
 }
 
 function checkInputs() {
@@ -125,6 +133,7 @@ function resetAfterLogout() {
 
 function populateDashboard(loginType) {
   if (loginType === 'manager') {
+    displayDate()
     hotel.findAvailableRooms(today);
     hotel.calculateRevenue(today);
     hotel.calculatePercentageOccupied(today);
