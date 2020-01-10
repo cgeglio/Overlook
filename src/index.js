@@ -18,11 +18,12 @@ import './images/vacancies.png'
 import './images/welcome.png'
 import User from "../src/User"
 import Hotel from "../src/Hotel"
-import Reservation from "../src/Reservation"
 
 
+let hotel;
 let reservations = [];
 let rooms = [];
+let user;
 let users = [];
 
 
@@ -36,7 +37,10 @@ function usersFetch() {
     .then(data => data.json())
     .then(data => data.users)
     .then(userData => {
-      userData.forEach(user => users.push(user));
+      userData.forEach(customer => {
+        user = new User(customer.name, customer.id);
+        users.push(user);
+      })
     })
     .catch(error => console.log(error))
 }
@@ -66,8 +70,11 @@ function getFetches() {
 }
 
 getFetches()
-  .then(() => console.log(users[2], rooms[0], reservations[3]))
+  .then(() => instantiateHotel())
 
+function instantiateHotel() {
+  hotel = new Hotel(rooms, reservations);
+}
 
 function checkInputs() {
   if ($('.username-input').val() && $('.password-input').val()) {
