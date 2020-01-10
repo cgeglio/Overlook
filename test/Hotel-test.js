@@ -26,4 +26,20 @@ describe('Hotel', () => {
     expect(hotel.reservations).to.equal(reservations)
   });
 
+  it('should be able to find reserved rooms', () => {
+    expect(hotel.findReservations("2020/02/16")).to.deep.equal([reservations[0]])
+  });
+
+  it('should be able to find available rooms', () => {
+    expect(hotel.findAvailableRooms("2020/02/20")).to.deep.equal([rooms[0]])
+  });
+
+  it('should be able to calculate revenue', () => {
+    expect(hotel.calculateRevenue("2020/02/16")).to.equal(358.4)
+  });
+
+  it('should be able to calculate the percentage of rooms occupied', () => {
+    expect(hotel.calculatePercentageOccupied("2020/02/16")).to.equal(100)
+  });
+
 });
