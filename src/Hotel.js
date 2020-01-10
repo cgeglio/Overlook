@@ -44,9 +44,14 @@ class Hotel {
     return cost;
   }
 
-  calculatePercentageOccupied(date) {
-    let occupied = (this.findReservations("date", date).length/this.rooms.length)*100;
-    domUpdates.displayPercentageOccupied(occupied);
+  calculatePercentageOccupied(date, purpose) {
+    let occupied = this.findReservations("date", date);
+    if (purpose === "dashboard") {
+      domUpdates.displayPercentageOccupied((occupied.length/this.rooms.length)*100);
+    } else {
+      let rooms = this.rooms.filter(r => (occupied.map(o => o.roomNumber)).includes(r.number))
+      domUpdates.viewOccupiedRoomDetails(rooms);
+    }
     return occupied;
   }
 }

@@ -152,7 +152,7 @@ function populateDashboard(loginType) {
     displayDate();
     hotel.findAvailableRooms(today, "dashboard");
     hotel.calculateCost("date", today);
-    hotel.calculatePercentageOccupied(today);
+    hotel.calculatePercentageOccupied(today, "dashboard");
   }
   if (loginType === 'customer') {
     $('.user-name').text(user.name.split(' ')[0]);
@@ -192,6 +192,7 @@ function viewAvailableRooms() {
 
 function viewOccupiedRooms() {
   $('#popup').html('');
+  hotel.calculatePercentageOccupied(today, "details");
   togglePopup();
 }
 
