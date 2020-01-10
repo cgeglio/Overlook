@@ -199,6 +199,7 @@ input .password-input {
   border: 1px solid $secondary-neon-color;
   border-radius: 4px;
   box-shadow: $secondary-box-shadow;
+  flex-direction: column;
   height: 250px;
   justify-content: center;
   margin: 1%;
@@ -243,6 +244,83 @@ input .password-input {
 
 .new-reservation-button {
   margin-bottom: 20px;
+}
+
+.see-reservations-button {
+  width: 160px;
+}
+
+#popup {
+  background: $primary-background;
+  border: 0;
+  border-radius: 10px;
+  box-shadow: none;
+  display: flex;
+  flex-direction: column;
+  height: 60%;
+  justify-content: flex-start;
+  margin: 0;
+  overflow-y: scroll;
+  padding: 2%;
+  position: fixed;
+  top: 15%;
+  width: 70%;
+  z-index: 1000;
+}
+
+.charges {
+  align-self: center;
+  text-indent: .2em;
+}
+
+ul {
+  font-family: $secondary-font;
+  font-size: 1.3em;
+  margin-top: 40px;
+  text-align: left;
+}
+
+li {
+  margin-bottom: 15px;
+}
+
+.charges-heading {
+  align-self: center;
+}
+.shield {
+  visibility: visible;
+}
+
+.popup-window {
+  display: flex;
+  justify-content: center;
+  visibility: hidden;
+  width: 95%;
+}
+
+#exit-popup-button {
+  font-size: 2em;
+  height: 40px;
+  margin-left: 32%;
+  position: fixed;
+  width: 40px;
+  text-align: center;
+}
+
+#toggle {
+  visibility: visible;
+}
+
+#overlay {
+  filter:alpha(opacity=40);
+  background-color: $secondary-neon-color;
+  height:97%;
+  left: 1.5%;
+  opacity:0.5;
+  position: fixed;
+  top: 2%;
+  width:97%;
+  z-index:100;
 }
 
 #active {
