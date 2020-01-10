@@ -23,6 +23,7 @@ import Hotel from "../src/Hotel"
 let hotel;
 let reservations = [];
 let rooms = [];
+let today;
 let user;
 let users = [];
 
@@ -70,10 +71,18 @@ function getFetches() {
 }
 
 getFetches()
-  .then(() => instantiateHotel())
+  .then(() => instantiateHotel(), createDate())
 
 function instantiateHotel() {
   hotel = new Hotel(rooms, reservations);
+}
+
+function createDate() {
+  let date = new Date();
+  let yyyy = date.getFullYear();
+  let mm = String(date.getMonth() + 1).padStart(2, '0');
+  let dd = String(date.getDate()).padStart(2, '0');
+  today = yyyy + '/' + mm + '/' + dd;
 }
 
 function checkInputs() {
@@ -104,8 +113,6 @@ function showDashboard(loginType) {
   populateDashboard(loginType);
 }
 
-
-
 function resetAfterLogout() {
   $('.login-info').css("display", "flex");
   $(".login-error").css("display", "none");
@@ -117,8 +124,9 @@ function resetAfterLogout() {
 }
 
 function populateDashboard(loginType) {
-  if (loginType === 'customer') {
-    populateCustomerData();
+  if (loginType === 'manager') {
+    hotel.findAvailableRooms(today);
+    hotel.calculateRevenue(today);
+    hotel.calculatePercentageOccupied(today);
   }
-
 }
