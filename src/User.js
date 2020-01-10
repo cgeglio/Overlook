@@ -17,6 +17,7 @@ class User {
   updateAmountSpent(cost) {
     this.amountSpent += cost;
   }
+
 }
 
 module.exports = User;
