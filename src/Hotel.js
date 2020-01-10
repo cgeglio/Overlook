@@ -1,3 +1,6 @@
+import DomUpdate from "../src/DomUpdate"
+let domUpdates = new DomUpdate
+
 class Hotel {
   constructor(rooms, reservations) {
     this.rooms = rooms;
@@ -9,12 +12,13 @@ class Hotel {
   }
 
   findAvailableRooms(date) {
-    return this.rooms.reduce((acc, r) => {
+    let available = this.rooms.reduce((acc, r) => {
       if (!this.findReservations(date).map(d => d.roomNumber).includes(r.number)) {
         acc.push(r)
       }
       return acc;
     }, []);
+    domUpdates.displayAvailableRooms(available);
   }
 
   calculateRevenue(date) {
@@ -31,4 +35,4 @@ class Hotel {
 
 }
 
-module.exports = Hotel;
+export default Hotel;
