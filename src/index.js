@@ -19,10 +19,11 @@ import './images/welcome.png'
 import User from "../src/User"
 import Hotel from "../src/Hotel"
 
-
+let date = new Date();
 let hotel;
 let reservations = [];
 let rooms = [];
+let today;
 let user;
 let users = [];
 
@@ -38,8 +39,8 @@ function usersFetch() {
     .then(data => data.users)
     .then(userData => {
       userData.forEach(customer => {
-        user = new User(customer.name, customer.id);
-        users.push(user);
+        customer = new User(customer.name, customer.id);
+        users.push(customer);
       })
     })
     .catch(error => console.log(error))
@@ -70,10 +71,26 @@ function getFetches() {
 }
 
 getFetches()
-  .then(() => instantiateHotel())
+  .then(() => instantiateHotel(), createDate())
 
 function instantiateHotel() {
   hotel = new Hotel(rooms, reservations);
+}
+
+function createDate() {
+  let y = date.getFullYear();
+  let m = String(date.getMonth() + 1).padStart(2, '0');
+  let d = String(date.getDate()).padStart(2, '0');
+  today = y + '/' + m + '/' + d;
+}
+
+function displayDate() {
+  let monthNames = ["January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"];
+  let y = date.getFullYear();
+  let d = String(date.getDate()).padStart(2, '0');
+  $('.todays-date').text(`${ monthNames[date.getMonth()]
+  } ${d}, ${y}`);
 }
 
 function checkInputs() {
@@ -88,6 +105,7 @@ function validateLoginInfo() {
     if ($('.username-input').val() === 'manager' && $('.password-input').val() === 'overlook2019') {
       showDashboard('manager');
     } else if (ids.find(i => `customer${i}` === $('.username-input').val()) && $('.password-input').val() === 'overlook2019') {
+        user = users.find(u => ('customer' + u.id) === $('.username-input').val())
         showDashboard('customer');
     } else {
       $('.login-input').val('');
@@ -99,12 +117,8 @@ function validateLoginInfo() {
 function showDashboard(loginType) {
   $('.login-info').css("display", "none");
   $('header').css("display", "flex");
-  if (loginType === 'manager') {
-    $('.manager-view').css("display", "flex");
-  }
-  if (loginType === 'customer') {
-    $('.customer-view').css("display", "flex");
-  }
+  $(`.${loginType}-view`).css("display", "flex");
+  populateDashboard(loginType);
 }
 
 function resetAfterLogout() {
@@ -115,4 +129,13 @@ function resetAfterLogout() {
   $('header').css("display", "none");
   $('.login-input').val('');
   $(".submit#active").removeAttr('id');
+}
+
+function populateDashboard(loginType) {
+  if (loginType === 'manager') {
+    displayDate()
+    hotel.findAvailableRooms(today);
+    hotel.calculateRevenue(today);
+    hotel.calculatePercentageOccupied(today);
+  }
 }

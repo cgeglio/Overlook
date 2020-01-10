@@ -1,3 +1,6 @@
+import DomUpdate from "../src/DomUpdate"
+let domUpdates = new DomUpdate
+
 class Hotel {
   constructor(rooms, reservations) {
     this.rooms = rooms;
@@ -9,26 +12,31 @@ class Hotel {
   }
 
   findAvailableRooms(date) {
-    return this.rooms.reduce((acc, r) => {
+    let available = this.rooms.reduce((acc, r) => {
       if (!this.findReservations(date).map(d => d.roomNumber).includes(r.number)) {
         acc.push(r)
       }
       return acc;
     }, []);
+    domUpdates.displayAvailableRooms(available);
+    return available;
   }
 
   calculateRevenue(date) {
-    return this.findReservations(date).reduce((acc, r) => {
+    let revenue = this.findReservations(date).reduce((acc, r) => {
       let room = this.rooms.find(room => r.roomNumber === room.number)
       acc += room.costPerNight;
       return acc;
     }, 0)
+    domUpdates.displayRevenue(revenue);
+    return revenue;
   }
 
   calculatePercentageOccupied(date) {
-    return (this.findReservations(date).length/this.rooms.length)*100
+    let occupied = (this.findReservations(date).length/this.rooms.length)*100;
+    domUpdates.displayPercentageOccupied(occupied);
+    return occupied;
   }
-
 }
 
-module.exports = Hotel;
+export default Hotel;
