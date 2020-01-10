@@ -31,6 +31,9 @@ let users = [];
 
 $('.login').keyup(checkInputs);
 $('.logout-button').click(resetAfterLogout);
+$('.shield').click(togglePopup);
+$('#exit-popup-button').click(togglePopup);
+$('.see-reservations-button').click(togglePopup);
 $('.submit').click(validateLoginInfo);
 
 
@@ -142,5 +145,18 @@ function populateDashboard(loginType) {
   if (loginType === 'customer') {
     hotel.calculateCost("userID", user.id);
     user.reservations = hotel.findReservations("userID", user.id);
+  }
+}
+
+function togglePopup() {
+  if (document.getElementById("toggle")) {
+    $(".popup-window#toggle").removeAttr('id');
+  } else {
+    $('.popup-window').attr("id", "toggle");
+  }
+  if (document.getElementById("overlay")) {
+    $(".shield#overlay").removeAttr('id');
+  } else {
+    $('.shield').attr("id", "overlay");
   }
 }

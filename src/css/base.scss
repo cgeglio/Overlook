@@ -256,7 +256,7 @@ input .password-input {
   border: 0;
   border-radius: 10px;
   box-shadow: none;
-  display: none;
+  display: flex;
   height: 60%;
   justify-content: flex-start;
   margin: 0;
@@ -272,6 +272,13 @@ input .password-input {
   visibility: visible;
 }
 
+.popup-window {
+  display: flex;
+  justify-content: center;
+  visibility: hidden;
+  width: 95%;
+}
+
 #exit-popup-button {
   font-size: 2em;
   height: 40px;
@@ -281,6 +288,9 @@ input .password-input {
   text-align: center;
 }
 
+#toggle {
+  visibility: visible;
+}
 
 #overlay {
   filter:alpha(opacity=40);
