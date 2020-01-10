@@ -164,7 +164,7 @@ function viewReservations() {
   $('#popup').append("<ul class='reservations'></ul>")
   let details = user.reservations.sort((a, b) => new Date(a.date) - new Date(b.date)).map(r => {
     let room = hotel.rooms.find(o => o.number === r.roomNumber)
-    return `${formatReservationDate(r.date)}: Room ${r.roomNumber}, Type: ${room.roomType}, ${room.numBeds} ${room.bedSize} Bed${room.numBeds > 1 ? 's' : ''}, $${room.costPerNight} per Night`
+    return `${formatReservationDate(r.date)}: Room ${r.roomNumber}, type: ${room.roomType}, ${room.numBeds} ${room.bedSize} bed${room.numBeds > 1 ? 's' : ''}, $${room.costPerNight} per night`
   });
   details.forEach(d=> $('.reservations').append(`<li>${d}</li>`));
   togglePopup();
