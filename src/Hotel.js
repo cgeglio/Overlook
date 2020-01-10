@@ -15,14 +15,18 @@ class Hotel {
     return reservations;
   }
 
-  findAvailableRooms(date) {
+  findAvailableRooms(date, purpose) {
     let available = this.rooms.reduce((acc, r) => {
       if (!this.findReservations("date", date).map(d => d.roomNumber).includes(r.number)) {
         acc.push(r)
       }
       return acc;
     }, []);
-    domUpdates.displayAvailableRooms(available);
+    if (purpose === "dashboard") {
+      domUpdates.displayNumberOfAvailableRooms(available);
+    } else {
+      domUpdates.viewAvailableRoomDetails(available)
+    }
     return available;
   }
 

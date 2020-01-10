@@ -2,8 +2,18 @@ import $ from 'jquery';
 
 class DomUpdate {
 
-  displayAvailableRooms(rooms) {
+  displayNumberOfAvailableRooms(rooms) {
     $('.rooms-available-today').text(`${rooms.length} Available Rooms`);
+  }
+
+  viewAvailableRoomDetails(rooms) {
+    $('#popup').append("<h2>Available</h2>");
+    $('#popup').append("<ul class='available'></ul>")
+    let details = rooms.map(r => {
+      return `Room ${r.number}, type: ${r.roomType}, ${r.numBeds} ${r.bedSize} bed${r.numBeds > 1 ? 's' : ''}, $${r.costPerNight} per night`
+    });
+    console.log(details)
+    details.forEach(d=> $('.available').append(`<li>${d}</li>`));
   }
 
   displayRevenue(revenue) {
