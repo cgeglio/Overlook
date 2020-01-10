@@ -159,16 +159,19 @@ function populateDashboard(loginType) {
 }
 
 function viewReservations() {
+  $('#popup').html('');
   $('#popup').append("<img src='images/reservations.png' alt='the word reservations in neon letters' class='neon'>");
-  $('#popup').append("<ul class='charges'></ul>")
+  $('#popup').append("<ul class='reservations'></ul>")
   let details = user.reservations.sort((a, b) => new Date(a.date) - new Date(b.date)).map(r => {
-    return `${formatReservationDate(r.date)}: Room ${r.roomNumber}, $${hotel.rooms.find(o => o.number === r.roomNumber).costPerNight}`
+    let room = hotel.rooms.find(o => o.number === r.roomNumber)
+    return `${formatReservationDate(r.date)}: Room ${r.roomNumber}, Type: ${room.roomType}, ${room.numBeds} ${room.bedSize} Bed${room.numBeds > 1 ? 's' : ''}, $${room.costPerNight} per Night`
   });
-  details.forEach(d=> $('.charges').append(`<li>${d}</li>`));
+  details.forEach(d=> $('.reservations').append(`<li>${d}</li>`));
   togglePopup();
 }
 
 function viewCharges() {
+  $('#popup').html('');
   $('#popup').append("<h2 class='charges-heading'>All Charges</h2>");
   $('#popup').append("<ul class='charges'></ul>")
   let details = user.reservations.sort((a, b) => new Date(a.date) - new Date(b.date)).map(r => {
