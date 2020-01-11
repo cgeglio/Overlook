@@ -28,21 +28,22 @@ let today;
 let user;
 let users = [];
 
-
-$('#customer-exit-button').click(function() {
-  togglePopup('customer')
+$(document).on('click', '#customer-popup #customer-exit-button', function(){
+  toggleCustomerPopup();
 });
+$(document).on('click', '#manager-popup #manager-exit-button', function(){
+  toggleManagerPopup();
+});
+
+$('.customer-shield').click(toggleCustomerPopup);
 $('.login').keyup(checkInputs);
 $('.logout-button').click(resetAfterLogout);
-$('#manager-exit-button').click(function() {
-  togglePopup('manager')
-});
+$('.manager-shield').click(toggleManagerPopup);
 $('.revenue-details-button').click(viewRevenue);
-$('.shield').click(togglePopup);
 $('.see-available-button').click(viewAvailableRooms);
 $('.see-occupied-button').click(viewOccupiedRooms);
 $('.see-reservations-button').click(viewReservations);
-// $('.see-spent-button').click(viewCharges);
+$('.see-spent-button').click(viewCosts);
 $('.submit').click(validateLoginInfo);
 
 
@@ -104,14 +105,6 @@ function displayDate() {
   } ${d}, ${y}`);
 }
 
-// function formatReservationDate(day) {
-//   day = day.split('/').join('');
-//   let y = day.split('').slice(0, 4).join('');
-//   let m = day.split('').slice(4, 6).join('');
-//   let d = day.split('').slice(6, 8).join('');
-//   return `${monthNames[m -1]} ${d}, ${y}`;
-// }
-
 function checkInputs() {
   if ($('.username-input').val() && $('.password-input').val()) {
     $('.submit').attr("id", "active");
@@ -168,7 +161,6 @@ function populateManagerDash() {
 
 function populateCustomerDash() {
   $('.user-name').text(user.name.split(' ')[0]);
-  hotel.calculateCost("userID", user.id);
   user.reservations = hotel.findReservations("userID", user.id);
   user.reservedRooms = user.reservations.reduce((acc, res) => {
     let room = hotel.rooms.find(r => r.number === res.roomNumber);
@@ -177,56 +169,68 @@ function populateCustomerDash() {
       }
     return acc ;
   }, [])
+  user.findAmountSpent();
 }
 
 function viewReservations() {
   clearPopup("customer");
-  user.viewReservationDetails();
-  togglePopup("customer");
+  user.viewReservationDetails("reservations");
+  toggleCustomerPopup();
 }
 
-// function viewCharges() {
-//   clearPopup();
-//   $('#popup').append("<h2>All Charges</h2>");
-//   $('#popup').append("<ul class='charges'></ul>")
-//   let details = user.reservations.sort((a, b) => new Date(a.date) - new Date(b.date)).map(r => {
-//     return `${formatReservationDate(r.date)}: Room ${r.roomNumber}, $${hotel.rooms.find(o => o.number === r.roomNumber).costPerNight}`
-//   });
-//   details.forEach(d=> $('.charges').append(`<li>${d}</li>`));
-//   togglePopup();
-// }
+function viewCosts() {
+  clearPopup("customer");
+  user.viewReservationDetails("costs");
+  toggleCustomerPopup();
+}
 
 function viewAvailableRooms() {
   clearPopup("manager");
   hotel.findAvailableRooms("details", today);
-  togglePopup("manager");
+  toggleManagerPopup();
 }
 
 function viewOccupiedRooms() {
   clearPopup("manager");
   hotel.calculatePercentageOccupied("details", today);
-  togglePopup("manager");
+  toggleManagerPopup();
 }
 
 function viewRevenue() {
   clearPopup("manager");
   hotel.findRevenueDetails("date", today);
-  togglePopup("manager");
+  toggleManagerPopup();
 }
 
-function togglePopup(view) {
+function toggleCustomerPopup() {
+  console.log('here')
   if (document.getElementById("toggle")) {
-    $(`.${view}-popup-window#toggle`).removeAttr('id');
+    console.log('here2');
+    $('.customer-popup-window#toggle').removeAttr('id');
   } else {
-    $(`.${view}-popup-window`).attr('id', "toggle");
+    console.log('here3');
+    $('.customer-popup-window').attr('id', "toggle");
   }
   if (document.getElementById("overlay")) {
-    $(".shield#overlay").removeAttr('id');
+    $(".customer-shield#overlay").removeAttr('id');
   } else {
-    $('.shield').attr("id", "overlay");
+    $('.customer-shield').attr("id", "overlay");
+  }
+}
+
+function toggleManagerPopup() {
+  if (document.getElementById("toggle")) {
+    $('.manager-popup-window#toggle').removeAttr('id');
+  } else {
+    $('.manager-popup-window').attr('id', "toggle");
+  }
+  if (document.getElementById("overlay")) {
+    $(".manager-shield#overlay").removeAttr('id');
+  } else {
+    $('.manager-shield').attr("id", "overlay");
   }
 }
 
 function clearPopup(view) {
-  $(`.${view}-popup`).html(`<button id='${view}-exit-button' type='button' name='exit-popup-button'>X</button>`);
+  $(`#${view}-popup`).html('');
 }
