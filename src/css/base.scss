@@ -335,6 +335,7 @@ li {
   grid-auto-columns: max-content;
   grid-template-areas:
   'msg msg'
+  'label flower'
   'form flower'
   'button flower';
   margin-left: 5%;
@@ -352,6 +353,12 @@ li {
 
 .continue-button {
   grid-area: button;
+}
+
+.start-date-label {
+  font-size: .1em;
+  grid-area: label;
+  visibility: hidden;
 }
 
 .reservation-rose {

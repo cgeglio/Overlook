@@ -31,10 +31,11 @@ let user;
 let users = [];
 
 
-$('#exit-popup-button').click(togglePopup);
+$('#exit-reservation-button').click(toggleNewReservation);
 $('.login').keyup(checkInputs);
 $('.logout-button').click(resetAfterLogout);
-$('.shield').click(togglePopup);
+$('.new-reservation-button').click(startNewReservation);
+$('.reservation-shield').click(toggleNewReservation);
 $('.see-reservations-button').click(viewReservations);
 $('.see-spent-button').click(viewCharges);
 $('.submit').click(validateLoginInfo);
@@ -192,4 +193,23 @@ function togglePopup() {
   } else {
     $('.shield').attr("id", "overlay");
   }
+}
+
+
+function toggleNewReservation() {
+  if (document.getElementById("toggle")) {
+    $(".new-reservation#toggle").removeAttr('id');
+  } else {
+    $('.new-reservation').attr("id", "toggle");
+  }
+  if (document.getElementById("overlay")) {
+    $(".reservation-shield#overlay").removeAttr('id');
+  } else {
+    $('.reservation-shield').attr("id", "overlay");
+  }
+}
+
+function startNewReservation() {
+  toggleNewReservation();
+  $('#start-date').val(today.split('/').join('-'));
 }
