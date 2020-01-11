@@ -22,8 +22,6 @@ import Hotel from "../src/Hotel"
 
 let date = new Date();
 let hotel;
-let monthNames = ["January", "February", "March", "April", "May", "June",
-"July", "August", "September", "October", "November", "December"];
 let reservations = [];
 let rooms = [];
 let today;
@@ -31,15 +29,20 @@ let user;
 let users = [];
 
 
-$('#exit-popup-button').click(togglePopup);
+$('#customer-exit-button').click(function() {
+  togglePopup('customer')
+});
 $('.login').keyup(checkInputs);
 $('.logout-button').click(resetAfterLogout);
+$('#manager-exit-button').click(function() {
+  togglePopup('manager')
+});
 $('.revenue-details-button').click(viewRevenue);
 $('.shield').click(togglePopup);
 $('.see-available-button').click(viewAvailableRooms);
 $('.see-occupied-button').click(viewOccupiedRooms);
 $('.see-reservations-button').click(viewReservations);
-$('.see-spent-button').click(viewCharges);
+// $('.see-spent-button').click(viewCharges);
 $('.submit').click(validateLoginInfo);
 
 
@@ -101,13 +104,13 @@ function displayDate() {
   } ${d}, ${y}`);
 }
 
-function formatReservationDate(day) {
-  day = day.split('/').join('');
-  let y = day.split('').slice(0, 4).join('');
-  let m = day.split('').slice(4, 6).join('');
-  let d = day.split('').slice(6, 8).join('');
-  return `${monthNames[m -1]} ${d}, ${y}`;
-}
+// function formatReservationDate(day) {
+//   day = day.split('/').join('');
+//   let y = day.split('').slice(0, 4).join('');
+//   let m = day.split('').slice(4, 6).join('');
+//   let d = day.split('').slice(6, 8).join('');
+//   return `${monthNames[m -1]} ${d}, ${y}`;
+// }
 
 function checkInputs() {
   if ($('.username-input').val() && $('.password-input').val()) {
@@ -150,66 +153,80 @@ function resetAfterLogout() {
 function populateDashboard(loginType) {
   if (loginType === 'manager') {
     displayDate();
-    hotel.findAvailableRooms(today, "dashboard");
-    hotel.calculateCost("date", today);
-    hotel.calculatePercentageOccupied(today, "dashboard");
+    populateManagerDash();
   }
   if (loginType === 'customer') {
-    $('.user-name').text(user.name.split(' ')[0]);
-    hotel.calculateCost("userID", user.id);
-    user.reservations = hotel.findReservations("userID", user.id);
+    populateCustomerDash();
   }
+}
+
+function populateManagerDash() {
+  hotel.findAvailableRooms("dashboard", today);
+  hotel.calculateCost("date", today);
+  hotel.calculatePercentageOccupied("dashboard", today);
+}
+
+function populateCustomerDash() {
+  $('.user-name').text(user.name.split(' ')[0]);
+  hotel.calculateCost("userID", user.id);
+  user.reservations = hotel.findReservations("userID", user.id);
+  user.reservedRooms = user.reservations.reduce((acc, res) => {
+    let room = hotel.rooms.find(r => r.number === res.roomNumber);
+      if (!acc.includes(room)) {
+        acc.push(room)
+      }
+    return acc ;
+  }, [])
 }
 
 function viewReservations() {
-  $('#popup').html('');
-  $('#popup').append("<img src='images/reservations.png' alt='the word reservations in neon letters' class='neon'>");
-  $('#popup').append("<ul class='reservations'></ul>")
-  let details = user.reservations.sort((a, b) => new Date(a.date) - new Date(b.date)).map(r => {
-    let room = hotel.rooms.find(o => o.number === r.roomNumber)
-    return `${formatReservationDate(r.date)}: Room ${r.roomNumber}, type: ${room.roomType}, ${room.numBeds} ${room.bedSize} bed${room.numBeds > 1 ? 's' : ''}, $${room.costPerNight} per night`
-  });
-  details.forEach(d=> $('.reservations').append(`<li>${d}</li>`));
-  togglePopup();
+  clearPopup("customer");
+  user.viewReservationDetails();
+  togglePopup("customer");
 }
 
-function viewCharges() {
-  $('#popup').html('');
-  $('#popup').append("<h2>All Charges</h2>");
-  $('#popup').append("<ul class='charges'></ul>")
-  let details = user.reservations.sort((a, b) => new Date(a.date) - new Date(b.date)).map(r => {
-    return `${formatReservationDate(r.date)}: Room ${r.roomNumber}, $${hotel.rooms.find(o => o.number === r.roomNumber).costPerNight}`
-  });
-  details.forEach(d=> $('.charges').append(`<li>${d}</li>`));
-  togglePopup();
-}
+// function viewCharges() {
+//   clearPopup();
+//   $('#popup').append("<h2>All Charges</h2>");
+//   $('#popup').append("<ul class='charges'></ul>")
+//   let details = user.reservations.sort((a, b) => new Date(a.date) - new Date(b.date)).map(r => {
+//     return `${formatReservationDate(r.date)}: Room ${r.roomNumber}, $${hotel.rooms.find(o => o.number === r.roomNumber).costPerNight}`
+//   });
+//   details.forEach(d=> $('.charges').append(`<li>${d}</li>`));
+//   togglePopup();
+// }
 
 function viewAvailableRooms() {
-  $('#popup').html('');
-  hotel.findAvailableRooms(today, "details");
-  togglePopup();
+  clearPopup("manager");
+  hotel.findAvailableRooms("details", today);
+  togglePopup("manager");
 }
 
 function viewOccupiedRooms() {
-  $('#popup').html('');
-  hotel.calculatePercentageOccupied(today, "details");
-  togglePopup();
+  clearPopup("manager");
+  hotel.calculatePercentageOccupied("details", today);
+  togglePopup("manager");
 }
 
 function viewRevenue() {
-  $('#popup').html('');
-  togglePopup();
+  clearPopup("manager");
+  hotel.findRevenueDetails("date", today);
+  togglePopup("manager");
 }
 
-function togglePopup() {
+function togglePopup(view) {
   if (document.getElementById("toggle")) {
-    $(".popup-window#toggle").removeAttr('id');
+    $(`.${view}-popup-window#toggle`).removeAttr('id');
   } else {
-    $('.popup-window').attr("id", "toggle");
+    $(`.${view}-popup-window`).attr('id', "toggle");
   }
   if (document.getElementById("overlay")) {
     $(".shield#overlay").removeAttr('id');
   } else {
     $('.shield').attr("id", "overlay");
   }
+}
+
+function clearPopup(view) {
+  $(`.${view}-popup`).html(`<button id='${view}-exit-button' type='button' name='exit-popup-button'>X</button>`);
 }

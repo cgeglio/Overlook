@@ -1,9 +1,13 @@
+import DomUpdate from "../src/DomUpdate"
+let domUpdates = new DomUpdate
+
 class User {
   constructor(name, id) {
     this.name = name;
     this.id = id;
     this.amountSpent = 0;
     this.reservations = [];
+    this.reservedRooms = [];
   }
 
   addReservation(reservation) {
@@ -18,6 +22,13 @@ class User {
     this.amountSpent += cost;
   }
 
+  viewReservationDetails() {
+    let details = this.reservations.sort((a, b) => new Date(a.date) - new Date(b.date)).map(r => {
+      return {date: r.date, room: this.reservedRooms.find(o => o.number === r.roomNumber)}
+    });
+    domUpdates.displayUserReservationDetails(details);
+    return details;
+  }
 }
 
-module.exports = User;
+export default User;
