@@ -16,6 +16,10 @@ import './images/reservations.png'
 import './images/rose-large.png'
 import './images/vacancies.png'
 import './images/welcome.png'
+import './images/available.png'
+import './images/charges.png'
+import './images/occupied.png'
+import './images/revenue.png'
 import User from "../src/User"
 import Hotel from "../src/Hotel"
 

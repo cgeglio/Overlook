@@ -158,13 +158,6 @@ input .password-input {
   margin: 0px 10px 0px 0px;
 }
 
-.manager-view {
-  align-items: center;
-  display: none;
-  flex-direction: column;
-  justify-content: center;
-}
-
 .manager-searchbar {
   align-items: center;
   display: flex;
@@ -231,7 +224,8 @@ input .password-input {
   display: none;
 }
 
-.customer-view {
+.customer-view,
+.manager-view {
   align-items: center;
   display: none;
   flex-direction: column;
@@ -301,16 +295,11 @@ li {
 #manager-exit-button {
   font-size: 2em;
   height: 40px;
-  margin-left: 64%;
+  margin-left: 32%;
   position: fixed;
   width: 40px;
   text-align: center;
 }
-
-#customer-exit-button {
-  margin-left: 32%;
-}
-
 
 #toggle {
   visibility: visible;
