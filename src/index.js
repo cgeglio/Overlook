@@ -31,6 +31,7 @@ let user;
 let users = [];
 
 
+$('.continue-button').click(validateDate);
 $('#exit-reservation-button').click(toggleNewReservation);
 $('.login').keyup(checkInputs);
 $('.logout-button').click(resetAfterLogout);
@@ -212,4 +213,17 @@ function toggleNewReservation() {
 function startNewReservation() {
   toggleNewReservation();
   $('#start-date').val(today.split('/').join('-'));
+}
+
+function validateDate() {
+  console.log($('#start-date').val())
+  console.log(Number($('#start-date').val().split('-').join('')))
+  console.log( Number(today.split('/').join('')));
+  if (Number($('#start-date').val().split('-').join('')) >= Number(today.split('/').join(''))) {
+    $(".select-new-reservation-date").css("display", "none");
+    $(".rooms-available-on-date").css("display", "flex");
+    hotel.findAvailableRooms();
+  } else {
+    $(".date-error").css("display", "flex");
+  }
 }
