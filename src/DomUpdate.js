@@ -81,13 +81,19 @@ class DomUpdate {
 
   listAvailableRooms(rooms) {
     if (rooms.length > 0) {
-      $(".rooms-available-on-date").append('<img src="images/vacancies.png" alt="the word vacancies in neon letters" class="neon">');
-      $(".rooms-available-on-date").append('<h2>Please select the room you would like to reserve:</h2>');
-      $(".rooms-available-on-date").append('<button class="filter-button" type="button" name="filter-button">Filter Rooms</button>');
-      $(".rooms-available-on-date").append("<ul class='vacancies'></ul>");
+      $(".rooms-available-on-date").append('<img src="images/vacancies.png" alt="the word vacancies in neon letters" class="vacancies-img neon">');
+      $(".rooms-available-on-date").append('<h2 class="select-room">Please select the room you would like to reserve:</h2>');
+      $(".rooms-available-on-date").append("<div class='filter-sidebar'><ul class='types'></ul></div>");
       let details = rooms.map(r => {
-        return {number: r.number, detail: `Room ${r.number}, type: ${r.roomType}, ${r.numBeds} ${r.bedSize} bed${r.numBeds > 1 ? 's' : ''}, $${r.costPerNight} per night`};
+        return {number: r.number, type: r.roomType, detail: `Room ${r.number}, type: ${r.roomType}, ${r.numBeds} ${r.bedSize} bed${r.numBeds > 1 ? 's' : ''}, $${r.costPerNight} per night`};
       });
+      details.forEach(d => {
+        if (!document.getElementById(`${d.type}`)) {
+          $(".types").append(`<li><input type='checkbox' class='room-type' id='${d.type}'><label for='${d.type}'>${d.type}</label></li>`)
+        }
+      });
+      $(".filter-sidebar").append('<button class="filter-button" type="button" name="filter-button">Filter Rooms</button>');
+      $(".rooms-available-on-date").append("<ul class='vacancies'></ul>");
       details.forEach(d => $(".vacancies").append(`<li><input type='checkbox' class='checked-room' id='${d.number}'><label for='${d.number}'>${d.detail}</label></li>`));
       $(".rooms-available-on-date").append('<button class="select-button" type="button" name="select-button">Reserve Room</button>');
     } else {
@@ -96,8 +102,6 @@ class DomUpdate {
       $(".rooms-available-on-date").append('<button class="return-button" type="button" name="return-button">Pick A New Date</button>');
     }
   }
-
-
 }
 
 

@@ -34,6 +34,10 @@ $(document).on('click', '#reservation-popup .return-button', function(){
   restartReservation();
 });
 
+$(document).on('click', '#reservation-popup .filter-button', function(){
+  filterReservations();
+});
+
 $('.continue-button').click(validateDate);
 $('#exit-reservation-button').click(toggleNewReservation);
 $('.login').keyup(checkInputs);
@@ -223,7 +227,7 @@ function startNewReservation() {
 function validateDate() {
   if (Number($('#start-date').val().split('-').join('')) >= Number(today.split('/').join(''))) {
     $(".select-new-reservation-date").css("display", "none");
-    $(".rooms-available-on-date").css("display", "flex");
+    $(".rooms-available-on-date").css("display", "grid");
     hotel.findAvailableRooms("newReservation", $('#start-date').val().split('-').join('/'));
   } else {
     $(".date-error").css("display", "flex");
@@ -236,4 +240,8 @@ function restartReservation() {
   $(".rooms-available-on-date").css("display", "none");
   $(".rooms-available-on-date").html("");
   $(".date-error").css("display", "none");
+}
+
+function filterReservations() {
+
 }

@@ -367,13 +367,23 @@ li {
 }
 
 .rooms-available-on-date {
-  align-items: center;
   display: none;
-  flex-direction: column;
+  grid-template-areas:
+  'img img'
+  'h2 h2'
+  'sidebar list'
+  'sidebar select';
+  grid-template-columns: 1fr 4fr;
 }
 
-.rooms-available-on-date h2 {
+.vacancies-img {
+  grid-area: img;
+  margin-left: 35%;
+}
+
+.select-room {
   font-size: 1.8em;
+  grid-area: h2;
 }
 
 .rooms-available-on-date input {
@@ -387,8 +397,22 @@ li {
   text-align: left;
 }
 
+.vacancies {
+  grid-area: list;
+}
+
 .filter-button {
+  grid-area: select;
   margin-bottom: 30px;
+  width: max-content;
+}
+
+[type="checkbox"] {
+  vertical-align:middle;
+}
+
+.select-button {
+  margin-left: 35%;
 }
 
 .rooms-available-on-date label {
@@ -401,4 +425,21 @@ li {
 
 .confirmation-message {
   display: none;
+}
+
+.filter-sidebar {
+  align-items: center;
+  border: 1px solid $secondary-neon-color;
+  border-radius: 4px;
+  box-shadow: $secondary-box-shadow;
+  display: flex;
+  flex-direction: column;
+  grid-area: sidebar;
+  height: max-content;
+}
+
+.types {
+  align-self: flex-start;
+  font-size: 1em;
+  padding: 10px 0px 0px 30px;
 }
