@@ -150,7 +150,7 @@ function resetAfterLogout() {
 function populateDashboard(loginType) {
   if (loginType === 'manager') {
     displayDate();
-    hotel.findAvailableRooms(today);
+    hotel.findAvailableRooms("dashboard", today);
     hotel.calculateCost("date", today);
     hotel.calculatePercentageOccupied(today);
   }
@@ -216,13 +216,10 @@ function startNewReservation() {
 }
 
 function validateDate() {
-  console.log($('#start-date').val())
-  console.log(Number($('#start-date').val().split('-').join('')))
-  console.log( Number(today.split('/').join('')));
   if (Number($('#start-date').val().split('-').join('')) >= Number(today.split('/').join(''))) {
     $(".select-new-reservation-date").css("display", "none");
     $(".rooms-available-on-date").css("display", "flex");
-    hotel.findAvailableRooms();
+    hotel.findAvailableRooms("newReservation", $('#start-date').val().split('-').join('/'));
   } else {
     $(".date-error").css("display", "flex");
   }
