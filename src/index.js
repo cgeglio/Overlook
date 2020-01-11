@@ -203,12 +203,9 @@ function viewRevenue() {
 }
 
 function toggleCustomerPopup() {
-  console.log('here')
   if (document.getElementById("toggle")) {
-    console.log('here2');
     $('.customer-popup-window#toggle').removeAttr('id');
   } else {
-    console.log('here3');
     $('.customer-popup-window').attr('id', "toggle");
   }
   if (document.getElementById("overlay")) {
