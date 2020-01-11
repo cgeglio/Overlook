@@ -15,14 +15,14 @@ class Hotel {
     return reservations;
   }
 
-  findAvailableRooms(date, purpose) {
+  findAvailableRooms(type, specific) {
     let available = this.rooms.reduce((acc, r) => {
-      if (!this.findReservations("date", date).map(d => d.roomNumber).includes(r.number)) {
+      if (!this.findReservations(type, specific).map(d => d.roomNumber).includes(r.number)) {
         acc.push(r)
       }
       return acc;
     }, []);
-    if (purpose === "dashboard") {
+    if (type === "dashboard") {
       domUpdates.displayNumberOfAvailableRooms(available);
     } else {
       domUpdates.viewAvailableRoomDetails(available)
@@ -44,9 +44,16 @@ class Hotel {
     return cost;
   }
 
-  calculatePercentageOccupied(date, purpose) {
-    let occupied = this.findReservations("date", date);
-    if (purpose === "dashboard") {
+  findRevenueDetails(type, specific) {
+    let reserved = this.findReservations(type, specific);
+    let revenueDetails = reserved.sort((a, b) => a.roomNumber - b.roomNumber).map(room => `Room ${room.roomNumber}, $${this.rooms.find(r => r.number === room.roomNumber).costPerNight}`);
+    domUpdates.viewRevenueDetails(revenueDetails);
+    return revenueDetails;
+  }
+
+  calculatePercentageOccupied(type, specific) {
+    let occupied = this.findReservations(type, specific);
+    if (type === "dashboard") {
       domUpdates.displayPercentageOccupied((occupied.length/this.rooms.length)*100);
     } else {
       let rooms = this.rooms.filter(r => (occupied.map(o => o.roomNumber)).includes(r.number))
