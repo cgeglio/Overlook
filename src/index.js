@@ -99,6 +99,8 @@ function createDate() {
 }
 
 function displayDate() {
+  let monthNames = ["January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"];
   let y = date.getFullYear();
   let d = String(date.getDate()).padStart(2, '0');
   $('.todays-date').text(`${monthNames[date.getMonth()]
