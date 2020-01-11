@@ -7,6 +7,10 @@ class Hotel {
     this.reservations = reservations;
   }
 
+  addReservation(reservation) {
+    this.reservations.push(reservation);
+  }
+
   findReservations(type, specific) {
     let reservations = this.reservations.filter(r => r[type] === specific);
     if (type === 'userID') {

@@ -39,6 +39,11 @@ $(document).on('click', '#reservation-popup .filter-button', function(){
   findCheckedRoomTypes();
 });
 
+$(document).on('click', '#reservation-popup .select-button', function(){
+  validateRoomSelected();
+});
+
+
 $('.continue-button').click(validateDate);
 $('#exit-reservation-button').click(toggleNewReservation);
 $('.login').keyup(checkInputs);
@@ -253,7 +258,7 @@ function findCheckedRoomTypes() {
       $(this).css("display", "block");
     });
   let selectedTypes = [];
-  $("input[type=checkbox]:checked").each(function() {
+  $("input[type=checkbox][class=room-type]:checked").each(function() {
         selectedTypes.push($(this).val());
     });
   findRoomsWithCheckedTypes(selectedTypes);
@@ -266,49 +271,48 @@ function findRoomsWithCheckedTypes(selectedTypes) {
       $(`#${a.number}`).css("display", "none");
     }
   })
-  $("input[type=checkbox]:checked").each(function() {
+  $("input[type=checkbox][class=room-type]:checked").each(function() {
       $(this).prop('checked', false);
     });
 }
 
+function validateRoomSelected() {
+  $(`.room-error1`).css("visibility", "hidden");
+  $(`.room-error2`).css("visibility", "hidden");
+  let checkedRoom = $('input[type=checkbox][class=checked-room]:checked');
+  if (checkedRoom.length === 1) {
+    confirmReservation(checkedRoom.attr('id'));
+  } else if (checkedRoom.length > 1) {
+    $(".rooms-available-on-date").append('<h3 class="error room-error1">Please select 1 room.</h3>');
+    $(`.room-error1`).css("visibility", "visible");
+  } else if (checkedRoom.length === 0) {
+    $(".rooms-available-on-date").append('<h3 class="error room-error2">Please select a room to continue!</h3>');
+    $(`.room-error2`).css("visibility", "visible");
+  }
+}
 
-// function findCheckedBoxes() {
-//   let tagCheckboxes = document.querySelectorAll(".checked-tag");
-//   let checkboxInfo = Array.from(tagCheckboxes)
-//   let selectedTags = checkboxInfo.filter(box => {
-//     return box.checked;
-//   })
-//   findTaggedRecipes(selectedTags);
-// }
-//
-// function findTaggedRecipes(selected) {
-//   let filteredResults = [];
-//   selected.forEach(tag => {
-//     let allRecipes = recipes.filter(recipe => {
-//       return recipe.tags.includes(tag.id);
-//     });
-//     allRecipes.forEach(recipe => {
-//       if (!filteredResults.includes(recipe)) {
-//         filteredResults.push(recipe);
-//       }
-//     })
-//   });
-//   showAllRecipes();
-//   if (filteredResults.length > 0) {
-//     filterRecipes(filteredResults);
-//   }
-// }
-//
-// function filterRecipes(filtered) {
-//   let foundRecipes = recipes.filter(recipe => {
-//     return !filtered.includes(recipe);
-//   });
-//   hideUnselectedRecipes(foundRecipes)
-// }
-//
-// function hideUnselectedRecipes(foundRecipes) {
-//   foundRecipes.forEach(recipe => {
-//     let domRecipe = document.getElementById(`${recipe.id}`);
-//     domRecipe.style.display = "none";
-//   });
-// }
+function confirmReservation(roomNumber) {
+  let reservedRoom = rooms.find(r => r.number === Number(roomNumber));
+  $(".rooms-available-on-date").html('');
+  $(".rooms-available-on-date").css("display", "none");
+  $(".confirmation-message").css("display", "flex");
+  $(".reserved-room-number").text(`${roomNumber}`);
+  $(".reserved-date").text(`${formatReservationDate(selectedDate.split('-').join('/'))}`);
+  console.log(reservedRoom)
+  generateId(reservedRoom)
+}
+
+function generateId(room) {
+  let id = '';
+  let characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
+  for (var i = 0; i < 17; i++) {
+    id += characters.charAt(Math.floor(Math.random() * characters.length));
+  }
+  logReservation(room, id);
+}
+
+function logReservation(room, id) {
+  let reservation = {id: id, userID: user.id, date: selectedDate.split('-').join('/'), roomNumber: room.number, roomServiceCharges: []}
+  user.addReservation(reservation);
+  hotel.addReservation(reservation);
+}
