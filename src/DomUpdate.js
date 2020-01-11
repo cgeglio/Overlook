@@ -89,12 +89,12 @@ class DomUpdate {
       });
       details.forEach(d => {
         if (!document.getElementById(`${d.type}`)) {
-          $(".types").append(`<li><input type='checkbox' class='room-type' id='${d.type}'><label for='${d.type}'>${d.type}</label></li>`)
+          $(".types").append(`<li id='${d.type}'><input type='checkbox' class='room-type' value='${d.type}'><label for='room-type'>${d.type}</label></li>`)
         }
       });
       $(".filter-sidebar").append('<button class="filter-button" type="button" name="filter-button">Filter Rooms</button>');
       $(".rooms-available-on-date").append("<ul class='vacancies'></ul>");
-      details.forEach(d => $(".vacancies").append(`<li><input type='checkbox' class='checked-room' id='${d.number}'><label for='${d.number}'>${d.detail}</label></li>`));
+      details.forEach(d => $(".vacancies").append(`<li id='${d.number}'><input type='checkbox' class='checked-room' id='${d.number}'><label for='${d.number}'>${d.detail}</label></li>`));
       $(".rooms-available-on-date").append('<button class="select-button" type="button" name="select-button">Reserve Room</button>');
     } else {
       $(".rooms-available-on-date").append('<img src="images/novacancies.png" alt="the words no vacancies in neon letters" class="neon">');

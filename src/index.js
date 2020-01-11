@@ -24,6 +24,7 @@ let date = new Date();
 let hotel;
 let monthNames = ["January", "February", "March", "April", "May", "June",
 "July", "August", "September", "October", "November", "December"];
+let selectedDate;
 let reservations = [];
 let rooms = [];
 let today;
@@ -35,7 +36,7 @@ $(document).on('click', '#reservation-popup .return-button', function(){
 });
 
 $(document).on('click', '#reservation-popup .filter-button', function(){
-  filterReservations();
+  findCheckedRoomTypes();
 });
 
 $('.continue-button').click(validateDate);
@@ -222,13 +223,18 @@ function toggleNewReservation() {
 function startNewReservation() {
   toggleNewReservation();
   $('#start-date').val(today.split('/').join('-'));
+  $(".select-new-reservation-date").css("display", "grid");
+  $(".rooms-available-on-date").css("display", "none");
+  $(".rooms-available-on-date").html("");
+  $(".date-error").css("display", "none");
 }
 
 function validateDate() {
-  if (Number($('#start-date').val().split('-').join('')) >= Number(today.split('/').join(''))) {
+  selectedDate = $('#start-date').val();
+  if (Number(selectedDate.split('-').join('')) >= Number(today.split('/').join(''))) {
     $(".select-new-reservation-date").css("display", "none");
     $(".rooms-available-on-date").css("display", "grid");
-    hotel.findAvailableRooms("newReservation", $('#start-date').val().split('-').join('/'));
+    hotel.findAvailableRooms("newReservation", selectedDate.split('-').join('/'));
   } else {
     $(".date-error").css("display", "flex");
   }
@@ -242,6 +248,67 @@ function restartReservation() {
   $(".date-error").css("display", "none");
 }
 
-function filterReservations() {
-
+function findCheckedRoomTypes() {
+  $('.vacancies').children().each(function() {
+      $(this).css("display", "block");
+    });
+  let selectedTypes = [];
+  $("input[type=checkbox]:checked").each(function() {
+        selectedTypes.push($(this).val());
+    });
+  findRoomsWithCheckedTypes(selectedTypes);
 }
+
+function findRoomsWithCheckedTypes(selectedTypes) {
+  let available = hotel.findAvailableRooms("date", selectedDate.split('-').join('/'));
+  available.forEach(a => {
+    if (!selectedTypes.includes(a.roomType)) {
+      $(`#${a.number}`).css("display", "none");
+    }
+  })
+  $("input[type=checkbox]:checked").each(function() {
+      $(this).prop('checked', false);
+    });
+}
+
+
+// function findCheckedBoxes() {
+//   let tagCheckboxes = document.querySelectorAll(".checked-tag");
+//   let checkboxInfo = Array.from(tagCheckboxes)
+//   let selectedTags = checkboxInfo.filter(box => {
+//     return box.checked;
+//   })
+//   findTaggedRecipes(selectedTags);
+// }
+//
+// function findTaggedRecipes(selected) {
+//   let filteredResults = [];
+//   selected.forEach(tag => {
+//     let allRecipes = recipes.filter(recipe => {
+//       return recipe.tags.includes(tag.id);
+//     });
+//     allRecipes.forEach(recipe => {
+//       if (!filteredResults.includes(recipe)) {
+//         filteredResults.push(recipe);
+//       }
+//     })
+//   });
+//   showAllRecipes();
+//   if (filteredResults.length > 0) {
+//     filterRecipes(filteredResults);
+//   }
+// }
+//
+// function filterRecipes(filtered) {
+//   let foundRecipes = recipes.filter(recipe => {
+//     return !filtered.includes(recipe);
+//   });
+//   hideUnselectedRecipes(foundRecipes)
+// }
+//
+// function hideUnselectedRecipes(foundRecipes) {
+//   foundRecipes.forEach(recipe => {
+//     let domRecipe = document.getElementById(`${recipe.id}`);
+//     domRecipe.style.display = "none";
+//   });
+// }
