@@ -250,6 +250,7 @@ input .password-input {
   width: 160px;
 }
 
+#reservation-popup,
 #popup {
   background: $primary-background;
   border: 0;
@@ -268,9 +269,8 @@ input .password-input {
   z-index: 1000;
 }
 
-.charges {
-  align-self: center;
-  text-indent: .2em;
+#reservation-popup {
+  height: 50%;
 }
 
 ul {
@@ -284,13 +284,11 @@ li {
   margin-bottom: 15px;
 }
 
-.charges-heading {
-  align-self: center;
-}
-.shield {
+.reservation-shield {
   visibility: visible;
 }
 
+.new-reservation,
 .popup-window {
   display: flex;
   justify-content: center;
@@ -298,10 +296,11 @@ li {
   width: 95%;
 }
 
+#exit-reservation-button,
 #exit-popup-button {
   font-size: 2em;
   height: 40px;
-  margin-left: 32%;
+  margin-left: 64%;
   position: fixed;
   width: 40px;
   text-align: center;
@@ -329,4 +328,41 @@ li {
     background-color: $primary-neon-color;
     box-shadow: $primary-box-shadow;
   }
+}
+
+.select-new-reservation-date {
+  display: grid;
+  grid-auto-columns: max-content;
+  grid-template-areas:
+  'msg msg'
+  'form flower'
+  'button flower';
+  margin-left: 5%;
+  width: 90%;
+}
+
+.select-date-message {
+  font-size: 2.5em;
+  grid-area: msg;
+}
+
+#start-date {
+  grid-area: form;
+}
+
+.continue-button {
+  grid-area: button;
+}
+
+.reservation-rose {
+  grid-area: flower;
+  height: 140px;
+}
+
+.rooms-available-on-new-date {
+  display: none;
+}
+
+.confirmation-message {
+  display: none;
 }
