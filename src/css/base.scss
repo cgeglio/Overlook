@@ -252,7 +252,8 @@ input .password-input {
   width: 160px;
 }
 
-#popup {
+#manager-popup,
+#customer-popup {
   background: $primary-background;
   border: 0;
   border-radius: 10px;
@@ -294,14 +295,16 @@ li {
   visibility: visible;
 }
 
-.popup-window {
+.manager-popup-window,
+.customer-popup-window {
   display: flex;
   justify-content: center;
   visibility: hidden;
   width: 95%;
 }
 
-#exit-popup-button {
+#customer-exit-button,
+#manager-exit-button {
   font-size: 2em;
   height: 40px;
   margin-left: 32%;
