@@ -92,7 +92,7 @@ class DomUpdate {
       $(".rooms-available-on-date").append('<button class="select-button" type="button" name="select-button">Reserve Room</button>');
     } else {
       $(".rooms-available-on-date").append('<img src="images/novacancies.png" alt="the words no vacancies in neon letters" class="neon">');
-      $(".rooms-available-on-date").append('<h4>Oh no! We don\'t have any available rooms for the date you\'ve selected.</h4>')
+      $(".rooms-available-on-date").append('<h2 class="none-available">Oh no! We don\'t have any available rooms for the date you\'ve selected.</h2>')
       $(".rooms-available-on-date").append('<button class="return-button" type="button" name="return-button">Pick A New Date</button>');
     }
   }

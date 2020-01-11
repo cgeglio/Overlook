@@ -30,6 +30,9 @@ let today;
 let user;
 let users = [];
 
+$(document).on('click', '#reservation-popup .return-button', function(){
+  restartReservation();
+});
 
 $('.continue-button').click(validateDate);
 $('#exit-reservation-button').click(toggleNewReservation);
@@ -37,7 +40,6 @@ $('.login').keyup(checkInputs);
 $('.logout-button').click(resetAfterLogout);
 $('.new-reservation-button').click(startNewReservation);
 $('.reservation-shield').click(toggleNewReservation);
-$('.return-button').click(restartReservation);
 $('.see-reservations-button').click(viewReservations);
 $('.see-spent-button').click(viewCharges);
 $('.submit').click(validateLoginInfo);
@@ -85,7 +87,8 @@ getFetches()
 
 function instantiateHotel() {
   hotel = new Hotel(rooms, reservations);
-  hotel.reservations.push({date: '2020/01/28', roomNumber: 14})
+  hotel.reservations.push({date: '2020/01/28', roomNumber: 14});
+  //Note: This reservation was manually added to test for no available rooms
 }
 
 function createDate() {
@@ -229,7 +232,8 @@ function validateDate() {
 
 function restartReservation() {
   $('#start-date').val(today.split('/').join('-'));
-  $(".select-new-reservation-date").css("display", "flex");
+  $(".select-new-reservation-date").css("display", "grid");
   $(".rooms-available-on-date").css("display", "none");
+  $(".rooms-available-on-date").html("");
   $(".date-error").css("display", "none");
 }
