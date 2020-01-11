@@ -37,6 +37,7 @@ $('.login').keyup(checkInputs);
 $('.logout-button').click(resetAfterLogout);
 $('.new-reservation-button').click(startNewReservation);
 $('.reservation-shield').click(toggleNewReservation);
+$('.return-button').click(restartReservation);
 $('.see-reservations-button').click(viewReservations);
 $('.see-spent-button').click(viewCharges);
 $('.submit').click(validateLoginInfo);
@@ -84,6 +85,7 @@ getFetches()
 
 function instantiateHotel() {
   hotel = new Hotel(rooms, reservations);
+  hotel.reservations.push({date: '2020/01/28', roomNumber: 14})
 }
 
 function createDate() {
@@ -223,4 +225,11 @@ function validateDate() {
   } else {
     $(".date-error").css("display", "flex");
   }
+}
+
+function restartReservation() {
+  $('#start-date').val(today.split('/').join('-'));
+  $(".select-new-reservation-date").css("display", "flex");
+  $(".rooms-available-on-date").css("display", "none");
+  $(".date-error").css("display", "none");
 }
