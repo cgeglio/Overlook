@@ -20,6 +20,7 @@ import './images/available.png'
 import './images/charges.png'
 import './images/occupied.png'
 import './images/revenue.png'
+import './images/todayis.png'
 import User from "../src/User"
 import Hotel from "../src/Hotel"
 
