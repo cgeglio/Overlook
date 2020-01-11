@@ -367,7 +367,32 @@ li {
 }
 
 .rooms-available-on-date {
+  align-items: center;
   display: none;
+  flex-direction: column;
+}
+
+.rooms-available-on-date h2 {
+  font-size: 1.8em;
+}
+
+.rooms-available-on-date input {
+  margin: 0px 10px 0px 0px;
+  width: initial;
+}
+
+.rooms-available-on-date ul {
+  list-style-type: none;
+  margin: 0;
+  text-align: left;
+}
+
+.filter-button {
+  margin-bottom: 30px;
+}
+
+.rooms-available-on-date label {
+  font-size: 1em;
 }
 
 .confirmation-message {
