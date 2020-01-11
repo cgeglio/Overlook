@@ -36,11 +36,7 @@ class Hotel {
       acc += room.costPerNight;
       return acc;
     }, 0)
-    if (type === "date") {
-      domUpdates.displayRevenue(cost);
-    } else {
-      domUpdates.displayAmountSpent(cost);
-    }
+    domUpdates.displayRevenue(cost);
     return cost;
   }
 

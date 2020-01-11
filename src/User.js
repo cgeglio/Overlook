@@ -18,15 +18,25 @@ class User {
     this.reservations.splice(this.reservations.indexOf(this.reservations.find(r => r.id === reservation.id)), 1);
   }
 
-  updateAmountSpent(cost) {
+  findAmountSpent() {
+    let cost = this.reservations.reduce((acc, r) => {
+      acc += this.reservedRooms.find(o => o.number === r.roomNumber).costPerNight;
+      return acc;
+    }, 0);
     this.amountSpent += cost;
+    domUpdates.displayAmountSpent(cost);
+    return cost;
   }
 
-  viewReservationDetails() {
+  viewReservationDetails(type) {
     let details = this.reservations.sort((a, b) => new Date(a.date) - new Date(b.date)).map(r => {
       return {date: r.date, room: this.reservedRooms.find(o => o.number === r.roomNumber)}
     });
-    domUpdates.displayUserReservationDetails(details);
+    if (type === 'reservations') {
+      domUpdates.displayUserReservationDetails(details);
+    } else {
+      domUpdates.displayCostDetails(details);
+    }
     return details;
   }
 }

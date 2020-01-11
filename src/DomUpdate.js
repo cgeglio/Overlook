@@ -17,6 +17,7 @@ class DomUpdate {
   }
 
   viewAvailableRoomDetails(rooms) {
+    $('#manager-popup').append("<button id='manager-exit-button' type='button' name='exit-button'>X</button>");
     $('#manager-popup').append("<h2>Available</h2>");
     $('#manager-popup').append("<ul class='available'></ul>")
     let details = rooms.map(r => {
@@ -30,6 +31,7 @@ class DomUpdate {
   }
 
   viewRevenueDetails(revenue) {
+    $('#manager-popup').append("<button id='manager-exit-button' type='button' name='exit-button'>X</button>");
     $('#manager-popup').append("<h2>Revenue</h2>");
     $('#manager-popup').append("<ul class='revenue'></ul>");
     revenue.forEach(r => $('.revenue').append(`<li>${r}</li>`));
@@ -39,11 +41,22 @@ class DomUpdate {
     $('.customer-amount-spent').text(`You Have Spent $${cost.toFixed(2)}`)
   }
 
+  displayCostDetails(reservations) {
+    $('#customer-popup').append("<button id='customer-exit-button' type='button' name='exit-button'>X</button>");
+    $('#customer-popup').append("<h2>All Charges</h2>");
+    $('#customer-popup').append("<ul class='charges'></ul>");
+    let details = reservations.map(r => {
+      return `${this.formatDate(r.date)}: Room ${r.room.number}, $${r.room.costPerNight}`
+    });
+    details.forEach(d=> $('.charges').append(`<li>${d}</li>`));
+  }
+
   displayPercentageOccupied(occupied) {
     $('.rooms-occupied-today').text(`${occupied}% of Rooms are Occupied`);
   }
 
   viewOccupiedRoomDetails(occupied) {
+    $('#manager-popup').append("<button id='manager-exit-button' type='button' name='exit-button'>X</button>");
     $('#manager-popup').append("<h2>Occupied</h2>");
     $('#manager-popup').append("<ul class='occupied'></ul>");
     let details = occupied.map(o => {
@@ -57,12 +70,12 @@ class DomUpdate {
   }
 
   displayUserReservationDetails(reservations) {
+    $('#customer-popup').append("<button id='customer-exit-button' type='button' name='exit-button'>X</button>");
     $('#customer-popup').append("<img src='images/reservations.png' alt='the word reservations in neon letters' class='neon'>");
     $('#customer-popup').append("<ul class='reservations'></ul>");
     let details = reservations.map(r => {
       return `${this.formatDate(r.date)}: Room ${r.room.number}, type: ${r.room.roomType}, ${r.room.numBeds} ${r.room.bedSize} bed${r.room.numBeds > 1 ? 's' : ''}, $${r.room.costPerNight} per night`
     });
-    console.log(details)
     details.forEach(d => $('.reservations').append(`<li>${d}</li>`));
   }
 
