@@ -271,10 +271,6 @@ input .password-input {
   z-index: 1000;
 }
 
-// .charges {
-//
-// }
-
 ul {
   align-self: center;
   font-family: $secondary-font;
@@ -305,11 +301,16 @@ li {
 #manager-exit-button {
   font-size: 2em;
   height: 40px;
-  margin-left: 32%;
+  margin-left: 64%;
   position: fixed;
   width: 40px;
   text-align: center;
 }
+
+#customer-exit-button {
+  margin-left: 32%;
+}
+
 
 #toggle {
   visibility: visible;
