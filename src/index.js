@@ -29,9 +29,11 @@ let date = new Date();
 let hotel;
 let reservations = [];
 let rooms = [];
+let selectedDate;
 let today;
 let user;
 let users = [];
+
 
 
 $(document).on('click', '#customer-popup #customer-exit-button', function(){
@@ -152,13 +154,23 @@ function createDate() {
   today = y + '/' + m + '/' + d;
 }
 
-function displayDate() {
+function displayTodaysDate() {
   let monthNames = ["January", "February", "March", "April", "May", "June",
   "July", "August", "September", "October", "November", "December"];
   let y = date.getFullYear();
   let d = String(date.getDate()).padStart(2, '0');
   $('.todays-date').text(`${monthNames[date.getMonth()]
   } ${d}, ${y}`);
+}
+
+function formatDate(day) {
+  let monthNames = ["January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"];
+  day = day.split('/').join('');
+  let y = day.split('').slice(0, 4).join('');
+  let m = day.split('').slice(4, 6).join('');
+  let d = day.split('').slice(6, 8).join('');
+  return `${monthNames[m -1]} ${d}, ${y}`;
 }
 
 function checkInputs() {
@@ -204,7 +216,7 @@ function resetAfterLogout() {
 
 function populateDashboard(loginType) {
   if (loginType === 'manager') {
-    displayDate();
+    displayTodaysDate();
     populateManagerDash();
   }
   if (loginType === 'customer') {
@@ -267,7 +279,7 @@ function toggleCustomerPopup() {
   $('#popup').append("<ul class='reservations'></ul>")
   let details = user.reservations.sort((a, b) => new Date(a.date) - new Date(b.date)).map(r => {
     let room = hotel.rooms.find(o => o.number === r.roomNumber)
-    return `${displayDate(r.date)}: Room ${r.roomNumber}, type: ${room.roomType}, ${room.numBeds} ${room.bedSize} bed${room.numBeds > 1 ? 's' : ''}, $${room.costPerNight} per night`
+    return `${formatDate(r.date)}: Room ${r.roomNumber}, type: ${room.roomType}, ${room.numBeds} ${room.bedSize} bed${room.numBeds > 1 ? 's' : ''}, $${room.costPerNight} per night`
   });
   details.forEach(d=> $('.reservations').append(`<li>${d}</li>`));
   togglePopup();
@@ -278,7 +290,7 @@ function viewCharges() {
   $('#popup').append("<h2 class='charges-heading'>All Charges</h2>");
   $('#popup').append("<ul class='charges'></ul>")
   let details = user.reservations.sort((a, b) => new Date(a.date) - new Date(b.date)).map(r => {
-    return `${displayDate(r.date)}: Room ${r.roomNumber}, $${hotel.rooms.find(o => o.number === r.roomNumber).costPerNight}`
+    return `${formatDate(r.date)}: Room ${r.roomNumber}, $${hotel.rooms.find(o => o.number === r.roomNumber).costPerNight}`
   });
   details.forEach(d=> $('.charges').append(`<li>${d}</li>`));
   togglePopup();
@@ -364,7 +376,7 @@ function clearPopup(view) {
 function startNewManagerReservation() {
   toggleSearchResults();
   toggleNewManagerReservation();
-  $('#start-date').val(today.split('/').join('-'));
+  $('.start-date').val(today.split('/').join('-'));
   $('.user').text(user.name.split(' ')[0]);
   $(".select-new-reservation-date").css("display", "grid");
   $(".rooms-available-on-date").css("display", "none");
@@ -375,7 +387,7 @@ function startNewManagerReservation() {
 
 function startNewReservation() {
   toggleNewReservation();
-  $('#start-date').val(today.split('/').join('-'));
+  $('.start-date').val(today.split('/').join('-'));
   $(".select-new-reservation-date").css("display", "grid");
   $(".rooms-available-on-date").css("display", "none");
   $(".rooms-available-on-date").html("");
@@ -384,10 +396,11 @@ function startNewReservation() {
 }
 
 function validateDate() {
-  selectedDate = $('#start-date').val();
+  selectedDate = $('.start-date').val();
   if (Number(selectedDate.split('-').join('')) >= Number(today.split('/').join(''))) {
     $(".select-new-reservation-date").css("display", "none");
     $(".rooms-available-on-date").css("display", "grid");
+    $(".rooms-available-on-date").html("");
     hotel.findAvailableRooms("newReservation", selectedDate.split('-').join('/'));
   } else {
     $(".date-error").css("display", "flex");
@@ -395,7 +408,7 @@ function validateDate() {
 }
 
 function restartReservation() {
-  $('#start-date').val(today.split('/').join('-'));
+  $('.start-date').val(today.split('/').join('-'));
   $(".select-new-reservation-date").css("display", "grid");
   $(".rooms-available-on-date").css("display", "none");
   $(".rooms-available-on-date").html("");
@@ -446,7 +459,7 @@ function confirmReservation(roomNumber) {
   $(".rooms-available-on-date").css("display", "none");
   $(".confirmation-message").css("display", "flex");
   $(".reserved-room-number").text(`${roomNumber}`);
-  $(".reserved-date").text(`${displayDate(selectedDate.split('-').join('/'))}`);
+  $(".reserved-date").text(`${formatDate(selectedDate.split('-').join('/'))}`);
   logReservation(reservedRoom)
 }
 
@@ -485,6 +498,7 @@ function findUserInfo() {
     if (results.length === 0) {
       lookForFirstOrLastName();
     } else {
+      $('.user-search').val('');
       findUserDetails(results);
     }
   }
@@ -501,6 +515,7 @@ function lookForFirstOrLastName() {
   if (results.length === 0) {
     $(".user-search-error").css("display", "flex");
   } else {
+    $('.user-search').val('');
     findUserDetails(results);
   }
 }
@@ -552,13 +567,13 @@ function populateUserResults(reservationList) {
     return acc ;
   }, [])
   user.findAmountSpent();
-  $('#search-results-popup').append(`<h3 class="user-info"><span>Name</span> ${user.name}, <span>ID</span> ${reservationList[0].userID}, <span>Amount Spent:</span> $ ${(user.amountSpent).toFixed(2)}</h3>`);
+  $('#search-results-popup').append(`<h3 class="user-info"><span>Name</span> ${user.name}, <span>ID</span> ${reservationList[0].userID}, <span>Amount Spent</span> $ ${(user.amountSpent).toFixed(2)}</h3>`);
   $('#search-results-popup').append("<div class='search-results-buttons'><button class='manager-new-reservation-button' type='button' name='new-reservation-button'>Add Reservation</button></div>");
   $('.search-results-buttons').append("<button class='delete-reservation-button' type='button' name='delete-reservation-button'>Delete Reservation</button>");
   $('#search-results-popup').append("<ul class='found-reservations'><h4>Reservations:</h4></ul>");
   reservationList.sort((a, b) => new Date(a.date) - new Date(b.date));
   let details = reservationList.map(r => {
-    return {date: displayDate(r.date), number: r.roomNumber, id: r.id};
+    return {date: formatDate(r.date), number: r.roomNumber, id: r.id};
   });
   details.forEach(d => $('.found-reservations').append(`<li class="no-checkbox-list">Date: ${d.date}, Room: ${d.number}</li>`));
   details.forEach(d => $('.found-reservations').append(`<li class="checkbox-list" id='${d.id}'><input type='checkbox' class='specific-reservation' value='${d.id}'><label for='specific-reservation'>Date: ${d.date}, Room: ${d.number}</label></li>`));
@@ -606,7 +621,7 @@ function removeReservation(reservation) {
   $('.found-reservations').css("display", "none");
   $('.user-info').css("display", "none");
   $('.search-results-buttons').css("display", "none");
-  $('#search-results-popup').append(`<div class='deleted-message'><h2><span>${user.name.split(' ')[0]}'s</span> reservation for <span>${displayDate(reservation.date)}</span>, Room <span>${reservation.roomNumber}</span> has been removed.</h2></div>`);
+  $('#search-results-popup').append(`<div class='deleted-message'><h2><span>${user.name.split(' ')[0]}'s</span> reservation for <span>${formatDate(reservation.date)}</span>, Room <span>${reservation.roomNumber}</span> has been removed.</h2></div>`);
 }
 
 function deleteReservationData(reservation) {
