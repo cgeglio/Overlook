@@ -23,7 +23,7 @@ class User {
       acc += this.reservedRooms.find(o => o.number === r.roomNumber).costPerNight;
       return acc;
     }, 0);
-    this.amountSpent += cost;
+    this.amountSpent = cost;
     domUpdates.displayAmountSpent(cost);
     return cost;
   }
