@@ -39,6 +39,10 @@ $(document).on('click', '#reservation-popup .filter-button', function(){
   findCheckedRoomTypes();
 });
 
+$(document).on('click', '#reservation-popup #exit-manager-reservation-button', function(){
+  toggleNewManagerReservation();
+});
+
 $(document).on('click', '#reservation-popup .select-button', function(){
   validateRoomSelected();
 });
@@ -49,6 +53,10 @@ $(document).on('click', '#search-results-popup #exit-search-results', function()
 
 $(document).on('click', '#search-results-popup .select-user-button', function(){
   findCheckedUser();
+});
+
+$(document).on('click', '#search-results-popup .manager-new-reservation-button', function(){
+  startNewManagerReservation();
 });
 
 $('.continue-button').click(validateDate);
@@ -237,6 +245,21 @@ function toggleNewReservation() {
   }
 }
 
+function toggleNewManagerReservation() {
+  $('.error').css("display", "none");
+  $('.room-errors').css("visibility", "hidden");
+  if (document.getElementById("toggle")) {
+    $(".new-manager-reservation#toggle").removeAttr('id');
+  } else {
+    $('.new-manager-reservation').attr("id", "toggle");
+  }
+  if (document.getElementById("overlay")) {
+    $(".manager-shield#overlay").removeAttr('id');
+  } else {
+    $('.manager-shield').attr("id", "overlay");
+  }
+}
+
 function toggleSearchResults() {
   $('.error').css("display", "none");
   if (document.getElementById("toggle")) {
@@ -251,6 +274,18 @@ function toggleSearchResults() {
   }
 }
 
+function startNewManagerReservation() {
+  toggleSearchResults();
+  toggleNewManagerReservation();
+  $('#start-date').val(today.split('/').join('-'));
+  $('.user').text(user.name.split(' ')[0]);
+  $(".select-new-reservation-date").css("display", "grid");
+  $(".rooms-available-on-date").css("display", "none");
+  $(".rooms-available-on-date").html("");
+  $(".confirmation-message").css("display", "none");
+  $(".date-error").css("display", "none");
+}
+
 function startNewReservation() {
   toggleNewReservation();
   $('#start-date').val(today.split('/').join('-'));
@@ -258,7 +293,6 @@ function startNewReservation() {
   $(".rooms-available-on-date").css("display", "none");
   $(".rooms-available-on-date").html("");
   $(".confirmation-message").css("display", "none");
-  $(".confirmation-message").html("")
   $(".date-error").css("display", "none");
 }
 
@@ -337,6 +371,7 @@ function logReservation(room) {
 }
 
 function postReservation(reservation) {
+  console.log(reservation)
   return fetch('https://fe-apps.herokuapp.com/api/v1/overlook/1904/bookings/bookings', {
     method: "POST",
     headers: {
@@ -422,9 +457,9 @@ function populateUserResults(reservationList) {
   $('#search-results-popup').html('');
   $('#search-results-popup').append("<button id='exit-search-results' type='button' name='exit-button'>X</button>");
   $('#search-results-popup').append("<img src='images/GOTIT.png' alt='the words got it in neon letters' class='confirmation-img'>");
-  let userName = users.find(u => u.id === Number(reservationList[0].userID));
-  $('#search-results-popup').append(`<h3><span>Name</span> ${userName.name}, <span>ID</span> ${reservationList[0].userID} </h3>`);
-  $('#search-results-popup').append("<div class='search-results-buttons'><button class='new-reservation-button' type='button' name='new-reservation-button'>Add Reservation</button></div>");
+  user = users.find(u => u.id === Number(reservationList[0].userID));
+  $('#search-results-popup').append(`<h3><span>Name</span> ${user.name}, <span>ID</span> ${reservationList[0].userID} </h3>`);
+  $('#search-results-popup').append("<div class='search-results-buttons'><button class='manager-new-reservation-button' type='button' name='new-reservation-button'>Add Reservation</button></div>");
   $('.search-results-buttons').append("<button class='delete-reservation-button' type='button' name='delete-reservation-button'>Delete Reservation</button>");
   $('#search-results-popup').append("<ul class='found-reservations'><h4>Reservations:</h4></ul>");
   reservationList.sort((a, b) => new Date(a.date) - new Date(b.date));
