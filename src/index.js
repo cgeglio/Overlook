@@ -373,6 +373,7 @@ function findUserInfo() {
 
 function findUserDetails(userInfo) {
   if (userInfo.length > 1) {
+    console.log('here');
     selectUserFromResults(userInfo);
   } else {
     let foundReservations = hotel.findReservations("userID", userInfo[0].id);
@@ -395,6 +396,7 @@ function findCheckedUser() {
 }
 
 function selectUserFromResults(userInfo) {
+  $('#search-results-popup').html('');
   $('#search-results-popup').append("<button id='exit-search-results' type='button' name='exit-button'>X</button>");
   $('#search-results-popup').append("<h3>There are multiple results for your search. Which user were you looking for?</h3>");
   $('#search-results-popup').append("<ul class='found-users'></ul>");
@@ -409,6 +411,8 @@ function populateUserResults(reservationList) {
   $('#search-results-popup').append("<img src='images/GOTIT.png' alt='the words got it in neon letters' class='confirmation-img'>");
   let userName = users.find(u => u.id === Number(reservationList[0].userID));
   $('#search-results-popup').append(`<h3><span>Name</span> ${userName.name}, <span>ID</span> ${reservationList[0].userID} </h3>`);
+  $('#search-results-popup').append("<div class='search-results-buttons'><button class='new-reservation-button' type='button' name='new-reservation-button'>Add Reservation</button></div>");
+  $('.search-results-buttons').append("<button class='delete-reservation-button' type='button' name='delete-reservation-button'>Delete Reservation</button>");
   $('#search-results-popup').append("<ul class='found-reservations'><h4>Reservations:</h4></ul>");
   reservationList.sort((a, b) => new Date(a.date) - new Date(b.date));
   let details = reservationList.map(r => {
