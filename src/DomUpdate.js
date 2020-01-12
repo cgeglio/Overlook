@@ -97,6 +97,7 @@ class DomUpdate {
       details.forEach(d => $(".vacancies").append(`<li id='${d.number}'><input type='checkbox' class='checked-room' id='${d.number}'><label for='${d.number}'>${d.detail}</label></li>`));
       $(".rooms-available-on-date").append('<button class="select-button" type="button" name="select-button">Reserve Room</button>');
     } else {
+      $(".rooms-available-on-date").css("display", "flex");
       $(".rooms-available-on-date").append('<img src="images/novacancies.png" alt="the words no vacancies in neon letters" class="neon">');
       $(".rooms-available-on-date").append('<h2 class="none-available">Oh no! We don\'t have any available rooms for the date you\'ve selected.</h2>')
       $(".rooms-available-on-date").append('<button class="return-button" type="button" name="return-button">Pick A New Date</button>');

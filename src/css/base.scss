@@ -367,7 +367,9 @@ li {
 }
 
 .rooms-available-on-date {
+  align-items: center;
   display: none;
+  flex-direction: column;
   grid-template-areas:
   'img img img'
   'sidebar h2 h2'
