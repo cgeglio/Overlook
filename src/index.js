@@ -355,19 +355,32 @@ function findUserInfo() {
   if (!$('.user-search').val()) {
     $(".user-search-error").css("display", "flex");
   } else {
-    let splitName = $('.user-search').val().toUpperCase().split(' ');
     let results = [];
-    splitName.forEach(n => users.forEach(u => {
-      if (u.name.toUpperCase().split(' ').includes(n)) {
+    users.forEach(u => {
+      if (u.name.toUpperCase() === $('.user-search').val().toUpperCase()) {
         results.push(u);
       }
-    }));
-    $('.user-search').val('')
+    })
     if (results.length === 0) {
-      $(".user-search-error").css("display", "flex");
+      lookForFirstOrLastName();
     } else {
       findUserDetails(results);
     }
+  }
+}
+
+function lookForFirstOrLastName() {
+  let results = [];
+  let splitName = $('.user-search').val().toUpperCase().split(' ');
+  splitName.forEach(n => users.forEach(u => {
+    if (u.name.toUpperCase().split(' ').includes(n)) {
+      results.push(u);
+    }
+  }));
+  if (results.length === 0) {
+    $(".user-search-error").css("display", "flex");
+  } else {
+    findUserDetails(results);
   }
 }
 
