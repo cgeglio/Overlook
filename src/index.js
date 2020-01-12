@@ -97,8 +97,6 @@ getFetches()
 
 function instantiateHotel() {
   hotel = new Hotel(rooms, reservations);
-  hotel.reservations.push({date: '2020/01/28', roomNumber: 14});
-  //Note: This reservation was manually added to test for no available rooms
 }
 
 function createDate() {
@@ -153,13 +151,15 @@ function showDashboard(loginType) {
 }
 
 function resetAfterLogout() {
-  $('.login-info').css("display", "flex");
-  $(".login-error").css("display", "none");
+  $(".manager-popup-window").css("display", "none");
+  $(".customer-popup-window").css("display", "none");
   $('.customer-view').css("display", "none");
   $('.manager-view').css("display", "none");
+  $(".login-error").css("display", "none");
   $('header').css("display", "none");
   $('.login-input').val('');
   $(".submit#active").removeAttr('id');
+  $('.login-info').css("display", "flex");
 }
 
 function populateDashboard(loginType) {
@@ -231,6 +231,8 @@ function startNewReservation() {
   $(".select-new-reservation-date").css("display", "grid");
   $(".rooms-available-on-date").css("display", "none");
   $(".rooms-available-on-date").html("");
+  $(".confirmation-message").css("display", "none");
+  $(".confirmation-message").html("")
   $(".date-error").css("display", "none");
 }
 
