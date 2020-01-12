@@ -57,7 +57,7 @@ class DomUpdate {
 
   viewOccupiedRoomDetails(occupied) {
     $('#manager-popup').append("<button id='manager-exit-button' type='button' name='exit-button'>X</button>");
-    $('#manager-popup').append("<img src='images/occupied.png' alt='the word occupied in neon letters' class='neon'>");
+    // $('#manager-popup').append("<img src='images/occupied.png' alt='the word occupied in neon letters' class='neon'>");
     $('#manager-popup').append("<ul class='occupied'></ul>");
     let details = occupied.map(o => {
       return `Room ${o.number}, type: ${o.roomType}, ${o.numBeds} ${o.bedSize} bed${o.numBeds > 1 ? 's' : ''}, $${o.costPerNight} per night`
@@ -82,7 +82,7 @@ class DomUpdate {
   listAvailableRooms(rooms) {
     if (rooms.length > 0) {
       $(".rooms-available-on-date").append('<img src="images/vacancies.png" alt="the word vacancies in neon letters" class="vacancies-img neon">');
-      $(".rooms-available-on-date").append('<h2 class="select-room">Please select the room you would like to reserve:</h2>');
+      $(".rooms-available-on-date").append('<h2 class="select-room">Please select a room to reserve:</h2>');
       $(".rooms-available-on-date").append("<div class='filter-sidebar'><ul class='types'></ul></div>");
       let details = rooms.map(r => {
         return {number: r.number, type: r.roomType, detail: `Room ${r.number}, type: ${r.roomType}, ${r.numBeds} ${r.bedSize} bed${r.numBeds > 1 ? 's' : ''}, $${r.costPerNight} per night`};
