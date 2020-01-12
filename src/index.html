@@ -38,12 +38,31 @@
         <div class="manager-searchbar">
           <label class="search-for-user" for="user-search">Search for a user:</label>
           <h3>Search for a user:</h3>
-          <input class="user-search" type="text" name="user-search" placeholder="Please enter the name of a user...">
+          <input class="user-search" type="text" name="user-search" placeholder="Please enter a name or id number...">
           <button class="search-button" type="button" name="search-button">Search</button>
         </div>
         <h3 class="error user-search-error">Please enter a valid name!</h3>
         <div class="user-search-results">
           <div id="search-results-popup">
+          </div>
+        </div>
+        <div class="new-manager-reservation">
+          <div id="reservation-popup">
+            <button id="exit-manager-reservation-button" type="button" name="exit-reservation-button">X</button>
+            <div class="select-new-reservation-date">
+              <h2 class="select-date-message">When would <span class="user"></span> like to stay with us?</h2>
+              <label class="start-date-label" for='start-date'>Date:</label>
+              <input type='date' name='start-date' value='' id='start-date' alt='Enter the date here.'>
+              <h3 class="error date-error">Please select a valid date!</h3>
+              <button class="continue-button" type="button" name="continue-button">Continue</button>
+              <img src="images/rose-large.png" alt="illustrated neon rose" class="reservation-rose">
+            </div>
+            <div class="rooms-available-on-date">
+            </div>
+            <div class="confirmation-message">
+              <img src="images/GOTIT.png" alt="the words got it in neon letters" class="confirmation-img">
+              <h2>We have <span class="user"></span> down for Room <span class="reserved-room-number">X</span> on <span class="reserved-date">DATE</span>!</h2>
+            </div>
           </div>
         </div>
         <section class="dashboard">
@@ -92,7 +111,7 @@
             <div class="rooms-available-on-date">
             </div>
             <div class="confirmation-message">
-                <img src="images/GOTIT.png" alt="the words got it in neon letters" class="confirmation-img">
+              <img src="images/GOTIT.png" alt="the words got it in neon letters" class="confirmation-img">
               <h2>We have you down for Room <span class="reserved-room-number">X</span> on <span class="reserved-date">DATE</span>!</h2>
             </div>
           </div>

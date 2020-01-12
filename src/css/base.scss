@@ -76,6 +76,10 @@ button {
   width: 80px;
 }
 
+.select-reservation-to-delete-button {
+  width: max-content;
+}
+
 .new-reservation-button,
 .delete-reservation-button {
   width: 150px;
@@ -234,9 +238,10 @@ input .password-input {
   justify-content: center;
 }
 
-.new-reservation {
-  display: none;
-}
+// .new-manager-reservation,
+// .new-reservation {
+//   display: none;
+// }
 
 
 .see-available-button,
@@ -302,7 +307,8 @@ li {
 }
 
 .manager-popup-window,
-.customer-popup-window {
+.customer-popup-window,
+.new-manager-reservation,
 .user-search-results,
 .new-reservation,
 .popup-window {
@@ -319,6 +325,7 @@ li {
 
 #customer-exit-button,
 #manager-exit-button {
+#exit-manager-reservation-button,
 #exit-search-results,
 #exit-reservation-button,
 #exit-popup-button {
@@ -478,12 +485,18 @@ h4 {
   margin: 45px 0px;
 }
 
+.deleted-message,
 .confirmation-message {
   align-items: center;
   display: none;
   flex-direction: column;
   margin: 5% 0 0 15%;
   width: 70%;
+}
+
+.deleted-message {
+  display: flex;
+  margin: 0;
 }
 
 .confirmation-img {
@@ -526,4 +539,13 @@ h4 {
   flex-direction: row;
   justify-content: space-around;
   width: 40%
+}
+
+.user-info {
+  display: block;
+}
+
+.checkbox-list {
+  display: none;
+  font-size: .7em;
 }
