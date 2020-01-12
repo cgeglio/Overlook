@@ -44,19 +44,35 @@ $(document).on('click', '#manager-popup #manager-exit-button', function(){
   toggleManagerPopup();
 });
 
-$(document).on('click', '#reservation-popup .return-button', function(){
+$(document).on('click', '#customer-reservation-popup .return-button', function(){
   restartReservation();
 });
 
-$(document).on('click', '#reservation-popup .filter-button', function(){
+$(document).on('click', '#manager-reservation-popup .return-button', function(){
+  restartReservation();
+});
+
+$(document).on('click', '#customer-reservation-popup .filter-button', function(){
   findCheckedRoomTypes();
 });
 
-$(document).on('click', '#reservation-popup #exit-manager-reservation-button', function(){
+$(document).on('click', '#manager-reservation-popup .filter-button', function(){
+  findCheckedRoomTypes();
+});
+
+$(document).on('click', '#manager-reservation-popup #exit-manager-reservation-button', function(){
   toggleNewManagerReservation();
 });
 
-$(document).on('click', '#reservation-popup .select-button', function(){
+$(document).on('click', '#customer-reservation-popup #exit-reservation-button', function(){
+  toggleNewReservation();
+});
+
+$(document).on('click', '#customer-reservation-popup .select-button', function(){
+  validateRoomSelected();
+});
+
+$(document).on('click', '#manager-reservation-popup .select-button', function(){
   validateRoomSelected();
 });
 
@@ -72,9 +88,6 @@ $(document).on('click', '#search-results-popup .select-user-button', function(){
   findCheckedUser();
 });
 
-
-$('.customer-shield').click(toggleCustomerPopup);
-
 $(document).on('click', '#search-results-popup .select-reservation-to-delete-button', function(){
   findCheckedReservation();
 });
@@ -83,21 +96,20 @@ $(document).on('click', '#search-results-popup .manager-new-reservation-button',
   startNewManagerReservation();
 });
 
-$('.continue-button').click(validateDate);
-$('#exit-reservation-button').click(toggleNewReservation);
+
+$('.customer-continue-button').click(validateDate);
+$('.customer-shield').click(toggleCustomerPopup);
 $('.login').keyup(checkInputs);
 $('.logout-button').click(resetAfterLogout);
+$('.manager-continue-button').click(validateDate);
 $('.manager-shield').click(toggleManagerPopup);
-$('.revenue-details-button').click(viewRevenue);
-$('.see-available-button').click(viewAvailableRooms);
-$('.see-occupied-button').click(viewOccupiedRooms);
-
-$('.continue-button').click(validateDate);
-$('#exit-reservation-button').click(toggleNewReservation);
+$('.manager-reservation-shield').click(toggleNewManagerReservation);
 $('.new-reservation-button').click(startNewReservation);
 $('.reservation-shield').click(toggleNewReservation);
+$('.revenue-details-button').click(viewRevenue);
 $('.search-button').click(findUserInfo);
-
+$('.see-available-button').click(viewAvailableRooms);
+$('.see-occupied-button').click(viewOccupiedRooms);
 $('.see-reservations-button').click(viewReservations);
 $('.see-spent-button').click(viewCosts);
 $('.submit').click(validateLoginInfo);
@@ -272,31 +284,31 @@ function viewRevenue() {
   hotel.findRevenueDetails("date", today);
   toggleManagerPopup();
 }
+//
+// function toggleCustomerPopup() {
+//   $('#popup').html('');
+//   $('#popup').append("<img src='images/reservations.png' alt='the word reservations in neon letters' class='neon'>");
+//   $('#popup').append("<ul class='reservations'></ul>")
+//   let details = user.reservations.sort((a, b) => new Date(a.date) - new Date(b.date)).map(r => {
+//     let room = hotel.rooms.find(o => o.number === r.roomNumber)
+//     return `${formatDate(r.date)}: Room ${r.roomNumber}, type: ${room.roomType}, ${room.numBeds} ${room.bedSize} bed${room.numBeds > 1 ? 's' : ''}, $${room.costPerNight} per night`
+//   });
+//   details.forEach(d=> $('.reservations').append(`<li>${d}</li>`));
+//   togglePopup();
+// }
+//
+// function viewCharges() {
+//   $('#popup').html('');
+//   $('#popup').append("<h2 class='charges-heading'>All Charges</h2>");
+//   $('#popup').append("<ul class='charges'></ul>")
+//   let details = user.reservations.sort((a, b) => new Date(a.date) - new Date(b.date)).map(r => {
+//     return `${formatDate(r.date)}: Room ${r.roomNumber}, $${hotel.rooms.find(o => o.number === r.roomNumber).costPerNight}`
+//   });
+//   details.forEach(d=> $('.charges').append(`<li>${d}</li>`));
+//   toggleCustomerPopup();
+// }
 
 function toggleCustomerPopup() {
-  $('#popup').html('');
-  $('#popup').append("<img src='images/reservations.png' alt='the word reservations in neon letters' class='neon'>");
-  $('#popup').append("<ul class='reservations'></ul>")
-  let details = user.reservations.sort((a, b) => new Date(a.date) - new Date(b.date)).map(r => {
-    let room = hotel.rooms.find(o => o.number === r.roomNumber)
-    return `${formatDate(r.date)}: Room ${r.roomNumber}, type: ${room.roomType}, ${room.numBeds} ${room.bedSize} bed${room.numBeds > 1 ? 's' : ''}, $${room.costPerNight} per night`
-  });
-  details.forEach(d=> $('.reservations').append(`<li>${d}</li>`));
-  togglePopup();
-}
-
-function viewCharges() {
-  $('#popup').html('');
-  $('#popup').append("<h2 class='charges-heading'>All Charges</h2>");
-  $('#popup').append("<ul class='charges'></ul>")
-  let details = user.reservations.sort((a, b) => new Date(a.date) - new Date(b.date)).map(r => {
-    return `${formatDate(r.date)}: Room ${r.roomNumber}, $${hotel.rooms.find(o => o.number === r.roomNumber).costPerNight}`
-  });
-  details.forEach(d=> $('.charges').append(`<li>${d}</li>`));
-  togglePopup();
-}
-
-function togglePopup() {
   $('.error').css("display", "none");
   if (document.getElementById("toggle")) {
     $('.customer-popup-window#toggle').removeAttr('id');
@@ -333,9 +345,9 @@ function toggleNewReservation() {
     $('.new-reservation').attr("id", "toggle");
   }
   if (document.getElementById("overlay")) {
-    $(".reservation-shield#overlay").removeAttr('id');
+    $(".customer-reservation-shield#overlay").removeAttr('id');
   } else {
-    $('.reservation-shield').attr("id", "overlay");
+    $('.customer-reservation-shield').attr("id", "overlay");
   }
 }
 
@@ -348,9 +360,9 @@ function toggleNewManagerReservation() {
     $('.new-manager-reservation').attr("id", "toggle");
   }
   if (document.getElementById("overlay")) {
-    $(".manager-shield#overlay").removeAttr('id');
+    $(".manager-reservation-shield#overlay").removeAttr('id');
   } else {
-    $('.manager-shield').attr("id", "overlay");
+    $('.manager-reservation-shield').attr("id", "overlay");
   }
 }
 
@@ -376,7 +388,7 @@ function clearPopup(view) {
 function startNewManagerReservation() {
   toggleSearchResults();
   toggleNewManagerReservation();
-  $('.start-date').val(today.split('/').join('-'));
+  $('#manager-start-date').val(today.split('/').join('-'));
   $('.user').text(user.name.split(' ')[0]);
   $(".select-new-reservation-date").css("display", "grid");
   $(".rooms-available-on-date").css("display", "none");
@@ -387,7 +399,7 @@ function startNewManagerReservation() {
 
 function startNewReservation() {
   toggleNewReservation();
-  $('.start-date').val(today.split('/').join('-'));
+  $('#customer-start-date').val(today.split('/').join('-'));
   $(".select-new-reservation-date").css("display", "grid");
   $(".rooms-available-on-date").css("display", "none");
   $(".rooms-available-on-date").html("");
@@ -396,7 +408,11 @@ function startNewReservation() {
 }
 
 function validateDate() {
-  selectedDate = $('.start-date').val();
+  if (event.target.classList.contains("manager-continue-button")) {
+    selectedDate = $('#manager-start-date').val();
+  } else {
+    selectedDate = $('#customer-start-date').val();
+  }
   if (Number(selectedDate.split('-').join('')) >= Number(today.split('/').join(''))) {
     $(".select-new-reservation-date").css("display", "none");
     $(".rooms-available-on-date").css("display", "grid");
@@ -408,7 +424,8 @@ function validateDate() {
 }
 
 function restartReservation() {
-  $('.start-date').val(today.split('/').join('-'));
+  $('#manager-start-date').val(today.split('/').join('-'));
+  $('#customer-start-date').val(today.split('/').join('-'));
   $(".select-new-reservation-date").css("display", "grid");
   $(".rooms-available-on-date").css("display", "none");
   $(".rooms-available-on-date").html("");
@@ -427,11 +444,31 @@ function findCheckedRoomTypes() {
 }
 
 
+// function findRoomsWithCheckedTypes(selectedTypes) {
+//   console.log(selectedTypes)
+//   let available = hotel.findAvailableRooms("date", selectedDate.split('-').join('/'));
+//   console.log(available)
+//   available.forEach(a => {
+//     console.log(typeof selectedTypes[0])
+//     console.log(typeof a.roomType)
+//     if (!selectedTypes.includes(a.roomType)) {
+//       $(`#${a.number}`).css("display", "none");
+//       console.log($(`#${a.number}`).css("displ"));
+//     }
+//   })
+//   $("input[type=checkbox][class=room-type]:checked").each(function() {
+//       $(this).prop('checked', false);
+//     });
+// }
+
+
+
 function findRoomsWithCheckedTypes(selectedTypes) {
   let available = hotel.findAvailableRooms("date", selectedDate.split('-').join('/'));
   available.forEach(a => {
     if (!selectedTypes.includes(a.roomType)) {
       $(`#${a.number}`).css("display", "none");
+
     }
   })
   $("input[type=checkbox][class=room-type]:checked").each(function() {
