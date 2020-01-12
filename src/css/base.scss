@@ -240,9 +240,10 @@ input .password-input {
   justify-content: center;
 }
 
-.new-reservation {
-  display: none;
-}
+// .new-manager-reservation,
+// .new-reservation {
+//   display: none;
+// }
 
 
 .see-reservations-button {
@@ -298,6 +299,7 @@ li {
   margin-top: 0;
 }
 
+.new-manager-reservation,
 .user-search-results,
 .new-reservation,
 .popup-window {
@@ -307,6 +309,7 @@ li {
   width: 95%;
 }
 
+#exit-manager-reservation-button,
 #exit-search-results,
 #exit-reservation-button,
 #exit-popup-button {
