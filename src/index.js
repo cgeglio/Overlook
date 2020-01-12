@@ -374,6 +374,7 @@ function confirmReservation(roomNumber) {
 function logReservation(room) {
   let reservation = {userID: Number(user.id), date: selectedDate.split('-').join('/'), roomNumber: Number(room.number)}
   user.addReservation(reservation);
+  user.findAmountSpent();
   hotel.addReservation(reservation);
   postReservation(reservation);
 }
@@ -427,7 +428,6 @@ function lookForFirstOrLastName() {
 
 function findUserDetails(userInfo) {
   if (userInfo.length > 1) {
-    console.log('here');
     selectUserFromResults(userInfo);
   } else {
     let foundReservations = hotel.findReservations("userID", userInfo[0].id);
@@ -464,7 +464,16 @@ function populateUserResults(reservationList) {
   $('#search-results-popup').append("<button id='exit-search-results' type='button' name='exit-button'>X</button>");
   $('#search-results-popup').append("<img src='images/GOTIT.png' alt='the words got it in neon letters' class='confirmation-img'>");
   user = users.find(u => u.id === Number(reservationList[0].userID));
-  $('#search-results-popup').append(`<h3 class="user-info"><span>Name</span> ${user.name}, <span>ID</span> ${reservationList[0].userID} </h3>`);
+  user.reservations = hotel.findReservations("userID", user.id);
+  user.reservedRooms = user.reservations.reduce((acc, res) => {
+    let room = hotel.rooms.find(r => r.number === res.roomNumber);
+      if (!acc.includes(room)) {
+        acc.push(room)
+      }
+    return acc ;
+  }, [])
+  user.findAmountSpent();
+  $('#search-results-popup').append(`<h3 class="user-info"><span>Name</span> ${user.name}, <span>ID</span> ${reservationList[0].userID}, <span>Amount Spent:</span> $ ${(user.amountSpent).toFixed(2)}</h3>`);
   $('#search-results-popup').append("<div class='search-results-buttons'><button class='manager-new-reservation-button' type='button' name='new-reservation-button'>Add Reservation</button></div>");
   $('.search-results-buttons').append("<button class='delete-reservation-button' type='button' name='delete-reservation-button'>Delete Reservation</button>");
   $('#search-results-popup').append("<ul class='found-reservations'><h4>Reservations:</h4></ul>");
@@ -503,7 +512,6 @@ function findCheckedReservation() {
 }
 
 function validateDeleteDate(reservation) {
-  console.log(reservation.date)
   if (Number(reservation.date.split('/').join('')) >= Number(today.split('/').join(''))) {
     removeReservation(reservation);
   } else {
@@ -513,6 +521,7 @@ function validateDeleteDate(reservation) {
 
 function removeReservation(reservation) {
   user.removeReservation(reservation);
+  user.findAmountSpent();
   hotel.removeReservation(reservation);
   deleteReservationData(reservation);
   $('.found-reservations').css("display", "none");
@@ -522,7 +531,6 @@ function removeReservation(reservation) {
 }
 
 function deleteReservationData(reservation) {
-  console.log(reservation)
   return fetch('https://fe-apps.herokuapp.com/api/v1/overlook/1904/bookings/bookings', {
     method: "DELETE",
     headers: {
