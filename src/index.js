@@ -43,6 +43,13 @@ $(document).on('click', '#reservation-popup .select-button', function(){
   validateRoomSelected();
 });
 
+$(document).on('click', '#search-results-popup #exit-search-results', function(){
+  toggleSearchResults();
+});
+
+$(document).on('click', '#search-results-popup .select-user-button', function(){
+  findCheckedUser();
+});
 
 $('.continue-button').click(validateDate);
 $('#exit-reservation-button').click(toggleNewReservation);
@@ -50,6 +57,7 @@ $('.login').keyup(checkInputs);
 $('.logout-button').click(resetAfterLogout);
 $('.new-reservation-button').click(startNewReservation);
 $('.reservation-shield').click(toggleNewReservation);
+$('.search-button').click(findUserInfo);
 $('.see-reservations-button').click(viewReservations);
 $('.see-spent-button').click(viewCharges);
 $('.submit').click(validateLoginInfo);
@@ -144,7 +152,6 @@ function validateLoginInfo() {
 
 function showDashboard(loginType) {
   $('.login-info').css("display", "none");
-  $('.customer-name').text(user.name.split(' ')[0]);
   $('header').css("display", "flex");
   $(`.${loginType}-view`).css("display", "flex");
   populateDashboard(loginType);
@@ -155,7 +162,8 @@ function resetAfterLogout() {
   $(".customer-popup-window").css("display", "none");
   $('.customer-view').css("display", "none");
   $('.manager-view').css("display", "none");
-  $(".login-error").css("display", "none");
+  $('.error').css("display", "none");
+  $('.room-errors').css("visibility", "hidden");
   $('header').css("display", "none");
   $('.login-input').val('');
   $(".submit#active").removeAttr('id');
@@ -172,6 +180,7 @@ function populateDashboard(loginType) {
   if (loginType === 'customer') {
     hotel.calculateCost("userID", user.id);
     user.reservations = hotel.findReservations("userID", user.id);
+    $('.customer-name').text(user.name.split(' ')[0]);
   }
 }
 
@@ -199,6 +208,7 @@ function viewCharges() {
 }
 
 function togglePopup() {
+  $('.error').css("display", "none");
   if (document.getElementById("toggle")) {
     $(".popup-window#toggle").removeAttr('id');
   } else {
@@ -213,6 +223,8 @@ function togglePopup() {
 
 
 function toggleNewReservation() {
+  $('.error').css("display", "none");
+  $('.room-errors').css("visibility", "hidden");
   if (document.getElementById("toggle")) {
     $(".new-reservation#toggle").removeAttr('id');
   } else {
@@ -222,6 +234,20 @@ function toggleNewReservation() {
     $(".reservation-shield#overlay").removeAttr('id');
   } else {
     $('.reservation-shield').attr("id", "overlay");
+  }
+}
+
+function toggleSearchResults() {
+  $('.error').css("display", "none");
+  if (document.getElementById("toggle")) {
+    $(".user-search-results#toggle").removeAttr('id');
+  } else {
+    $('.user-search-results').attr("id", "toggle");
+  }
+  if (document.getElementById("overlay")) {
+    $(".manager-shield#overlay").removeAttr('id');
+  } else {
+    $('.manager-shield').attr("id", "overlay");
   }
 }
 
@@ -266,6 +292,7 @@ function findCheckedRoomTypes() {
   findRoomsWithCheckedTypes(selectedTypes);
 }
 
+
 function findRoomsWithCheckedTypes(selectedTypes) {
   let available = hotel.findAvailableRooms("date", selectedDate.split('-').join('/'));
   available.forEach(a => {
@@ -279,16 +306,15 @@ function findRoomsWithCheckedTypes(selectedTypes) {
 }
 
 function validateRoomSelected() {
-  $(`.room-error1`).css("visibility", "hidden");
-  $(`.room-error2`).css("visibility", "hidden");
+  $('.room-errors').css("visibility", "hidden");
   let checkedRoom = $('input[type=checkbox][class=checked-room]:checked');
   if (checkedRoom.length === 1) {
     confirmReservation(checkedRoom.attr('id'));
   } else if (checkedRoom.length > 1) {
-    $(".rooms-available-on-date").append('<h3 class="error room-error1">Please select 1 room.</h3>');
+    $(".rooms-available-on-date").append('<h3 class="error room-errors room-error1">Please select 1 room.</h3>');
     $(`.room-error1`).css("visibility", "visible");
   } else if (checkedRoom.length === 0) {
-    $(".rooms-available-on-date").append('<h3 class="error room-error2">Please select a room to continue!</h3>');
+    $(".rooms-available-on-date").append('<h3 class="error room-errors room-error2">Please select a room to continue!</h3>');
     $(`.room-error2`).css("visibility", "visible");
   }
 }
@@ -322,4 +348,75 @@ function postReservation(reservation) {
       roomNumber: Number(`${reservation.roomNumber}`)
     })
   })
+}
+
+
+function findUserInfo() {
+  if (!$('.user-search').val()) {
+    $(".user-search-error").css("display", "flex");
+  } else {
+    let splitName = $('.user-search').val().toUpperCase().split(' ');
+    let results = [];
+    splitName.forEach(n => users.forEach(u => {
+      if (u.name.toUpperCase().split(' ').includes(n)) {
+        results.push(u);
+      }
+    }));
+    $('.user-search').val('')
+    if (results.length === 0) {
+      $(".user-search-error").css("display", "flex");
+    } else {
+      findUserDetails(results);
+    }
+  }
+}
+
+function findUserDetails(userInfo) {
+  if (userInfo.length > 1) {
+    console.log('here');
+    selectUserFromResults(userInfo);
+  } else {
+    let foundReservations = hotel.findReservations("userID", userInfo[0].id);
+    populateUserResults(foundReservations);
+  }
+  toggleSearchResults();
+}
+
+function findCheckedUser() {
+  let selectedUsers = [];
+  $("input[type=checkbox][class=user-results]:checked").each(function() {
+        selectedUsers.push($(this).val());
+    });
+  if (selectedUsers.length > 1) {
+    $('.select-user-error').css("display", "block");
+  } else {
+    let foundReservations = hotel.findReservations("userID", Number(selectedUsers[0]))
+    populateUserResults(foundReservations);
+  }
+}
+
+function selectUserFromResults(userInfo) {
+  $('#search-results-popup').html('');
+  $('#search-results-popup').append("<button id='exit-search-results' type='button' name='exit-button'>X</button>");
+  $('#search-results-popup').append("<h3>There are multiple results for your search. Which user were you looking for?</h3>");
+  $('#search-results-popup').append("<ul class='found-users'></ul>");
+  userInfo.forEach(u => $('.found-users').append(`<li class='users-to-select'><input type='checkbox' class="user-results" value='${u.id}'><label for='user-results'>${u.name}</label></li>`));
+  $("#search-results-popup").append('<h3 class="error select-user-error">Please select 1 user.</h3>');
+  $('#search-results-popup').append("<button class='select-user-button' type='button' name='select-user-button'>Select User</button>");
+}
+
+function populateUserResults(reservationList) {
+  $('#search-results-popup').html('');
+  $('#search-results-popup').append("<button id='exit-search-results' type='button' name='exit-button'>X</button>");
+  $('#search-results-popup').append("<img src='images/GOTIT.png' alt='the words got it in neon letters' class='confirmation-img'>");
+  let userName = users.find(u => u.id === Number(reservationList[0].userID));
+  $('#search-results-popup').append(`<h3><span>Name</span> ${userName.name}, <span>ID</span> ${reservationList[0].userID} </h3>`);
+  $('#search-results-popup').append("<div class='search-results-buttons'><button class='new-reservation-button' type='button' name='new-reservation-button'>Add Reservation</button></div>");
+  $('.search-results-buttons').append("<button class='delete-reservation-button' type='button' name='delete-reservation-button'>Delete Reservation</button>");
+  $('#search-results-popup').append("<ul class='found-reservations'><h4>Reservations:</h4></ul>");
+  reservationList.sort((a, b) => new Date(a.date) - new Date(b.date));
+  let details = reservationList.map(r => {
+    return `Date: ${formatReservationDate(r.date)}, Room: ${r.roomNumber}`;
+  });
+  details.forEach(d => $('.found-reservations').append(`<li>${d}</li>`));
 }

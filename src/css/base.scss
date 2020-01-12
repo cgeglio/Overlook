@@ -30,6 +30,7 @@ h2 {
   font-size: 3em;
 }
 
+
 label {
   font-family: $secondary-font;
   font-size: 1.5em;
@@ -78,6 +79,7 @@ button {
 .new-reservation-button,
 .delete-reservation-button {
   width: 150px;
+  margin-bottom: 20px;
 }
 
 .login-info {
@@ -242,14 +244,12 @@ input .password-input {
   display: none;
 }
 
-.new-reservation-button {
-  margin-bottom: 20px;
-}
 
 .see-reservations-button {
   width: 160px;
 }
 
+#search-results-popup,
 #reservation-popup,
 #popup {
   background: $primary-background;
@@ -276,6 +276,7 @@ input .password-input {
 ul {
   font-family: $secondary-font;
   font-size: 1.3em;
+  list-style-type: none;
   margin-top: 40px;
   text-align: left;
 }
@@ -284,10 +285,20 @@ li {
   margin-bottom: 15px;
 }
 
-.reservation-shield {
+.manager-shield {
   visibility: visible;
 }
 
+#search-results-popup ul {
+  margin: 0;
+  padding: 0;
+}
+
+.user-search-error {
+  margin-top: 0;
+}
+
+.user-search-results,
 .new-reservation,
 .popup-window {
   display: flex;
@@ -296,6 +307,7 @@ li {
   width: 95%;
 }
 
+#exit-search-results,
 #exit-reservation-button,
 #exit-popup-button {
   font-size: 2em;
@@ -304,6 +316,10 @@ li {
   position: fixed;
   width: 40px;
   text-align: center;
+}
+
+#exit-search-results{
+  margin-left: 32%;
 }
 
 #toggle {
@@ -328,6 +344,16 @@ li {
     background-color: $primary-neon-color;
     box-shadow: $primary-box-shadow;
   }
+}
+
+span {
+  color: $primary-neon-color;
+}
+
+h4 {
+  font-family: $primary-font;
+  font-size: 1.5em;
+  margin: 0px 0px 10px 0px;
 }
 
 .select-new-reservation-date {
@@ -390,13 +416,26 @@ li {
   text-align: left;
 }
 
+#search-results-popup input,
 .rooms-available-on-date input {
   margin: 0px 10px 0px 0px;
   width: initial;
 }
 
+#search-results-popup {
+  align-items: center;
+}
+
+#search-results-popup h3 {
+  font-size: 2em;
+  margin-top: 50px;
+}
+
+.found-users {
+  margin: 0;
+}
+
 .rooms-available-on-date ul {
-  list-style-type: none;
   margin: 0;
   text-align: left;
 }
@@ -462,11 +501,17 @@ li {
   display: block;
 }
 
-.room-error1,
-.room-error2 {
+.room-errors {
   display: block;
   grid-area: error;
   margin: 8px 0px 0px 20px;
   text-align: left;
   visibility: hidden;
+}
+
+.search-results-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  width: 40%
 }
