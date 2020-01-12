@@ -298,21 +298,26 @@ function confirmReservation(roomNumber) {
   $(".confirmation-message").css("display", "flex");
   $(".reserved-room-number").text(`${roomNumber}`);
   $(".reserved-date").text(`${formatReservationDate(selectedDate.split('-').join('/'))}`);
-  console.log(reservedRoom)
-  generateId(reservedRoom)
+  logReservation(reservedRoom)
 }
 
-function generateId(room) {
-  let id = '';
-  let characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
-  for (var i = 0; i < 17; i++) {
-    id += characters.charAt(Math.floor(Math.random() * characters.length));
-  }
-  logReservation(room, id);
-}
-
-function logReservation(room, id) {
-  let reservation = {id: id, userID: user.id, date: selectedDate.split('-').join('/'), roomNumber: room.number, roomServiceCharges: []}
+function logReservation(room) {
+  let reservation = {userID: Number(user.id), date: selectedDate.split('-').join('/'), roomNumber: Number(room.number)}
   user.addReservation(reservation);
   hotel.addReservation(reservation);
+  postReservation(reservation);
+}
+
+function postReservation(reservation) {
+  return fetch('https://fe-apps.herokuapp.com/api/v1/overlook/1904/bookings/bookings', {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      userID: Number(`${reservation.userID}`),
+      date: `${reservation.date}`,
+      roomNumber: Number(`${reservation.roomNumber}`)
+    })
+  })
 }
