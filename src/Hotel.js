@@ -7,6 +7,10 @@ class Hotel {
     this.reservations = reservations;
   }
 
+  addReservation(reservation) {
+    this.reservations.push(reservation);
+  }
+
   findReservations(type, specific) {
     let reservations = this.reservations.filter(r => r[type] === specific);
     if (type === 'userID') {
@@ -15,14 +19,20 @@ class Hotel {
     return reservations;
   }
 
-  findAvailableRooms(date) {
+  findAvailableRooms(type, specific) {
     let available = this.rooms.reduce((acc, r) => {
-      if (!this.findReservations("date", date).map(d => d.roomNumber).includes(r.number)) {
+      if (!this.findReservations("date", specific).map(d => d.roomNumber).includes(r.number)) {
         acc.push(r)
       }
       return acc;
     }, []);
-    domUpdates.displayAvailableRooms(available);
+    if (type === "dashboard") {
+      domUpdates.displayNumberOfAvailableRooms(available);
+    } else if (type === "details") {
+      domUpdates.viewAvailableRoomDetails(available);
+    } else if (type === "newReservation") {
+      domUpdates.listAvailableRooms(available);
+    }
     return available;
   }
 
@@ -32,17 +42,25 @@ class Hotel {
       acc += room.costPerNight;
       return acc;
     }, 0)
-    if (type === "date") {
-      domUpdates.displayRevenue(cost);
-    } else {
-      domUpdates.displayAmountSpent(cost);
-    }
+    domUpdates.displayRevenue(cost);
     return cost;
   }
 
-  calculatePercentageOccupied(date) {
-    let occupied = (this.findReservations("date", date).length/this.rooms.length)*100;
-    domUpdates.displayPercentageOccupied(occupied);
+  findRevenueDetails(type, specific) {
+    let reserved = this.findReservations(type, specific);
+    let revenueDetails = reserved.sort((a, b) => a.roomNumber - b.roomNumber).map(room => `Room ${room.roomNumber}, $${this.rooms.find(r => r.number === room.roomNumber).costPerNight}`);
+    domUpdates.viewRevenueDetails(revenueDetails);
+    return revenueDetails;
+  }
+
+  calculatePercentageOccupied(type, specific) {
+    let occupied = this.findReservations("date", specific);
+    if (type === "dashboard") {
+      domUpdates.displayPercentageOccupied((occupied.length/this.rooms.length)*100);
+    } else {
+      let rooms = this.rooms.filter(r => (occupied.map(o => o.roomNumber)).includes(r.number))
+      domUpdates.viewOccupiedRoomDetails(rooms);
+    }
     return occupied;
   }
 }

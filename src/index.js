@@ -24,17 +24,32 @@ let date = new Date();
 let hotel;
 let monthNames = ["January", "February", "March", "April", "May", "June",
 "July", "August", "September", "October", "November", "December"];
+let selectedDate;
 let reservations = [];
 let rooms = [];
 let today;
 let user;
 let users = [];
 
+$(document).on('click', '#reservation-popup .return-button', function(){
+  restartReservation();
+});
 
-$('#exit-popup-button').click(togglePopup);
+$(document).on('click', '#reservation-popup .filter-button', function(){
+  findCheckedRoomTypes();
+});
+
+$(document).on('click', '#reservation-popup .select-button', function(){
+  validateRoomSelected();
+});
+
+
+$('.continue-button').click(validateDate);
+$('#exit-reservation-button').click(toggleNewReservation);
 $('.login').keyup(checkInputs);
 $('.logout-button').click(resetAfterLogout);
-$('.shield').click(togglePopup);
+$('.new-reservation-button').click(startNewReservation);
+$('.reservation-shield').click(toggleNewReservation);
 $('.see-reservations-button').click(viewReservations);
 $('.see-spent-button').click(viewCharges);
 $('.submit').click(validateLoginInfo);
@@ -136,19 +151,21 @@ function showDashboard(loginType) {
 }
 
 function resetAfterLogout() {
-  $('.login-info').css("display", "flex");
-  $(".login-error").css("display", "none");
+  $(".manager-popup-window").css("display", "none");
+  $(".customer-popup-window").css("display", "none");
   $('.customer-view').css("display", "none");
   $('.manager-view').css("display", "none");
+  $(".login-error").css("display", "none");
   $('header').css("display", "none");
   $('.login-input').val('');
   $(".submit#active").removeAttr('id');
+  $('.login-info').css("display", "flex");
 }
 
 function populateDashboard(loginType) {
   if (loginType === 'manager') {
     displayDate();
-    hotel.findAvailableRooms(today);
+    hotel.findAvailableRooms("dashboard", today);
     hotel.calculateCost("date", today);
     hotel.calculatePercentageOccupied(today);
   }
@@ -192,4 +209,117 @@ function togglePopup() {
   } else {
     $('.shield').attr("id", "overlay");
   }
+}
+
+
+function toggleNewReservation() {
+  if (document.getElementById("toggle")) {
+    $(".new-reservation#toggle").removeAttr('id');
+  } else {
+    $('.new-reservation').attr("id", "toggle");
+  }
+  if (document.getElementById("overlay")) {
+    $(".reservation-shield#overlay").removeAttr('id');
+  } else {
+    $('.reservation-shield').attr("id", "overlay");
+  }
+}
+
+function startNewReservation() {
+  toggleNewReservation();
+  $('#start-date').val(today.split('/').join('-'));
+  $(".select-new-reservation-date").css("display", "grid");
+  $(".rooms-available-on-date").css("display", "none");
+  $(".rooms-available-on-date").html("");
+  $(".confirmation-message").css("display", "none");
+  $(".confirmation-message").html("")
+  $(".date-error").css("display", "none");
+}
+
+function validateDate() {
+  selectedDate = $('#start-date').val();
+  if (Number(selectedDate.split('-').join('')) >= Number(today.split('/').join(''))) {
+    $(".select-new-reservation-date").css("display", "none");
+    $(".rooms-available-on-date").css("display", "grid");
+    hotel.findAvailableRooms("newReservation", selectedDate.split('-').join('/'));
+  } else {
+    $(".date-error").css("display", "flex");
+  }
+}
+
+function restartReservation() {
+  $('#start-date').val(today.split('/').join('-'));
+  $(".select-new-reservation-date").css("display", "grid");
+  $(".rooms-available-on-date").css("display", "none");
+  $(".rooms-available-on-date").html("");
+  $(".date-error").css("display", "none");
+}
+
+function findCheckedRoomTypes() {
+  $('.vacancies').children().each(function() {
+      $(this).css("display", "block");
+    });
+  let selectedTypes = [];
+  $("input[type=checkbox][class=room-type]:checked").each(function() {
+        selectedTypes.push($(this).val());
+    });
+  findRoomsWithCheckedTypes(selectedTypes);
+}
+
+function findRoomsWithCheckedTypes(selectedTypes) {
+  let available = hotel.findAvailableRooms("date", selectedDate.split('-').join('/'));
+  available.forEach(a => {
+    if (!selectedTypes.includes(a.roomType)) {
+      $(`#${a.number}`).css("display", "none");
+    }
+  })
+  $("input[type=checkbox][class=room-type]:checked").each(function() {
+      $(this).prop('checked', false);
+    });
+}
+
+function validateRoomSelected() {
+  $(`.room-error1`).css("visibility", "hidden");
+  $(`.room-error2`).css("visibility", "hidden");
+  let checkedRoom = $('input[type=checkbox][class=checked-room]:checked');
+  if (checkedRoom.length === 1) {
+    confirmReservation(checkedRoom.attr('id'));
+  } else if (checkedRoom.length > 1) {
+    $(".rooms-available-on-date").append('<h3 class="error room-error1">Please select 1 room.</h3>');
+    $(`.room-error1`).css("visibility", "visible");
+  } else if (checkedRoom.length === 0) {
+    $(".rooms-available-on-date").append('<h3 class="error room-error2">Please select a room to continue!</h3>');
+    $(`.room-error2`).css("visibility", "visible");
+  }
+}
+
+function confirmReservation(roomNumber) {
+  let reservedRoom = rooms.find(r => r.number === Number(roomNumber));
+  $(".rooms-available-on-date").html('');
+  $(".rooms-available-on-date").css("display", "none");
+  $(".confirmation-message").css("display", "flex");
+  $(".reserved-room-number").text(`${roomNumber}`);
+  $(".reserved-date").text(`${formatReservationDate(selectedDate.split('-').join('/'))}`);
+  logReservation(reservedRoom)
+}
+
+function logReservation(room) {
+  let reservation = {userID: Number(user.id), date: selectedDate.split('-').join('/'), roomNumber: Number(room.number)}
+  user.addReservation(reservation);
+  hotel.addReservation(reservation);
+  postReservation(reservation);
+}
+
+function postReservation(reservation) {
+  return fetch('https://fe-apps.herokuapp.com/api/v1/overlook/1904/bookings/bookings', {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      userID: Number(`${reservation.userID}`),
+      date: `${reservation.date}`,
+      roomNumber: Number(`${reservation.roomNumber}`)
+    })
+  })
 }
