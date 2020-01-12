@@ -51,8 +51,16 @@ $(document).on('click', '#search-results-popup #exit-search-results', function()
   toggleSearchResults();
 });
 
+$(document).on('click', '#search-results-popup .delete-reservation-button', function(){
+  addCheckboxesToReservations();
+});
+
 $(document).on('click', '#search-results-popup .select-user-button', function(){
   findCheckedUser();
+});
+
+$(document).on('click', '#search-results-popup .select-reservation-to-delete-button', function(){
+  findCheckedReservation();
 });
 
 $(document).on('click', '#search-results-popup .manager-new-reservation-button', function(){
@@ -371,7 +379,6 @@ function logReservation(room) {
 }
 
 function postReservation(reservation) {
-  console.log(reservation)
   return fetch('https://fe-apps.herokuapp.com/api/v1/overlook/1904/bookings/bookings', {
     method: "POST",
     headers: {
@@ -385,14 +392,13 @@ function postReservation(reservation) {
   })
 }
 
-
 function findUserInfo() {
   if (!$('.user-search').val()) {
     $(".user-search-error").css("display", "flex");
   } else {
     let results = [];
     users.forEach(u => {
-      if (u.name.toUpperCase() === $('.user-search').val().toUpperCase()) {
+      if (u.name.toUpperCase() === $('.user-search').val().toUpperCase() || Number($('.user-search').val()) === u.id) {
         results.push(u);
       }
     })
@@ -458,13 +464,72 @@ function populateUserResults(reservationList) {
   $('#search-results-popup').append("<button id='exit-search-results' type='button' name='exit-button'>X</button>");
   $('#search-results-popup').append("<img src='images/GOTIT.png' alt='the words got it in neon letters' class='confirmation-img'>");
   user = users.find(u => u.id === Number(reservationList[0].userID));
-  $('#search-results-popup').append(`<h3><span>Name</span> ${user.name}, <span>ID</span> ${reservationList[0].userID} </h3>`);
+  $('#search-results-popup').append(`<h3 class="user-info"><span>Name</span> ${user.name}, <span>ID</span> ${reservationList[0].userID} </h3>`);
   $('#search-results-popup').append("<div class='search-results-buttons'><button class='manager-new-reservation-button' type='button' name='new-reservation-button'>Add Reservation</button></div>");
   $('.search-results-buttons').append("<button class='delete-reservation-button' type='button' name='delete-reservation-button'>Delete Reservation</button>");
   $('#search-results-popup').append("<ul class='found-reservations'><h4>Reservations:</h4></ul>");
   reservationList.sort((a, b) => new Date(a.date) - new Date(b.date));
   let details = reservationList.map(r => {
-    return `Date: ${formatReservationDate(r.date)}, Room: ${r.roomNumber}`;
+    return {date: formatReservationDate(r.date), number: r.roomNumber, id: r.id};
   });
-  details.forEach(d => $('.found-reservations').append(`<li>${d}</li>`));
+  details.forEach(d => $('.found-reservations').append(`<li class="no-checkbox-list">Date: ${d.date}, Room: ${d.number}</li>`));
+  details.forEach(d => $('.found-reservations').append(`<li class="checkbox-list" id='${d.id}'><input type='checkbox' class='specific-reservation' value='${d.id}'><label for='specific-reservation'>Date: ${d.date}, Room: ${d.number}</label></li>`));
+}
+
+function addCheckboxesToReservations() {
+  $('.no-checkbox-list').css("display", "none");
+  $('.checkbox-list').css("display", "block");
+  $('.found-reservations').append("<button class='select-reservation-to-delete-button' type='button' name='select-reservation-to-delete-button'>Delete Selected Reservation</button>");
+  $('#search-results-popup').append('<h3 class="error reservation-error1">You can only delete one reservation at a time.</h3>');
+  $('#search-results-popup').append('<h3 class="error reservation-error2">Please select a reservation to delete.</h3>');
+  $('#search-results-popup').append('<h3 class="error reservation-error3">Past reservations can not be removed. Please select an upcoming reservation to delete.</h3>');
+}
+
+
+function findCheckedReservation() {
+  $('.error').css("display", "none");
+  let selectedReservation = [];
+  $("input[type=checkbox][class=specific-reservation]:checked").each(function() {
+        selectedReservation.push($(this).val());
+    });
+  if (selectedReservation.length > 1) {
+    $('.reservation-error1').css("display", "block");
+  } else if (selectedReservation.length === 0) {
+    $('.reservation-error2').css("display", "block");
+  } else {
+    let foundReservation = hotel.findReservations("id", selectedReservation[0])
+    validateDeleteDate(foundReservation[0]);
+  }
+}
+
+function validateDeleteDate(reservation) {
+  console.log(reservation.date)
+  if (Number(reservation.date.split('/').join('')) >= Number(today.split('/').join(''))) {
+    removeReservation(reservation);
+  } else {
+    $('.reservation-error3').css("display", "block");
+  }
+}
+
+function removeReservation(reservation) {
+  user.removeReservation(reservation);
+  hotel.removeReservation(reservation);
+  deleteReservationData(reservation);
+  $('.found-reservations').css("display", "none");
+  $('.user-info').css("display", "none");
+  $('.search-results-buttons').css("display", "none");
+  $('#search-results-popup').append(`<div class='deleted-message'><h2><span>${user.name.split(' ')[0]}'s</span> reservation for <span>${formatReservationDate(reservation.date)}</span>, Room <span>${reservation.roomNumber}</span> has been removed.</h2></div>`);
+}
+
+function deleteReservationData(reservation) {
+  console.log(reservation)
+  return fetch('https://fe-apps.herokuapp.com/api/v1/overlook/1904/bookings/bookings', {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      id: `${reservation.id}`
+    })
+  })
 }
