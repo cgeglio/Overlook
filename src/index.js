@@ -373,10 +373,8 @@ function confirmReservation(roomNumber) {
 
 function logReservation(room) {
   let reservation = {userID: Number(user.id), date: selectedDate.split('-').join('/'), roomNumber: Number(room.number)}
-  console.log(user.amountSpent);
   user.addReservation(reservation);
   user.findAmountSpent();
-  console.log(user.amountSpent);
   hotel.addReservation(reservation);
   postReservation(reservation);
 }
@@ -533,7 +531,6 @@ function removeReservation(reservation) {
 }
 
 function deleteReservationData(reservation) {
-  console.log(reservation)
   return fetch('https://fe-apps.herokuapp.com/api/v1/overlook/1904/bookings/bookings', {
     method: "DELETE",
     headers: {
