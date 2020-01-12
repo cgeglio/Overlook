@@ -267,7 +267,7 @@ function toggleCustomerPopup() {
   $('#popup').append("<ul class='reservations'></ul>")
   let details = user.reservations.sort((a, b) => new Date(a.date) - new Date(b.date)).map(r => {
     let room = hotel.rooms.find(o => o.number === r.roomNumber)
-    return `${formatReservationDate(r.date)}: Room ${r.roomNumber}, type: ${room.roomType}, ${room.numBeds} ${room.bedSize} bed${room.numBeds > 1 ? 's' : ''}, $${room.costPerNight} per night`
+    return `${displayDate(r.date)}: Room ${r.roomNumber}, type: ${room.roomType}, ${room.numBeds} ${room.bedSize} bed${room.numBeds > 1 ? 's' : ''}, $${room.costPerNight} per night`
   });
   details.forEach(d=> $('.reservations').append(`<li>${d}</li>`));
   togglePopup();
@@ -278,7 +278,7 @@ function viewCharges() {
   $('#popup').append("<h2 class='charges-heading'>All Charges</h2>");
   $('#popup').append("<ul class='charges'></ul>")
   let details = user.reservations.sort((a, b) => new Date(a.date) - new Date(b.date)).map(r => {
-    return `${formatReservationDate(r.date)}: Room ${r.roomNumber}, $${hotel.rooms.find(o => o.number === r.roomNumber).costPerNight}`
+    return `${displayDate(r.date)}: Room ${r.roomNumber}, $${hotel.rooms.find(o => o.number === r.roomNumber).costPerNight}`
   });
   details.forEach(d=> $('.charges').append(`<li>${d}</li>`));
   togglePopup();
@@ -446,7 +446,7 @@ function confirmReservation(roomNumber) {
   $(".rooms-available-on-date").css("display", "none");
   $(".confirmation-message").css("display", "flex");
   $(".reserved-room-number").text(`${roomNumber}`);
-  $(".reserved-date").text(`${formatReservationDate(selectedDate.split('-').join('/'))}`);
+  $(".reserved-date").text(`${displayDate(selectedDate.split('-').join('/'))}`);
   logReservation(reservedRoom)
 }
 
@@ -558,7 +558,7 @@ function populateUserResults(reservationList) {
   $('#search-results-popup').append("<ul class='found-reservations'><h4>Reservations:</h4></ul>");
   reservationList.sort((a, b) => new Date(a.date) - new Date(b.date));
   let details = reservationList.map(r => {
-    return {date: formatReservationDate(r.date), number: r.roomNumber, id: r.id};
+    return {date: displayDate(r.date), number: r.roomNumber, id: r.id};
   });
   details.forEach(d => $('.found-reservations').append(`<li class="no-checkbox-list">Date: ${d.date}, Room: ${d.number}</li>`));
   details.forEach(d => $('.found-reservations').append(`<li class="checkbox-list" id='${d.id}'><input type='checkbox' class='specific-reservation' value='${d.id}'><label for='specific-reservation'>Date: ${d.date}, Room: ${d.number}</label></li>`));
@@ -606,7 +606,7 @@ function removeReservation(reservation) {
   $('.found-reservations').css("display", "none");
   $('.user-info').css("display", "none");
   $('.search-results-buttons').css("display", "none");
-  $('#search-results-popup').append(`<div class='deleted-message'><h2><span>${user.name.split(' ')[0]}'s</span> reservation for <span>${formatReservationDate(reservation.date)}</span>, Room <span>${reservation.roomNumber}</span> has been removed.</h2></div>`);
+  $('#search-results-popup').append(`<div class='deleted-message'><h2><span>${user.name.split(' ')[0]}'s</span> reservation for <span>${displayDate(reservation.date)}</span>, Room <span>${reservation.roomNumber}</span> has been removed.</h2></div>`);
 }
 
 function deleteReservationData(reservation) {
