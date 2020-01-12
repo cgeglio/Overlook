@@ -304,6 +304,7 @@ function toggleManagerPopup() {
     $('.manager-popup-window#toggle').removeAttr('id');
   } else {
     $('.manager-popup-window').attr('id', "toggle");
+  }
  if (document.getElementById("overlay")) {
     $(".manager-shield#overlay").removeAttr('id');
   } else {

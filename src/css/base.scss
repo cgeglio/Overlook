@@ -251,7 +251,7 @@ input .password-input {
 }
 
 #manager-popup,
-#customer-popup {
+#customer-popup,
 #search-results-popup,
 #reservation-popup,
 #popup {
@@ -290,7 +290,7 @@ li {
   margin-bottom: 15px;
 }
 
-  
+
 .customer-shield,
 .manager-shield {
   visibility: visible;
@@ -324,7 +324,7 @@ li {
 }
 
 #customer-exit-button,
-#manager-exit-button {
+#manager-exit-button,
 #exit-manager-reservation-button,
 #exit-search-results,
 #exit-reservation-button,
@@ -337,7 +337,7 @@ li {
   text-align: center;
 }
 
-#exit-search-results{
+#exit-search-results {
   margin-left: 32%;
 }
 
