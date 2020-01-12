@@ -14,9 +14,18 @@ class User {
     this.reservations.splice(this.reservations.indexOf(this.reservations.find(r => r.id === reservation.id)), 1);
   }
 
-  updateAmountSpent(cost) {
-    this.amountSpent += cost;
+  findAmountSpent() {
+    console.log(this.amountSpent)
+    let cost = this.reservations.reduce((acc, r) => {
+      acc += this.reservedRooms.find(o => o.number === r.roomNumber).costPerNight;
+      return acc;
+    }, 0);
+    this.amountSpent = cost;
+    console.log(this.amountSpent)
+    // domUpdates.displayAmountSpent(cost);
+    return cost;
   }
+
 
 }
 
