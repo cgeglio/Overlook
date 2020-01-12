@@ -164,13 +164,6 @@ input .password-input {
   margin: 0px 10px 0px 0px;
 }
 
-.manager-view {
-  align-items: center;
-  display: none;
-  flex-direction: column;
-  justify-content: center;
-}
-
 .manager-searchbar {
   align-items: center;
   display: flex;
@@ -237,7 +230,8 @@ input .password-input {
   display: none;
 }
 
-.customer-view {
+.customer-view,
+.manager-view {
   align-items: center;
   display: none;
   flex-direction: column;
@@ -250,10 +244,14 @@ input .password-input {
 // }
 
 
+.see-available-button,
+.see-occupied-button,
 .see-reservations-button {
   width: 160px;
 }
 
+#manager-popup,
+#customer-popup {
 #search-results-popup,
 #reservation-popup,
 #popup {
@@ -279,20 +277,25 @@ input .password-input {
 }
 
 ul {
+  align-self: center;
   font-family: $secondary-font;
   font-size: 1.3em;
   list-style-type: none;
   margin-top: 40px;
   text-align: left;
+  text-indent: .2em;
 }
 
 li {
   margin-bottom: 15px;
 }
 
+  
+.customer-shield,
 .manager-shield {
   visibility: visible;
 }
+
 
 #search-results-popup ul {
   margin: 0;
@@ -303,6 +306,8 @@ li {
   margin-top: 0;
 }
 
+.manager-popup-window,
+.customer-popup-window,
 .new-manager-reservation,
 .user-search-results,
 .new-reservation,
@@ -313,6 +318,13 @@ li {
   width: 95%;
 }
 
+.todays-date {
+  font-size: 2.3em;
+  margin-top: 20px;
+}
+
+#customer-exit-button,
+#manager-exit-button {
 #exit-manager-reservation-button,
 #exit-search-results,
 #exit-reservation-button,

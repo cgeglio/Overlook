@@ -16,20 +16,31 @@ import './images/reservations.png'
 import './images/rose-large.png'
 import './images/vacancies.png'
 import './images/welcome.png'
+import './images/available.png'
+import './images/charges.png'
+import './images/occupied.png'
+import './images/revenue.png'
+import './images/todayis.png'
 import User from "../src/User"
 import Hotel from "../src/Hotel"
 
 
 let date = new Date();
 let hotel;
-let monthNames = ["January", "February", "March", "April", "May", "June",
-"July", "August", "September", "October", "November", "December"];
-let selectedDate;
 let reservations = [];
 let rooms = [];
 let today;
 let user;
 let users = [];
+
+
+$(document).on('click', '#customer-popup #customer-exit-button', function(){
+  toggleCustomerPopup();
+});
+
+$(document).on('click', '#manager-popup #manager-exit-button', function(){
+  toggleManagerPopup();
+});
 
 $(document).on('click', '#reservation-popup .return-button', function(){
   restartReservation();
@@ -59,6 +70,9 @@ $(document).on('click', '#search-results-popup .select-user-button', function(){
   findCheckedUser();
 });
 
+
+$('.customer-shield').click(toggleCustomerPopup);
+
 $(document).on('click', '#search-results-popup .select-reservation-to-delete-button', function(){
   findCheckedReservation();
 });
@@ -71,11 +85,19 @@ $('.continue-button').click(validateDate);
 $('#exit-reservation-button').click(toggleNewReservation);
 $('.login').keyup(checkInputs);
 $('.logout-button').click(resetAfterLogout);
+$('.manager-shield').click(toggleManagerPopup);
+$('.revenue-details-button').click(viewRevenue);
+$('.see-available-button').click(viewAvailableRooms);
+$('.see-occupied-button').click(viewOccupiedRooms);
+
+$('.continue-button').click(validateDate);
+$('#exit-reservation-button').click(toggleNewReservation);
 $('.new-reservation-button').click(startNewReservation);
 $('.reservation-shield').click(toggleNewReservation);
 $('.search-button').click(findUserInfo);
+
 $('.see-reservations-button').click(viewReservations);
-$('.see-spent-button').click(viewCharges);
+$('.see-spent-button').click(viewCosts);
 $('.submit').click(validateLoginInfo);
 
 
@@ -131,18 +153,12 @@ function createDate() {
 }
 
 function displayDate() {
+  let monthNames = ["January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"];
   let y = date.getFullYear();
   let d = String(date.getDate()).padStart(2, '0');
   $('.todays-date').text(`${monthNames[date.getMonth()]
   } ${d}, ${y}`);
-}
-
-function formatReservationDate(day) {
-  day = day.split('/').join('');
-  let y = day.split('').slice(0, 4).join('');
-  let m = day.split('').slice(4, 6).join('');
-  let d = day.split('').slice(6, 8).join('');
-  return `${monthNames[m -1]} ${d}, ${y}`
 }
 
 function checkInputs() {
@@ -189,18 +205,63 @@ function resetAfterLogout() {
 function populateDashboard(loginType) {
   if (loginType === 'manager') {
     displayDate();
-    hotel.findAvailableRooms("dashboard", today);
-    hotel.calculateCost("date", today);
-    hotel.calculatePercentageOccupied(today);
+    populateManagerDash();
   }
   if (loginType === 'customer') {
-    hotel.calculateCost("userID", user.id);
-    user.reservations = hotel.findReservations("userID", user.id);
-    $('.customer-name').text(user.name.split(' ')[0]);
+    populateCustomerDash();
   }
 }
 
+function populateManagerDash() {
+  hotel.findAvailableRooms("dashboard", today);
+  hotel.calculateCost("date", today);
+  hotel.calculatePercentageOccupied("dashboard", today);
+}
+
+function populateCustomerDash() {
+  $('.user-name').text(user.name.split(' ')[0]);
+  user.reservations = hotel.findReservations("userID", user.id);
+  user.reservedRooms = user.reservations.reduce((acc, res) => {
+    let room = hotel.rooms.find(r => r.number === res.roomNumber);
+      if (!acc.includes(room)) {
+        acc.push(room)
+      }
+    return acc ;
+  }, [])
+  user.findAmountSpent();
+}
+
 function viewReservations() {
+  clearPopup("customer");
+  user.viewReservationDetails("reservations");
+  toggleCustomerPopup();
+}
+
+function viewCosts() {
+  clearPopup("customer");
+  user.viewReservationDetails("costs");
+  toggleCustomerPopup();
+}
+
+function viewAvailableRooms() {
+  clearPopup("manager");
+  hotel.findAvailableRooms("details", today);
+  toggleManagerPopup();
+}
+
+function viewOccupiedRooms() {
+  clearPopup("manager");
+  hotel.calculatePercentageOccupied("details", today);
+  toggleManagerPopup();
+}
+
+function viewRevenue() {
+  clearPopup("manager");
+  hotel.findRevenueDetails("date", today);
+  toggleManagerPopup();
+}
+
+function toggleCustomerPopup() {
   $('#popup').html('');
   $('#popup').append("<img src='images/reservations.png' alt='the word reservations in neon letters' class='neon'>");
   $('#popup').append("<ul class='reservations'></ul>")
@@ -226,17 +287,29 @@ function viewCharges() {
 function togglePopup() {
   $('.error').css("display", "none");
   if (document.getElementById("toggle")) {
-    $(".popup-window#toggle").removeAttr('id');
+    $('.customer-popup-window#toggle').removeAttr('id');
   } else {
-    $('.popup-window').attr("id", "toggle");
+    $('.customer-popup-window').attr('id', "toggle");
   }
   if (document.getElementById("overlay")) {
-    $(".shield#overlay").removeAttr('id');
+    $(".customer-shield#overlay").removeAttr('id');
   } else {
-    $('.shield').attr("id", "overlay");
+    $('.customer-shield').attr("id", "overlay");
   }
 }
 
+
+function toggleManagerPopup() {
+  if (document.getElementById("toggle")) {
+    $('.manager-popup-window#toggle').removeAttr('id');
+  } else {
+    $('.manager-popup-window').attr('id', "toggle");
+ if (document.getElementById("overlay")) {
+    $(".manager-shield#overlay").removeAttr('id');
+  } else {
+    $('.manager-shield').attr("id", "overlay");
+  }
+}
 
 function toggleNewReservation() {
   $('.error').css("display", "none");
@@ -280,6 +353,11 @@ function toggleSearchResults() {
   } else {
     $('.manager-shield').attr("id", "overlay");
   }
+}
+
+
+function clearPopup(view) {
+  $(`#${view}-popup`).html('');
 }
 
 function startNewManagerReservation() {
