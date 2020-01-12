@@ -30,6 +30,7 @@ h2 {
   font-size: 3em;
 }
 
+
 label {
   font-family: $secondary-font;
   font-size: 1.5em;
@@ -78,6 +79,7 @@ button {
 .new-reservation-button,
 .delete-reservation-button {
   width: 150px;
+  margin-bottom: 20px;
 }
 
 .login-info {
@@ -236,9 +238,6 @@ input .password-input {
   display: none;
 }
 
-.new-reservation-button {
-  margin-bottom: 20px;
-}
 
 .see-available-button,
 .see-occupied-button,
@@ -248,6 +247,9 @@ input .password-input {
 
 #manager-popup,
 #customer-popup {
+#search-results-popup,
+#reservation-popup,
+#popup {
   background: $primary-background;
   border: 0;
   border-radius: 10px;
@@ -265,10 +267,15 @@ input .password-input {
   z-index: 1000;
 }
 
+#reservation-popup {
+  height: 65%;
+}
+
 ul {
   align-self: center;
   font-family: $secondary-font;
   font-size: 1.3em;
+  list-style-type: none;
   margin-top: 40px;
   text-align: left;
   text-indent: .2em;
@@ -278,13 +285,27 @@ li {
   margin-bottom: 15px;
 }
 
+  
 .customer-shield,
 .manager-shield {
   visibility: visible;
 }
 
+
+#search-results-popup ul {
+  margin: 0;
+  padding: 0;
+}
+
+.user-search-error {
+  margin-top: 0;
+}
+
 .manager-popup-window,
 .customer-popup-window {
+.user-search-results,
+.new-reservation,
+.popup-window {
   display: flex;
   justify-content: center;
   visibility: hidden;
@@ -298,12 +319,19 @@ li {
 
 #customer-exit-button,
 #manager-exit-button {
+#exit-search-results,
+#exit-reservation-button,
+#exit-popup-button {
   font-size: 2em;
   height: 40px;
-  margin-left: 32%;
+  margin-left: 64%;
   position: fixed;
   width: 40px;
   text-align: center;
+}
+
+#exit-search-results{
+  margin-left: 32%;
 }
 
 #toggle {
@@ -328,4 +356,174 @@ li {
     background-color: $primary-neon-color;
     box-shadow: $primary-box-shadow;
   }
+}
+
+span {
+  color: $primary-neon-color;
+}
+
+h4 {
+  font-family: $primary-font;
+  font-size: 1.5em;
+  margin: 0px 0px 10px 0px;
+}
+
+.select-new-reservation-date {
+  display: grid;
+  grid-auto-columns: max-content;
+  grid-template-areas:
+  'msg msg'
+  'label flower'
+  'form flower'
+  'button flower';
+  margin-left: 5%;
+  width: 90%;
+}
+
+.select-date-message {
+  font-size: 2.5em;
+  grid-area: msg;
+}
+
+#start-date {
+  grid-area: form;
+}
+
+.continue-button {
+  grid-area: button;
+}
+
+.start-date-label {
+  font-size: .1em;
+  grid-area: label;
+  visibility: hidden;
+}
+
+.reservation-rose {
+  grid-area: flower;
+  height: 140px;
+}
+
+.rooms-available-on-date {
+  align-items: center;
+  display: none;
+  flex-direction: column;
+  grid-template-areas:
+  'img img img'
+  'sidebar h2 h2'
+  'sidebar list list'
+  'sidebar select error';
+  grid-template-columns: 2fr 1fr 6fr;
+}
+
+.vacancies-img {
+  grid-area: img;
+  margin-left: 35%;
+}
+
+.select-room {
+  font-size: 1.8em;
+  grid-area: h2;
+  margin-left: 5%;
+  text-align: left;
+}
+
+#search-results-popup input,
+.rooms-available-on-date input {
+  margin: 0px 10px 0px 0px;
+  width: initial;
+}
+
+#search-results-popup {
+  align-items: center;
+}
+
+#search-results-popup h3 {
+  font-size: 2em;
+  margin-top: 50px;
+}
+
+.found-users {
+  margin: 0;
+}
+
+.rooms-available-on-date ul {
+  margin: 0;
+  text-align: left;
+}
+
+.vacancies {
+  grid-area: list;
+}
+
+.filter-button {
+  margin-bottom: 30px;
+  width: max-content;
+}
+
+[type="checkbox"] {
+  vertical-align:middle;
+}
+
+.select-button {
+  grid-area: select;
+  margin-left: 25%;
+}
+
+.rooms-available-on-date label {
+  font-size: 1em;
+}
+
+.none-available {
+  margin: 45px 0px;
+}
+
+.confirmation-message {
+  align-items: center;
+  display: none;
+  flex-direction: column;
+  margin: 5% 0 0 15%;
+  width: 70%;
+}
+
+.confirmation-img {
+  height: 60px;
+}
+
+.filter-sidebar {
+  align-items: center;
+  border: 1px solid $secondary-neon-color;
+  border-radius: 4px;
+  box-shadow: $secondary-box-shadow;
+  display: flex;
+  flex-direction: column;
+  grid-area: sidebar;
+  height: max-content;
+  margin: 20% 0 0 5%;
+  padding: 10px;
+}
+
+.types {
+  align-self: flex-start;
+  font-size: 1em;
+  padding: 10px 0px 0px 10px;
+}
+
+.vacancies li {
+  display: block;
+}
+
+.room-errors {
+  display: block;
+  grid-area: error;
+  margin: 8px 0px 0px 20px;
+  text-align: left;
+  visibility: hidden;
+}
+
+.search-results-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  width: 40%
 }

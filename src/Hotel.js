@@ -7,6 +7,10 @@ class Hotel {
     this.reservations = reservations;
   }
 
+  addReservation(reservation) {
+    this.reservations.push(reservation);
+  }
+
   findReservations(type, specific) {
     let reservations = this.reservations.filter(r => r[type] === specific);
     if (type === 'userID') {
@@ -17,15 +21,17 @@ class Hotel {
 
   findAvailableRooms(type, specific) {
     let available = this.rooms.reduce((acc, r) => {
-      if (!this.findReservations(type, specific).map(d => d.roomNumber).includes(r.number)) {
+      if (!this.findReservations("date", specific).map(d => d.roomNumber).includes(r.number)) {
         acc.push(r)
       }
       return acc;
     }, []);
     if (type === "dashboard") {
       domUpdates.displayNumberOfAvailableRooms(available);
-    } else {
-      domUpdates.viewAvailableRoomDetails(available)
+    } else if (type === "details") {
+      domUpdates.viewAvailableRoomDetails(available);
+    } else if (type === "newReservation") {
+      domUpdates.listAvailableRooms(available);
     }
     return available;
   }

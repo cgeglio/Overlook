@@ -2,9 +2,11 @@
 <html lang="en-US">
   <head>
     <title>NEON ROSE</title>
+    <meta charset="utf-8">
     <link rel="icon" href="../images/neonroselogo.png" />
     <link href="https://fonts.googleapis.com/css?family=DM+Serif+Display&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Poppins&display=swap" rel="stylesheet">
+</head>
   </head>
   <body>
     <header>
@@ -41,16 +43,8 @@
         </div>
         <h3 class="error user-search-error">Please enter a valid name!</h3>
         <div class="user-search-results">
-          <h2>User's Name</h2>
-          <h3>Reservations</h3>
-          <ul>
-            <li>Reservation 1</li>
-            <li>Reservation 2</li>
-          </ul>
-          <h3>Total Amount Spent</h3>
-          <h4>$500</h4>
-          <button class="new-reservation-button" type="button" name="new-reservation-button">Add Reservation</button>
-          <button class="delete-reservation-button" type="button" name="delete-reservation-button">Delete Reservation</button>
+          <div id="search-results-popup">
+          </div>
         </div>
         <section class="dashboard">
           <div>
@@ -85,28 +79,22 @@
         </div>
         <button class="new-reservation-button" type="button" name="new-reservation-button">New Reservation</button>
         <div class="new-reservation">
-          <div class="select-new-reservation-date">
-            <h3>Select a Date</h3>
-            <h4>Calendar? Input?</h4>
-            <h3 class="error date-error">Please select a valid date!</h3>
-            <button class="continue-button" type="button" name="continue-button">Continue</button>
-          </div>
-          <div class="rooms-available-on-new-date">
-            <img src="images/vacancies.png" alt="the word vacancies in neon letters" class="neon">
-            <h3>Available Rooms</h3>
-            <img src="images/novacancies.png" alt="the words no vacancies in neon letters" class="neon">
-            <h4>Oh no! We don't have any available rooms for the date you've selected :(</h4>
-            <h4>Please click on the room you would like to reserve</h4>
-            <button class="filter-button" type="button" name="filter-button">Filter Rooms - Dropdown?</button>
-            <ul>
-              <li>Room 1</li>
-              <li>Room 2</li>
-            </ul>
-            <button class="select-button" type="button" name="select-button">Reserve Room</button>
-          </div>
-          <div class="confirmation-message">
-              <img src="images/GOTIT.png" alt="the words got it in neon letters" class="neon">
-            <h3>We have you down for ROOM X on DATE!</h3>
+          <div id="reservation-popup">
+            <button id="exit-reservation-button" type="button" name="exit-reservation-button">X</button>
+            <div class="select-new-reservation-date">
+              <h2 class="select-date-message">When would you like to stay with us?</h2>
+              <label class="start-date-label" for='start-date'>Date:</label>
+              <input type='date' name='start-date' value='' id='start-date' alt='Enter the date here.'>
+              <h3 class="error date-error">Please select a valid date!</h3>
+              <button class="continue-button" type="button" name="continue-button">Continue</button>
+              <img src="images/rose-large.png" alt="illustrated neon rose" class="reservation-rose">
+            </div>
+            <div class="rooms-available-on-date">
+            </div>
+            <div class="confirmation-message">
+                <img src="images/GOTIT.png" alt="the words got it in neon letters" class="confirmation-img">
+              <h2>We have you down for Room <span class="reserved-room-number">X</span> on <span class="reserved-date">DATE</span>!</h2>
+            </div>
           </div>
         </div>
         <section class="dashboard">
