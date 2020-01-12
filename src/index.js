@@ -199,6 +199,8 @@ function viewCharges() {
 }
 
 function togglePopup() {
+  $('.error').css("display", "none");
+  $('.room-errors').css("visibility", "hidden");
   if (document.getElementById("toggle")) {
     $(".popup-window#toggle").removeAttr('id');
   } else {
@@ -213,6 +215,8 @@ function togglePopup() {
 
 
 function toggleNewReservation() {
+  $('.error').css("display", "none");
+  $('.room-errors').css("visibility", "hidden");
   if (document.getElementById("toggle")) {
     $(".new-reservation#toggle").removeAttr('id');
   } else {
@@ -279,16 +283,15 @@ function findRoomsWithCheckedTypes(selectedTypes) {
 }
 
 function validateRoomSelected() {
-  $(`.room-error1`).css("visibility", "hidden");
-  $(`.room-error2`).css("visibility", "hidden");
+  $('.room-errors').css("visibility", "hidden");
   let checkedRoom = $('input[type=checkbox][class=checked-room]:checked');
   if (checkedRoom.length === 1) {
     confirmReservation(checkedRoom.attr('id'));
   } else if (checkedRoom.length > 1) {
-    $(".rooms-available-on-date").append('<h3 class="error room-error1">Please select 1 room.</h3>');
+    $(".rooms-available-on-date").append('<h3 class="error room-errors room-error1">Please select 1 room.</h3>');
     $(`.room-error1`).css("visibility", "visible");
   } else if (checkedRoom.length === 0) {
-    $(".rooms-available-on-date").append('<h3 class="error room-error2">Please select a room to continue!</h3>');
+    $(".rooms-available-on-date").append('<h3 class="error room-errors room-error2">Please select a room to continue!</h3>');
     $(`.room-error2`).css("visibility", "visible");
   }
 }
