@@ -1,4 +1,6 @@
+@import 'variables';
 
+// MAIN ELEMENTS
 body {
   background-color: $primary-background;
   color: $primary-font-color;
@@ -13,20 +15,20 @@ header {
   justify-content: space-between;
 }
 
-main {
-  display: block;
+h4 {
+  font-family: $primary-font;
+  font-size: 1.5em;
+  margin: 0px 0px 10px 0px;
 }
 
 h2 {
   font-size: 3em;
 }
 
-
 label {
   font-family: $secondary-font;
   font-size: 1.5em;
   width: 100px;
-
 }
 
 input {
@@ -53,30 +55,26 @@ button {
   }
 }
 
-.line {
-  background-color: $primary-neon-color;
-  border-radius: 4px;
-  box-shadow: $primary-box-shadow;
-  height: 2px;
-  margin: 10px 0px 20px 0px;
-  width: 99%
+ul {
+  align-self: center;
+  font-family: $secondary-font;
+  font-size: 1.3em;
+  list-style-type: none;
+  margin-top: 40px;
+  padding: 0;
+  text-align: left;
+  text-indent: .2em;
 }
 
-.header-rose {
-  margin-left: 15px;
-  width: 80px;
+li {
+  margin-bottom: 15px;
 }
 
-.select-reservation-to-delete-button {
-  width: max-content;
+span {
+  color: $primary-neon-color;
 }
 
-.new-reservation-button,
-.delete-reservation-button {
-  width: 150px;
-  margin-bottom: 20px;
-}
-
+// LOGIN
 .login-info {
   align-items: center;
   display: flex;
@@ -92,6 +90,15 @@ button {
     "plabel rose"
     "submit submit"
     "error error";
+}
+
+.neon-rose-img {
+  @include image-style(80px, 50px);
+}
+
+.login-rose {
+  @include image-style(140px, 45px);
+  grid-area: rose;
 }
 
 .error {
@@ -114,41 +121,39 @@ button {
 }
 
 .username-input-label {
+  @include input-style();
   grid-area: ulabel;
-  text-align: left;
-  width: 320px;
 }
 
 .password-input-label {
+  @include input-style();
   grid-area: plabel;
-  text-align: left;
-  width: 320px;
 }
 
-
-.neon {
-  height: 40px;
-}
-
-.login-info .neon {
-  height: 80px;
-  margin-top: 50px;
-}
-
-.rose {
-  height: 140px;
-  grid-area: rose;
-  margin-top: 45px;
-}
-
-.header-logout {
-  align-items: center;
-  display: flex;
+// HEADER
+.header-rose {
+  @include image-style(55px, 2px);
+  margin-left: 15px;
 }
 
 .logout-button {
   margin: 0px 10px 0px 0px;
 }
+
+.line {
+  background-color: $primary-neon-color;
+  border-radius: 4px;
+  box-shadow: $primary-box-shadow;
+  height: 2px;
+  margin: 10px 0px 20px 0px;
+  width: 99%
+}
+
+.neon {
+  @include image-style(40px, 2px);
+}
+
+
 
 .manager-searchbar {
   align-items: center;
@@ -216,6 +221,17 @@ button {
   display: none;
 }
 
+
+.select-reservation-to-delete-button {
+  width: max-content;
+}
+
+.new-reservation-button,
+.delete-reservation-button {
+  width: 150px;
+  margin-bottom: 20px;
+}
+
 .customer-view,
 .manager-view {
   align-items: center;
@@ -223,12 +239,6 @@ button {
   flex-direction: column;
   justify-content: center;
 }
-
-// .new-manager-reservation,
-// .new-reservation {
-//   display: none;
-// }
-
 
 .see-available-button,
 .see-occupied-button,
@@ -264,20 +274,7 @@ button {
   height: 65%;
 }
 
-ul {
-  align-self: center;
-  font-family: $secondary-font;
-  font-size: 1.3em;
-  list-style-type: none;
-  margin-top: 40px;
-  padding: 0;
-  text-align: left;
-  text-indent: .2em;
-}
 
-li {
-  margin-bottom: 15px;
-}
 
 .vacancies li {
   display: block;
@@ -355,15 +352,7 @@ li {
   }
 }
 
-span {
-  color: $primary-neon-color;
-}
 
-h4 {
-  font-family: $primary-font;
-  font-size: 1.5em;
-  margin: 0px 0px 10px 0px;
-}
 
 .select-new-reservation-date {
   display: grid;

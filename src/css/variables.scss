@@ -11,3 +11,13 @@ $primary-font: 'DM Serif Display', serif;
 
 @import url(https://fonts.googleapis.com/css?family=Poppins&display=swap);
 $secondary-font: 'Poppins', sans-serif;
+
+@mixin input-style() {
+  text-align: left;
+  width: 320px;
+}
+
+@mixin image-style($height, $margin) {
+  height: $height;
+  margin-top: $margin;
+}
