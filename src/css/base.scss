@@ -74,6 +74,75 @@ span {
   color: $primary-neon-color;
 }
 
+
+// BUTTONS
+.logout-button {
+  margin: 0px 10px 0px 0px;
+}
+
+.search-button {
+  margin-top: 0;
+}
+
+.select-button {
+  grid-area: select;
+  margin-left: 25%;
+}
+
+.filter-button {
+  margin-bottom: 30px;
+  width: max-content;
+}
+
+// #customer-exit-button,
+// #manager-exit-button,
+// #exit-manager-reservation-button,
+// #exit-search-results,
+// #exit-reservation-button,
+// #exit-popup-button
+.exit-button {
+  font-size: 2em;
+  height: 40px;
+  margin-left: 32%;
+  position: fixed;
+  width: 40px;
+  text-align: center;
+}
+
+.select-reservation-to-delete-button {
+  width: max-content;
+}
+
+.new-reservation-button,
+.delete-reservation-button {
+  width: 150px;
+  margin-bottom: 20px;
+}
+
+.see-available-button,
+.see-occupied-button,
+.see-reservations-button {
+  width: 160px;
+}
+
+.manager-continue-button,
+.customer-continue-button {
+  grid-area: button;
+}
+
+.search-results-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  width: 40%
+}
+
+#exit-manager-reservation-button,
+#exit-reservation-button {
+  margin-left: 64%;
+}
+
+
 // LOGIN
 .login-info {
   align-items: center;
@@ -130,14 +199,11 @@ span {
   grid-area: plabel;
 }
 
+
 // HEADER
 .header-rose {
   @include image-style(55px, 2px);
   margin-left: 15px;
-}
-
-.logout-button {
-  margin: 0px 10px 0px 0px;
 }
 
 .line {
@@ -154,7 +220,7 @@ span {
 }
 
 
-
+// MANAGER SEARCHBAR
 .manager-searchbar {
   align-items: center;
   display: flex;
@@ -170,8 +236,80 @@ span {
   visibility: hidden;
 }
 
-.search-button {
+.user-search {
+  margin: 0px 10px 0px 0px;
+}
+
+.user-search-error {
   margin-top: 0;
+}
+
+
+//USER VIEWS
+.customer-view,
+.manager-view {
+  align-items: center;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.customer-shield,
+.manager-shield {
+  visibility: visible;
+}
+
+// .manager-popup-window,
+// .customer-popup-window,
+// .new-manager-reservation,
+// .user-search-results,
+// .new-reservation
+.container {
+  display: flex;
+  justify-content: center;
+  visibility: hidden;
+  width: 95%;
+}
+
+//
+// #manager-popup,
+// #customer-popup,
+// #search-results-popup,
+// #manager-reservation-popup,
+// #customer-reservation-popup
+.popup {
+  background: $primary-background;
+  border: 0;
+  border-radius: 10px;
+  box-shadow: none;
+  display: flex;
+  flex-direction: column;
+  height: 60%;
+  justify-content: flex-start;
+  margin: 0;
+  overflow-y: scroll;
+  padding: 2%;
+  position: fixed;
+  top: 15%;
+  width: 70%;
+  z-index: 1000;
+}
+
+#manager-reservation-popup,
+#customer-reservation-popup {
+  height: 65%;
+}
+
+
+// DASHBOARD
+.welcome {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+}
+
+.name {
+  margin: 0px 0px 0px 15px;
 }
 
 .dashboard {
@@ -203,157 +341,13 @@ span {
   margin: 0px;
 }
 
-.welcome {
-  align-items: center;
-  display: flex;
-  flex-direction: row;
-}
-
-.name {
-  margin: 0px 0px 0px 15px;
-}
-
-.user-search {
-  margin: 0px 10px 0px 0px;
-}
-
-.user-search-results {
-  display: none;
-}
-
-
-.select-reservation-to-delete-button {
-  width: max-content;
-}
-
-.new-reservation-button,
-.delete-reservation-button {
-  width: 150px;
-  margin-bottom: 20px;
-}
-
-.customer-view,
-.manager-view {
-  align-items: center;
-  display: none;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.see-available-button,
-.see-occupied-button,
-.see-reservations-button {
-  width: 160px;
-}
-
-#manager-popup,
-#customer-popup,
-#search-results-popup,
-#manager-reservation-popup,
-#customer-reservation-popup,
-#popup {
-  background: $primary-background;
-  border: 0;
-  border-radius: 10px;
-  box-shadow: none;
-  display: flex;
-  flex-direction: column;
-  height: 60%;
-  justify-content: flex-start;
-  margin: 0;
-  overflow-y: scroll;
-  padding: 2%;
-  position: fixed;
-  top: 15%;
-  width: 70%;
-  z-index: 1000;
-}
-
-#manager-reservation-popup,
-#customer-reservation-popup {
-  height: 65%;
-}
-
-
-
-.vacancies li {
-  display: block;
-  visibility: visible;
-}
-
-.customer-shield,
-.manager-shield {
-  visibility: visible;
-}
-
-
-#search-results-popup ul {
-  margin: 0;
-  padding: 0;
-}
-
-.user-search-error {
-  margin-top: 0;
-}
-
-.manager-popup-window,
-.customer-popup-window,
-.new-manager-reservation,
-.user-search-results,
-.new-reservation {
-  display: flex;
-  justify-content: center;
-  visibility: hidden;
-  width: 95%;
-}
-
 .todays-date {
   font-size: 2.3em;
   margin-top: 20px;
 }
 
-#customer-exit-button,
-#manager-exit-button,
-#exit-manager-reservation-button,
-#exit-search-results,
-#exit-reservation-button,
-#exit-popup-button {
-  font-size: 2em;
-  height: 40px;
-  margin-left: 32%;
-  position: fixed;
-  width: 40px;
-  text-align: center;
-}
 
-#exit-manager-reservation-button,
-#exit-reservation-button {
-  margin-left: 64%;
-}
-
-
-#overlay {
-  filter:alpha(opacity=40);
-  background-color: $secondary-neon-color;
-  height:97%;
-  left: 1.5%;
-  opacity:0.5;
-  position: fixed;
-  top: 2%;
-  width:97%;
-  z-index:100;
-}
-
-#active {
-  cursor: pointer;
-  &:hover {
-    background-color: $primary-neon-color;
-    box-shadow: $primary-box-shadow;
-  }
-}
-
-
-
+// SELECT DATE POPUP
 .select-new-reservation-date {
   display: grid;
   grid-auto-columns: max-content;
@@ -366,18 +360,14 @@ span {
   width: 90%;
 }
 
+.reservation-rose {
+  grid-area: flower;
+  height: 140px;
+}
+
 .select-date-message {
   font-size: 2.5em;
   grid-area: msg;
-}
-
-#start-date {
-  grid-area: form;
-}
-
-.manager-continue-button,
-.customer-continue-button {
-  grid-area: button;
 }
 
 .start-date-label {
@@ -386,11 +376,48 @@ span {
   visibility: hidden;
 }
 
-.reservation-rose {
-  grid-area: flower;
-  height: 140px;
+#start-date {
+  grid-area: form;
 }
 
+
+// SEARCH RESULTS POPUP
+#search-results-popup {
+  align-items: center;
+}
+
+#search-results-popup input,
+.rooms-available-on-date input {
+  margin: 0px 10px 0px 0px;
+  width: initial;
+}
+
+#search-results-popup h3 {
+  font-size: 2em;
+  margin-top: 50px;
+}
+
+#search-results-popup ul {
+  margin: 0;
+  padding: 0;
+}
+
+
+// USER SEARCH RESULTS
+.user-info {
+  display: block;
+}
+
+.user-search-results {
+  display: none;
+}
+
+.found-users {
+  margin: 0;
+}
+
+
+// ROOM SEARCH RESULTS
 .rooms-available-on-date {
   align-items: center;
   display: none;
@@ -403,35 +430,8 @@ span {
   grid-template-columns: 2fr 1fr 6fr;
 }
 
-.vacancies-img {
-  grid-area: img;
-  margin-left: 35%;
-}
-
-.select-room {
-  font-size: 1.8em;
-  grid-area: h2;
-  margin-left: 5%;
-  text-align: left;
-}
-
-#search-results-popup input,
-.rooms-available-on-date input {
-  margin: 0px 10px 0px 0px;
-  width: initial;
-}
-
-#search-results-popup {
-  align-items: center;
-}
-
-#search-results-popup h3 {
-  font-size: 2em;
-  margin-top: 50px;
-}
-
-.found-users {
-  margin: 0;
+.rooms-available-on-date label {
+  font-size: 1em;
 }
 
 .rooms-available-on-date ul {
@@ -444,28 +444,46 @@ span {
   padding-left: 5%;
 }
 
-.filter-button {
-  margin-bottom: 30px;
-  width: max-content;
+.vacancies li {
+  display: block;
+  visibility: visible;
 }
 
-[type="checkbox"] {
-  vertical-align:middle;
-}
-
-.select-button {
-  grid-area: select;
-  margin-left: 25%;
-}
-
-.rooms-available-on-date label {
-  font-size: 1em;
+.vacancies-img {
+  grid-area: img;
+  margin-left: 35%;
 }
 
 .none-available {
   margin: 45px 0px;
 }
 
+.room-errors {
+  display: block;
+  grid-area: error;
+  margin: 8px 0px 0px 20px;
+  text-align: left;
+  visibility: hidden;
+}
+
+.select-room {
+  font-size: 1.8em;
+  grid-area: h2;
+  margin-left: 5%;
+  text-align: left;
+}
+
+.checkbox-list {
+  display: none;
+  font-size: .7em;
+}
+
+[type="checkbox"] {
+  vertical-align:middle;
+}
+
+
+// MESSAGES
 .deleted-message,
 .confirmation-message {
   align-items: center;
@@ -484,6 +502,8 @@ span {
   height: 60px;
 }
 
+
+// FILTER SIDEBAR
 .filter-sidebar {
   align-items: center;
   border: 1px solid $secondary-neon-color;
@@ -503,28 +523,26 @@ span {
   padding: 10px 0px 0px 10px;
 }
 
-.room-errors {
-  display: block;
-  grid-area: error;
-  margin: 8px 0px 0px 20px;
-  text-align: left;
-  visibility: hidden;
+
+// VISIBILITY IDS
+#overlay {
+  filter:alpha(opacity=40);
+  background-color: $secondary-neon-color;
+  height:97%;
+  left: 1.5%;
+  opacity:0.5;
+  position: fixed;
+  top: 2%;
+  width:97%;
+  z-index:100;
 }
 
-.search-results-buttons {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  width: 40%
-}
-
-.user-info {
-  display: block;
-}
-
-.checkbox-list {
-  display: none;
-  font-size: .7em;
+#active {
+  cursor: pointer;
+  &:hover {
+    background-color: $primary-neon-color;
+    box-shadow: $primary-box-shadow;
+  }
 }
 
 #toggle {

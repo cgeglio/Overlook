@@ -41,13 +41,13 @@
           <button class="search-button" type="button" name="search-button">Search</button>
         </div>
         <h3 class="error user-search-error">Please enter a valid name or id!</h3>
-        <div class="user-search-results">
-          <div id="search-results-popup">
+        <div class="user-search-results container">
+          <div class="popup" id="search-results-popup">
           </div>
         </div>
-        <div class="new-manager-reservation">
-          <div id="manager-reservation-popup">
-            <button id="exit-manager-reservation-button" type="button" name="exit-reservation-button">X</button>
+        <div class="new-manager-reservation container">
+          <div class="popup" id="manager-reservation-popup">
+            <button class="exit-button" id="exit-manager-reservation-button" type="button" name="exit-reservation-button">X</button>
             <div class="select-new-reservation-date">
               <h2 class="select-date-message">When would <span class="user"></span> like to stay with us?</h2>
               <label class="start-date-label" for='start-date'>Date:</label>
@@ -81,8 +81,8 @@
             <h2 class="todays-revenue">Today's Revenue</h2>
             <button class="revenue-details-button" type="button" name="revenue-details-button">Revenue details</button>
           </div>
-          <section class="manager-popup-window">
-            <div id="manager-popup">
+          <section class="manager-popup-window container">
+            <div class="popup" id="manager-popup">
             </div>
           </section>
         </section>
@@ -98,9 +98,9 @@
           <h2 class="user-name name">Name</h2>
         </div>
         <button class="new-reservation-button" type="button" name="new-reservation-button">New Reservation</button>
-        <div class="new-reservation">
-          <div id="customer-reservation-popup">
-            <button id="exit-reservation-button" type="button" name="exit-reservation-button">X</button>
+        <div class="new-reservation container">
+          <div class="popup" id="customer-reservation-popup">
+            <button class="exit-button" id="exit-reservation-button" type="button" name="exit-reservation-button">X</button>
             <div class="select-new-reservation-date">
               <h2 class="select-date-message">When would you like to stay with us?</h2>
               <label class="start-date-label" for='start-date'>Date:</label>
@@ -126,8 +126,8 @@
             <h2 class="customer-amount-spent">Amount Spent</h2>
             <button class="see-spent-button" type="button" name="see-spent-button">Charge Details</button>
           </div>
-          <section class="customer-popup-window">
-            <div id="customer-popup">
+          <section class="customer-popup-window container">
+            <div class="popup" id="customer-popup">
             </div>
           </section>
         </section>

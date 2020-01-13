@@ -565,7 +565,7 @@ function findCheckedUser() {
 
 function selectUserFromResults(userInfo) {
   $('#search-results-popup').html('');
-  $('#search-results-popup').append("<button id='exit-search-results' type='button' name='exit-button'>X</button>");
+  $('#search-results-popup').append("<button class='exit-button' id='exit-search-results' type='button' name='exit-button'>X</button>");
   $('#search-results-popup').append("<h3>There are multiple results for your search. Which user were you looking for?</h3>");
   $('#search-results-popup').append("<ul class='found-users'></ul>");
   userInfo.forEach(u => $('.found-users').append(`<li class='users-to-select'><input type='checkbox' class="user-results" value='${u.id}'><label for='user-results'>${u.name}</label></li>`));
@@ -575,7 +575,7 @@ function selectUserFromResults(userInfo) {
 
 function populateUserResults(reservationList) {
   $('#search-results-popup').html('');
-  $('#search-results-popup').append("<button id='exit-search-results' type='button' name='exit-button'>X</button>");
+  $('#search-results-popup').append("<button class='exit-button' id='exit-search-results' type='button' name='exit-button'>X</button>");
   $('#search-results-popup').append("<img src='images/GOTIT.png' alt='the words got it in neon letters' class='confirmation-img'>");
   user = users.find(u => u.id === Number(reservationList[0].userID));
   user.reservations = hotel.findReservations("userID", user.id);
