@@ -21,3 +21,8 @@ $secondary-font: 'Poppins', sans-serif;
   height: $height;
   margin-top: $margin;
 }
+
+@mixin button-style($width, $margin) {
+  width: $width;
+  margin-bottom: $margin;
+}

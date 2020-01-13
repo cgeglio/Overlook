@@ -90,39 +90,31 @@ span {
 }
 
 .filter-button {
-  margin-bottom: 30px;
-  width: max-content;
+  @include button-style(max-content, 30px);
 }
 
-// #customer-exit-button,
-// #manager-exit-button,
-// #exit-manager-reservation-button,
-// #exit-search-results,
-// #exit-reservation-button,
-// #exit-popup-button
 .exit-button {
+  @include button-style(40px, 0px);
   font-size: 2em;
   height: 40px;
   margin-left: 32%;
   position: fixed;
-  width: 40px;
   text-align: center;
 }
 
 .select-reservation-to-delete-button {
-  width: max-content;
+  @include button-style(max-content, 2px);
 }
 
 .new-reservation-button,
 .delete-reservation-button {
-  width: 150px;
-  margin-bottom: 20px;
+  @include button-style(150px, 20px);
 }
 
 .see-available-button,
 .see-occupied-button,
 .see-reservations-button {
-  width: 160px;
+  @include button-style(160px, 0px);
 }
 
 .manager-continue-button,
@@ -131,6 +123,7 @@ span {
 }
 
 .search-results-buttons {
+  @include button-style(40%, 2px);
   display: flex;
   flex-direction: row;
   justify-content: space-around;
@@ -206,6 +199,10 @@ span {
   margin-left: 15px;
 }
 
+.neon {
+  @include image-style(40px, 2px);
+}
+
 .line {
   background-color: $primary-neon-color;
   border-radius: 4px;
@@ -213,10 +210,6 @@ span {
   height: 2px;
   margin: 10px 0px 20px 0px;
   width: 99%
-}
-
-.neon {
-  @include image-style(40px, 2px);
 }
 
 
@@ -259,11 +252,6 @@ span {
   visibility: visible;
 }
 
-// .manager-popup-window,
-// .customer-popup-window,
-// .new-manager-reservation,
-// .user-search-results,
-// .new-reservation
 .container {
   display: flex;
   justify-content: center;
@@ -311,9 +299,8 @@ span {
 }
 
 .dashboard {
+  @extend .welcome;
   align-content: center;
-  display: flex;
-  flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
   width: 100%
@@ -400,8 +387,6 @@ span {
   padding: 0;
 }
 
-
-// USER SEARCH RESULTS
 .user-info {
   display: block;
 }
