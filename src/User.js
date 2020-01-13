@@ -1,3 +1,5 @@
+import $ from 'jquery';
+
 import DomUpdate from "../src/DomUpdate"
 let domUpdates = new DomUpdate
 

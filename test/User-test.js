@@ -1,7 +1,7 @@
 import chai from 'chai';
 const expect = chai.expect;
 
-const User = require('../src/User')
+import User from "../src/User"
 
 
 describe('User', () => {
@@ -45,8 +45,18 @@ describe('User', () => {
   });
 
   it('should be able to update the amount spent', () => {
-    user.updateAmountSpent(100)
-    expect(user.amountSpent).to.equal(100)
+    user.reservedRooms.push({number: 1, costPerNight: 250})
+    user.addReservation({id: "5fwrgu4i7k55hl6t7", userID: 20, date: "2020/02/16", roomNumber: 1, roomServiceCharges: Array(0)})
+    user.findAmountSpent()
+    expect(user.amountSpent).to.equal(250)
   });
+
+  it('should be able to see details for a reservation', () => {
+    user.reservedRooms.push({number: 1, costPerNight: 250})
+    user.addReservation({id: "5fwrgu4i7k55hl6t7", userID: 20, date: "2020/02/16", roomNumber: 1, roomServiceCharges: Array(0)})
+    expect(user.viewReservationDetails('reservations')).to.equal({date: "2020/02/16", room: 1})
+  });
+
+
 
 });

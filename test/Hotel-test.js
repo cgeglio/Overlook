@@ -1,7 +1,7 @@
 import chai from 'chai';
 const expect = chai.expect;
 
-const Hotel = require('../src/Hotel')
+import Hotel from "../src/Hotel"
 
 describe('Hotel', () => {
   let hotel;
@@ -26,6 +26,17 @@ describe('Hotel', () => {
     expect(hotel.reservations).to.equal(reservations)
   });
 
+  it('should be able to add a reservation', () => {
+    let newReservation = {id: "5fwrgu4i7k55hl6t8", userID: 10, date: "2020/04/16", roomNumber: 3, roomServiceCharges: Array(0)}
+    hotel.addReservation(newReservation)
+    expect(hotel.reservations.length).to.equal(2)
+  });
+
+  it('should be able to remove a reservation', () => {
+    hotel.removeReservation(hotel.reservations[0])
+    expect(hotel.reservations.length).to.equal(0)
+  });
+
   it('should be able to find reserved rooms', () => {
     expect(hotel.findReservations("2020/02/16")).to.deep.equal([reservations[0]])
   });
@@ -34,12 +45,16 @@ describe('Hotel', () => {
     expect(hotel.findAvailableRooms("2020/02/20")).to.deep.equal([rooms[0]])
   });
 
-  it('should be able to calculate revenue', () => {
-    expect(hotel.calculateRevenue("2020/02/16")).to.equal(358.4)
+  it('should be able to calculate room costs', () => {
+    expect(hotel.calculateCost("date", "2020/02/16")).to.equal(358.4)
+  });
+
+  it('should be able to find revenue details', () => {
+    expect(hotel.findRevenueDetails("date", "2020/02/16")).to.equal(`Room 1, $358.40`)
   });
 
   it('should be able to calculate the percentage of rooms occupied', () => {
-    expect(hotel.calculatePercentageOccupied("2020/02/16")).to.equal(100)
+    expect(hotel.calculatePercentageOccupied("date", "2020/02/16")).to.equal(100)
   });
 
 });
