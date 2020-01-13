@@ -29,9 +29,11 @@ let date = new Date();
 let hotel;
 let reservations = [];
 let rooms = [];
+let selectedDate;
 let today;
 let user;
 let users = [];
+
 
 
 $(document).on('click', '#customer-popup #customer-exit-button', function(){
@@ -42,19 +44,35 @@ $(document).on('click', '#manager-popup #manager-exit-button', function(){
   toggleManagerPopup();
 });
 
-$(document).on('click', '#reservation-popup .return-button', function(){
+$(document).on('click', '#customer-reservation-popup .return-button', function(){
   restartReservation();
 });
 
-$(document).on('click', '#reservation-popup .filter-button', function(){
+$(document).on('click', '#manager-reservation-popup .return-button', function(){
+  restartReservation();
+});
+
+$(document).on('click', '#customer-reservation-popup .filter-button', function(){
   findCheckedRoomTypes();
 });
 
-$(document).on('click', '#reservation-popup #exit-manager-reservation-button', function(){
+$(document).on('click', '#manager-reservation-popup .filter-button', function(){
+  findCheckedRoomTypes();
+});
+
+$(document).on('click', '#manager-reservation-popup #exit-manager-reservation-button', function(){
   toggleNewManagerReservation();
 });
 
-$(document).on('click', '#reservation-popup .select-button', function(){
+$(document).on('click', '#customer-reservation-popup #exit-reservation-button', function(){
+  toggleNewReservation();
+});
+
+$(document).on('click', '#customer-reservation-popup .select-button', function(){
+  validateRoomSelected();
+});
+
+$(document).on('click', '#manager-reservation-popup .select-button', function(){
   validateRoomSelected();
 });
 
@@ -70,9 +88,6 @@ $(document).on('click', '#search-results-popup .select-user-button', function(){
   findCheckedUser();
 });
 
-
-$('.customer-shield').click(toggleCustomerPopup);
-
 $(document).on('click', '#search-results-popup .select-reservation-to-delete-button', function(){
   findCheckedReservation();
 });
@@ -81,21 +96,20 @@ $(document).on('click', '#search-results-popup .manager-new-reservation-button',
   startNewManagerReservation();
 });
 
-$('.continue-button').click(validateDate);
-$('#exit-reservation-button').click(toggleNewReservation);
+
+$('.customer-continue-button').click(validateDate);
+$('.customer-shield').click(toggleCustomerPopup);
 $('.login').keyup(checkInputs);
 $('.logout-button').click(resetAfterLogout);
+$('.manager-continue-button').click(validateDate);
 $('.manager-shield').click(toggleManagerPopup);
-$('.revenue-details-button').click(viewRevenue);
-$('.see-available-button').click(viewAvailableRooms);
-$('.see-occupied-button').click(viewOccupiedRooms);
-
-$('.continue-button').click(validateDate);
-$('#exit-reservation-button').click(toggleNewReservation);
+$('.manager-reservation-shield').click(toggleNewManagerReservation);
 $('.new-reservation-button').click(startNewReservation);
 $('.reservation-shield').click(toggleNewReservation);
+$('.revenue-details-button').click(viewRevenue);
 $('.search-button').click(findUserInfo);
-
+$('.see-available-button').click(viewAvailableRooms);
+$('.see-occupied-button').click(viewOccupiedRooms);
 $('.see-reservations-button').click(viewReservations);
 $('.see-spent-button').click(viewCosts);
 $('.submit').click(validateLoginInfo);
@@ -152,13 +166,23 @@ function createDate() {
   today = y + '/' + m + '/' + d;
 }
 
-function displayDate() {
+function displayTodaysDate() {
   let monthNames = ["January", "February", "March", "April", "May", "June",
   "July", "August", "September", "October", "November", "December"];
   let y = date.getFullYear();
   let d = String(date.getDate()).padStart(2, '0');
   $('.todays-date').text(`${monthNames[date.getMonth()]
   } ${d}, ${y}`);
+}
+
+function formatDate(day) {
+  let monthNames = ["January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"];
+  day = day.split('/').join('');
+  let y = day.split('').slice(0, 4).join('');
+  let m = day.split('').slice(4, 6).join('');
+  let d = day.split('').slice(6, 8).join('');
+  return `${monthNames[m -1]} ${d}, ${y}`;
 }
 
 function checkInputs() {
@@ -204,7 +228,7 @@ function resetAfterLogout() {
 
 function populateDashboard(loginType) {
   if (loginType === 'manager') {
-    displayDate();
+    displayTodaysDate();
     populateManagerDash();
   }
   if (loginType === 'customer') {
@@ -260,31 +284,31 @@ function viewRevenue() {
   hotel.findRevenueDetails("date", today);
   toggleManagerPopup();
 }
+//
+// function toggleCustomerPopup() {
+//   $('#popup').html('');
+//   $('#popup').append("<img src='images/reservations.png' alt='the word reservations in neon letters' class='neon'>");
+//   $('#popup').append("<ul class='reservations'></ul>")
+//   let details = user.reservations.sort((a, b) => new Date(a.date) - new Date(b.date)).map(r => {
+//     let room = hotel.rooms.find(o => o.number === r.roomNumber)
+//     return `${formatDate(r.date)}: Room ${r.roomNumber}, type: ${room.roomType}, ${room.numBeds} ${room.bedSize} bed${room.numBeds > 1 ? 's' : ''}, $${room.costPerNight} per night`
+//   });
+//   details.forEach(d=> $('.reservations').append(`<li>${d}</li>`));
+//   togglePopup();
+// }
+//
+// function viewCharges() {
+//   $('#popup').html('');
+//   $('#popup').append("<h2 class='charges-heading'>All Charges</h2>");
+//   $('#popup').append("<ul class='charges'></ul>")
+//   let details = user.reservations.sort((a, b) => new Date(a.date) - new Date(b.date)).map(r => {
+//     return `${formatDate(r.date)}: Room ${r.roomNumber}, $${hotel.rooms.find(o => o.number === r.roomNumber).costPerNight}`
+//   });
+//   details.forEach(d=> $('.charges').append(`<li>${d}</li>`));
+//   toggleCustomerPopup();
+// }
 
 function toggleCustomerPopup() {
-  $('#popup').html('');
-  $('#popup').append("<img src='images/reservations.png' alt='the word reservations in neon letters' class='neon'>");
-  $('#popup').append("<ul class='reservations'></ul>")
-  let details = user.reservations.sort((a, b) => new Date(a.date) - new Date(b.date)).map(r => {
-    let room = hotel.rooms.find(o => o.number === r.roomNumber)
-    return `${formatReservationDate(r.date)}: Room ${r.roomNumber}, type: ${room.roomType}, ${room.numBeds} ${room.bedSize} bed${room.numBeds > 1 ? 's' : ''}, $${room.costPerNight} per night`
-  });
-  details.forEach(d=> $('.reservations').append(`<li>${d}</li>`));
-  togglePopup();
-}
-
-function viewCharges() {
-  $('#popup').html('');
-  $('#popup').append("<h2 class='charges-heading'>All Charges</h2>");
-  $('#popup').append("<ul class='charges'></ul>")
-  let details = user.reservations.sort((a, b) => new Date(a.date) - new Date(b.date)).map(r => {
-    return `${formatReservationDate(r.date)}: Room ${r.roomNumber}, $${hotel.rooms.find(o => o.number === r.roomNumber).costPerNight}`
-  });
-  details.forEach(d=> $('.charges').append(`<li>${d}</li>`));
-  togglePopup();
-}
-
-function togglePopup() {
   $('.error').css("display", "none");
   if (document.getElementById("toggle")) {
     $('.customer-popup-window#toggle').removeAttr('id');
@@ -304,6 +328,7 @@ function toggleManagerPopup() {
     $('.manager-popup-window#toggle').removeAttr('id');
   } else {
     $('.manager-popup-window').attr('id', "toggle");
+  }
  if (document.getElementById("overlay")) {
     $(".manager-shield#overlay").removeAttr('id');
   } else {
@@ -320,9 +345,9 @@ function toggleNewReservation() {
     $('.new-reservation').attr("id", "toggle");
   }
   if (document.getElementById("overlay")) {
-    $(".reservation-shield#overlay").removeAttr('id');
+    $(".customer-reservation-shield#overlay").removeAttr('id');
   } else {
-    $('.reservation-shield').attr("id", "overlay");
+    $('.customer-reservation-shield').attr("id", "overlay");
   }
 }
 
@@ -335,9 +360,9 @@ function toggleNewManagerReservation() {
     $('.new-manager-reservation').attr("id", "toggle");
   }
   if (document.getElementById("overlay")) {
-    $(".manager-shield#overlay").removeAttr('id');
+    $(".manager-reservation-shield#overlay").removeAttr('id');
   } else {
-    $('.manager-shield').attr("id", "overlay");
+    $('.manager-reservation-shield').attr("id", "overlay");
   }
 }
 
@@ -363,7 +388,7 @@ function clearPopup(view) {
 function startNewManagerReservation() {
   toggleSearchResults();
   toggleNewManagerReservation();
-  $('#start-date').val(today.split('/').join('-'));
+  $('#manager-start-date').val(today.split('/').join('-'));
   $('.user').text(user.name.split(' ')[0]);
   $(".select-new-reservation-date").css("display", "grid");
   $(".rooms-available-on-date").css("display", "none");
@@ -374,7 +399,7 @@ function startNewManagerReservation() {
 
 function startNewReservation() {
   toggleNewReservation();
-  $('#start-date').val(today.split('/').join('-'));
+  $('#customer-start-date').val(today.split('/').join('-'));
   $(".select-new-reservation-date").css("display", "grid");
   $(".rooms-available-on-date").css("display", "none");
   $(".rooms-available-on-date").html("");
@@ -383,10 +408,15 @@ function startNewReservation() {
 }
 
 function validateDate() {
-  selectedDate = $('#start-date').val();
+  if (event.target.classList.contains("manager-continue-button")) {
+    selectedDate = $('#manager-start-date').val();
+  } else {
+    selectedDate = $('#customer-start-date').val();
+  }
   if (Number(selectedDate.split('-').join('')) >= Number(today.split('/').join(''))) {
     $(".select-new-reservation-date").css("display", "none");
     $(".rooms-available-on-date").css("display", "grid");
+    $(".rooms-available-on-date").html("");
     hotel.findAvailableRooms("newReservation", selectedDate.split('-').join('/'));
   } else {
     $(".date-error").css("display", "flex");
@@ -394,7 +424,8 @@ function validateDate() {
 }
 
 function restartReservation() {
-  $('#start-date').val(today.split('/').join('-'));
+  $('#manager-start-date').val(today.split('/').join('-'));
+  $('#customer-start-date').val(today.split('/').join('-'));
   $(".select-new-reservation-date").css("display", "grid");
   $(".rooms-available-on-date").css("display", "none");
   $(".rooms-available-on-date").html("");
@@ -413,11 +444,31 @@ function findCheckedRoomTypes() {
 }
 
 
+// function findRoomsWithCheckedTypes(selectedTypes) {
+//   console.log(selectedTypes)
+//   let available = hotel.findAvailableRooms("date", selectedDate.split('-').join('/'));
+//   console.log(available)
+//   available.forEach(a => {
+//     console.log(typeof selectedTypes[0])
+//     console.log(typeof a.roomType)
+//     if (!selectedTypes.includes(a.roomType)) {
+//       $(`#${a.number}`).css("display", "none");
+//       console.log($(`#${a.number}`).css("displ"));
+//     }
+//   })
+//   $("input[type=checkbox][class=room-type]:checked").each(function() {
+//       $(this).prop('checked', false);
+//     });
+// }
+
+
+
 function findRoomsWithCheckedTypes(selectedTypes) {
   let available = hotel.findAvailableRooms("date", selectedDate.split('-').join('/'));
   available.forEach(a => {
     if (!selectedTypes.includes(a.roomType)) {
       $(`#${a.number}`).css("display", "none");
+
     }
   })
   $("input[type=checkbox][class=room-type]:checked").each(function() {
@@ -445,7 +496,7 @@ function confirmReservation(roomNumber) {
   $(".rooms-available-on-date").css("display", "none");
   $(".confirmation-message").css("display", "flex");
   $(".reserved-room-number").text(`${roomNumber}`);
-  $(".reserved-date").text(`${formatReservationDate(selectedDate.split('-').join('/'))}`);
+  $(".reserved-date").text(`${formatDate(selectedDate.split('-').join('/'))}`);
   logReservation(reservedRoom)
 }
 
@@ -484,6 +535,7 @@ function findUserInfo() {
     if (results.length === 0) {
       lookForFirstOrLastName();
     } else {
+      $('.user-search').val('');
       findUserDetails(results);
     }
   }
@@ -500,6 +552,7 @@ function lookForFirstOrLastName() {
   if (results.length === 0) {
     $(".user-search-error").css("display", "flex");
   } else {
+    $('.user-search').val('');
     findUserDetails(results);
   }
 }
@@ -551,13 +604,13 @@ function populateUserResults(reservationList) {
     return acc ;
   }, [])
   user.findAmountSpent();
-  $('#search-results-popup').append(`<h3 class="user-info"><span>Name</span> ${user.name}, <span>ID</span> ${reservationList[0].userID}, <span>Amount Spent:</span> $ ${(user.amountSpent).toFixed(2)}</h3>`);
+  $('#search-results-popup').append(`<h3 class="user-info"><span>Name</span> ${user.name}, <span>ID</span> ${reservationList[0].userID}, <span>Amount Spent</span> $ ${(user.amountSpent).toFixed(2)}</h3>`);
   $('#search-results-popup').append("<div class='search-results-buttons'><button class='manager-new-reservation-button' type='button' name='new-reservation-button'>Add Reservation</button></div>");
   $('.search-results-buttons').append("<button class='delete-reservation-button' type='button' name='delete-reservation-button'>Delete Reservation</button>");
   $('#search-results-popup').append("<ul class='found-reservations'><h4>Reservations:</h4></ul>");
   reservationList.sort((a, b) => new Date(a.date) - new Date(b.date));
   let details = reservationList.map(r => {
-    return {date: formatReservationDate(r.date), number: r.roomNumber, id: r.id};
+    return {date: formatDate(r.date), number: r.roomNumber, id: r.id};
   });
   details.forEach(d => $('.found-reservations').append(`<li class="no-checkbox-list">Date: ${d.date}, Room: ${d.number}</li>`));
   details.forEach(d => $('.found-reservations').append(`<li class="checkbox-list" id='${d.id}'><input type='checkbox' class='specific-reservation' value='${d.id}'><label for='specific-reservation'>Date: ${d.date}, Room: ${d.number}</label></li>`));
@@ -605,7 +658,7 @@ function removeReservation(reservation) {
   $('.found-reservations').css("display", "none");
   $('.user-info').css("display", "none");
   $('.search-results-buttons').css("display", "none");
-  $('#search-results-popup').append(`<div class='deleted-message'><h2><span>${user.name.split(' ')[0]}'s</span> reservation for <span>${formatReservationDate(reservation.date)}</span>, Room <span>${reservation.roomNumber}</span> has been removed.</h2></div>`);
+  $('#search-results-popup').append(`<div class='deleted-message'><h2><span>${user.name.split(' ')[0]}'s</span> reservation for <span>${formatDate(reservation.date)}</span>, Room <span>${reservation.roomNumber}</span> has been removed.</h2></div>`);
 }
 
 function deleteReservationData(reservation) {

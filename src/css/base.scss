@@ -251,9 +251,10 @@ input .password-input {
 }
 
 #manager-popup,
-#customer-popup {
+#customer-popup,
 #search-results-popup,
-#reservation-popup,
+#manager-reservation-popup,
+#customer-reservation-popup,
 #popup {
   background: $primary-background;
   border: 0;
@@ -272,7 +273,8 @@ input .password-input {
   z-index: 1000;
 }
 
-#reservation-popup {
+#manager-reservation-popup,
+#customer-reservation-popup {
   height: 65%;
 }
 
@@ -282,6 +284,7 @@ ul {
   font-size: 1.3em;
   list-style-type: none;
   margin-top: 40px;
+  padding: 0;
   text-align: left;
   text-indent: .2em;
 }
@@ -290,7 +293,10 @@ li {
   margin-bottom: 15px;
 }
 
-  
+.vacancies li {
+  display: block;
+}
+
 .customer-shield,
 .manager-shield {
   visibility: visible;
@@ -324,22 +330,28 @@ li {
 }
 
 #customer-exit-button,
-#manager-exit-button {
+#manager-exit-button,
 #exit-manager-reservation-button,
 #exit-search-results,
 #exit-reservation-button,
 #exit-popup-button {
   font-size: 2em;
   height: 40px;
-  margin-left: 64%;
+  margin-left: 32%;
   position: fixed;
   width: 40px;
   text-align: center;
 }
 
-#exit-search-results{
-  margin-left: 32%;
+#exit-manager-reservation-button,
+#exit-reservation-button {
+  margin-left: 64%;
 }
+
+// #manager-exit-button,
+// #exit-search-results {
+//
+// }
 
 #toggle {
   visibility: visible;
@@ -396,7 +408,8 @@ h4 {
   grid-area: form;
 }
 
-.continue-button {
+.manager-continue-button,
+.customer-continue-button {
   grid-area: button;
 }
 
@@ -461,6 +474,7 @@ h4 {
 
 .vacancies {
   grid-area: list;
+  padding-left: 5%;
 }
 
 .filter-button {
@@ -520,10 +534,6 @@ h4 {
   align-self: flex-start;
   font-size: 1em;
   padding: 10px 0px 0px 10px;
-}
-
-.vacancies li {
-  display: block;
 }
 
 .room-errors {

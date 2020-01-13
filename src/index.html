@@ -30,6 +30,8 @@
       <section class="manager-view">
         <section class="manager-shield">
         </section>
+        <section class="manager-reservation-shield">
+        </section>
         <div class="line"></div>
         <div class="welcome">
           <img src="images/welcome.png" alt="the word welcome in neon letters" class="neon welcome">
@@ -41,20 +43,20 @@
           <input class="user-search" type="text" name="user-search" placeholder="Please enter a name or id number...">
           <button class="search-button" type="button" name="search-button">Search</button>
         </div>
-        <h3 class="error user-search-error">Please enter a valid name!</h3>
+        <h3 class="error user-search-error">Please enter a valid name or id!</h3>
         <div class="user-search-results">
           <div id="search-results-popup">
           </div>
         </div>
         <div class="new-manager-reservation">
-          <div id="reservation-popup">
+          <div id="manager-reservation-popup">
             <button id="exit-manager-reservation-button" type="button" name="exit-reservation-button">X</button>
             <div class="select-new-reservation-date">
               <h2 class="select-date-message">When would <span class="user"></span> like to stay with us?</h2>
               <label class="start-date-label" for='start-date'>Date:</label>
-              <input type='date' name='start-date' value='' id='start-date' alt='Enter the date here.'>
+              <input type='date' name='start-date' value='' id='manager-start-date' alt='Enter the date here.'>
               <h3 class="error date-error">Please select a valid date!</h3>
-              <button class="continue-button" type="button" name="continue-button">Continue</button>
+              <button class="manager-continue-button" type="button" name="continue-button">Continue</button>
               <img src="images/rose-large.png" alt="illustrated neon rose" class="reservation-rose">
             </div>
             <div class="rooms-available-on-date">
@@ -91,6 +93,8 @@
       <section class="customer-view">
         <section class="customer-shield">
         </section>
+        <section class="customer-reservation-shield">
+        </section>
         <div class="line"></div>
         <div class="welcome">
           <img src="images/welcome.png" alt="the word welcome in neon letters" class="neon">
@@ -98,14 +102,14 @@
         </div>
         <button class="new-reservation-button" type="button" name="new-reservation-button">New Reservation</button>
         <div class="new-reservation">
-          <div id="reservation-popup">
+          <div id="customer-reservation-popup">
             <button id="exit-reservation-button" type="button" name="exit-reservation-button">X</button>
             <div class="select-new-reservation-date">
               <h2 class="select-date-message">When would you like to stay with us?</h2>
               <label class="start-date-label" for='start-date'>Date:</label>
-              <input type='date' name='start-date' value='' id='start-date' alt='Enter the date here.'>
+              <input type='date' name='start-date' value='' id='customer-start-date' alt='Enter the date here.'>
               <h3 class="error date-error">Please select a valid date!</h3>
-              <button class="continue-button" type="button" name="continue-button">Continue</button>
+              <button class="customer-continue-button" type="button" name="continue-button">Continue</button>
               <img src="images/rose-large.png" alt="illustrated neon rose" class="reservation-rose">
             </div>
             <div class="rooms-available-on-date">

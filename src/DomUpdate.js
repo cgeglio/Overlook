@@ -57,7 +57,7 @@ class DomUpdate {
 
   viewOccupiedRoomDetails(occupied) {
     $('#manager-popup').append("<button id='manager-exit-button' type='button' name='exit-button'>X</button>");
-    // $('#manager-popup').append("<img src='images/occupied.png' alt='the word occupied in neon letters' class='neon'>");
+    $('#manager-popup').append("<img src='images/occupied.png' alt='the word occupied in neon letters' class='neon'>");
     $('#manager-popup').append("<ul class='occupied'></ul>");
     let details = occupied.map(o => {
       return `Room ${o.number}, type: ${o.roomType}, ${o.numBeds} ${o.bedSize} bed${o.numBeds > 1 ? 's' : ''}, $${o.costPerNight} per night`
