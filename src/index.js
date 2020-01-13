@@ -6,6 +6,7 @@ import $ from 'jquery';
 
 // An example of how you tell webpack to use a CSS (SCSS) file
 import './css/base.scss';
+import './css/variables.scss';
 
 // An example of how you tell webpack to use an image (also need to link to it in the index.html)
 import './images/GOTIT.png'
@@ -33,8 +34,6 @@ let selectedDate;
 let today;
 let user;
 let users = [];
-
-
 
 $(document).on('click', '#customer-popup #customer-exit-button', function(){
   toggleCustomerPopup();
@@ -284,29 +283,6 @@ function viewRevenue() {
   hotel.findRevenueDetails("date", today);
   toggleManagerPopup();
 }
-//
-// function toggleCustomerPopup() {
-//   $('#popup').html('');
-//   $('#popup').append("<img src='images/reservations.png' alt='the word reservations in neon letters' class='neon'>");
-//   $('#popup').append("<ul class='reservations'></ul>")
-//   let details = user.reservations.sort((a, b) => new Date(a.date) - new Date(b.date)).map(r => {
-//     let room = hotel.rooms.find(o => o.number === r.roomNumber)
-//     return `${formatDate(r.date)}: Room ${r.roomNumber}, type: ${room.roomType}, ${room.numBeds} ${room.bedSize} bed${room.numBeds > 1 ? 's' : ''}, $${room.costPerNight} per night`
-//   });
-//   details.forEach(d=> $('.reservations').append(`<li>${d}</li>`));
-//   togglePopup();
-// }
-//
-// function viewCharges() {
-//   $('#popup').html('');
-//   $('#popup').append("<h2 class='charges-heading'>All Charges</h2>");
-//   $('#popup').append("<ul class='charges'></ul>")
-//   let details = user.reservations.sort((a, b) => new Date(a.date) - new Date(b.date)).map(r => {
-//     return `${formatDate(r.date)}: Room ${r.roomNumber}, $${hotel.rooms.find(o => o.number === r.roomNumber).costPerNight}`
-//   });
-//   details.forEach(d=> $('.charges').append(`<li>${d}</li>`));
-//   toggleCustomerPopup();
-// }
 
 function toggleCustomerPopup() {
   $('.error').css("display", "none");
@@ -322,9 +298,7 @@ function toggleCustomerPopup() {
   }
 }
 
-
 function toggleManagerPopup() {
-  console.log('here')
   if (document.getElementById("toggle")) {
     $('.manager-popup-window#toggle').removeAttr('id');
   } else {
@@ -564,7 +538,7 @@ function findCheckedUser() {
 
 function selectUserFromResults(userInfo) {
   $('#search-results-popup').html('');
-  $('#search-results-popup').append("<button id='exit-search-results' type='button' name='exit-button'>X</button>");
+  $('#search-results-popup').append("<button class='exit-button' id='exit-search-results' type='button' name='exit-button'>X</button>");
   $('#search-results-popup').append("<h3>There are multiple results for your search. Which user were you looking for?</h3>");
   $('#search-results-popup').append("<ul class='found-users'></ul>");
   userInfo.forEach(u => $('.found-users').append(`<li class='users-to-select'><input type='checkbox' class="user-results" value='${u.id}'><label for='user-results'>${u.name}</label></li>`));
@@ -574,7 +548,7 @@ function selectUserFromResults(userInfo) {
 
 function populateUserResults(reservationList) {
   $('#search-results-popup').html('');
-  $('#search-results-popup').append("<button id='exit-search-results' type='button' name='exit-button'>X</button>");
+  $('#search-results-popup').append("<button class='exit-button' id='exit-search-results' type='button' name='exit-button'>X</button>");
   $('#search-results-popup').append("<img src='images/GOTIT.png' alt='the words got it in neon letters' class='confirmation-img'>");
   user = users.find(u => u.id === Number(reservationList[0].userID));
   user.reservations = hotel.findReservations("userID", user.id);

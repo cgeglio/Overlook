@@ -17,7 +17,7 @@ let domUpdates = {
   },
 
   viewAvailableRoomDetails(rooms) {
-    $('#manager-popup').append("<button id='manager-exit-button' type='button' name='exit-button'>X</button>");
+    $('#manager-popup').append("<button class='exit-button' id='manager-exit-button' type='button' name='exit-button'>X</button>");
     $('#manager-popup').append("<img src='images/available.png' alt='the word available in neon letters' class='neon'>");
     $('#manager-popup').append("<ul class='available'></ul>")
     let details = rooms.map(r => {
@@ -31,7 +31,7 @@ let domUpdates = {
   },
 
   viewRevenueDetails(revenue) {
-    $('#manager-popup').append("<button id='manager-exit-button' type='button' name='exit-button'>X</button>");
+    $('#manager-popup').append("<button class='exit-button' id='manager-exit-button' type='button' name='exit-button'>X</button>");
     $('#manager-popup').append("<img src='images/revenue.png' alt='the word revenue in neon letters' class='neon'>");
     $('#manager-popup').append("<ul class='revenue'></ul>");
     revenue.forEach(r => $('.revenue').append(`<li>${r}</li>`));
@@ -42,7 +42,7 @@ let domUpdates = {
   },
 
   displayCostDetails(reservations) {
-    $('#customer-popup').append("<button id='customer-exit-button' type='button' name='exit-button'>X</button>");
+    $('#customer-popup').append("<button class='exit-button' id='customer-exit-button' type='button' name='exit-button'>X</button>");
     $('#customer-popup').append("<img src='images/charges.png' alt='the word charges in neon letters' class='neon'>");
     $('#customer-popup').append("<ul class='charges'></ul>");
     let details = reservations.map(r => {
@@ -56,7 +56,7 @@ let domUpdates = {
   },
 
   viewOccupiedRoomDetails(occupied) {
-    $('#manager-popup').append("<button id='manager-exit-button' type='button' name='exit-button'>X</button>");
+    $('#manager-popup').append("<button class='exit-button' id='manager-exit-button' type='button' name='exit-button'>X</button>");
     $('#manager-popup').append("<img src='images/occupied.png' alt='the word occupied in neon letters' class='neon'>");
     $('#manager-popup').append("<ul class='occupied'></ul>");
     let details = occupied.map(o => {
@@ -70,7 +70,7 @@ let domUpdates = {
   },
 
   displayUserReservationDetails(reservations) {
-    $('#customer-popup').append("<button id='customer-exit-button' type='button' name='exit-button'>X</button>");
+    $('#customer-popup').append("<button class='exit-button' id='customer-exit-button' type='button' name='exit-button'>X</button>");
     $('#customer-popup').append("<img src='images/reservations.png' alt='the word reservations in neon letters' class='neon'>");
     $('#customer-popup').append("<ul class='reservations'></ul>");
     let details = reservations.map(r => {

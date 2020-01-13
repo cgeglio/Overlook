@@ -1,13 +1,6 @@
-/* This is an example of using Sass, otherwise plain CSS works too*/
-$primary-background: hsla(0, 0%, 11%, 1);
-$primary-font-color: hsla(360, 100%, 100%, 1);
-$primary-font: 'DM Serif Display', serif;
-$secondary-font: 'Poppins', sans-serif;
-$primary-neon-color: hsla(169, 93%, 66%, 1);
-$primary-box-shadow: 0px 0px 10px .5px hsla(169, 100%, 50%, 1);
-$secondary-box-shadow: 0px 0px 10px 1px hsla(326, 100%, 63%, 1);
-$secondary-neon-color: hsla(320, 100%, 85%, 1);
+@import 'variables';
 
+// MAIN ELEMENTS
 body {
   background-color: $primary-background;
   color: $primary-font-color;
@@ -22,20 +15,20 @@ header {
   justify-content: space-between;
 }
 
-main {
-  display: block;
+h4 {
+  font-family: $primary-font;
+  font-size: 1.5em;
+  margin: 0px 0px 10px 0px;
 }
 
 h2 {
   font-size: 3em;
 }
 
-
 label {
   font-family: $secondary-font;
   font-size: 1.5em;
   width: 100px;
-
 }
 
 input {
@@ -62,30 +55,88 @@ button {
   }
 }
 
-.line {
-  background-color: $primary-neon-color;
-  border-radius: 4px;
-  box-shadow: $primary-box-shadow;
-  height: 2px;
-  margin: 10px 0px 20px 0px;
-  width: 99%
+ul {
+  align-self: center;
+  font-family: $secondary-font;
+  font-size: 1.3em;
+  list-style-type: none;
+  margin-top: 40px;
+  padding: 0;
+  text-align: left;
+  text-indent: .2em;
 }
 
-.header-rose {
-  margin-left: 15px;
-  width: 80px;
+li {
+  margin-bottom: 15px;
+}
+
+span {
+  color: $primary-neon-color;
+}
+
+
+// BUTTONS
+.logout-button {
+  margin: 0px 10px 0px 0px;
+}
+
+.search-button {
+  margin-top: 0;
+}
+
+.select-button {
+  grid-area: select;
+  margin-left: 25%;
+}
+
+.filter-button {
+  @include button-style(max-content, 30px);
+}
+
+.exit-button {
+  @include button-style(40px, 0px);
+  font-size: 2em;
+  height: 40px;
+  margin-left: 32%;
+  position: fixed;
+  text-align: center;
 }
 
 .select-reservation-to-delete-button {
-  width: max-content;
+  @include button-style(max-content, 2px);
 }
 
 .new-reservation-button,
 .delete-reservation-button {
-  width: 150px;
-  margin-bottom: 20px;
+  @include button-style(150px, 20px);
 }
 
+.see-available-button,
+.see-occupied-button,
+.see-reservations-button {
+  @include button-style(160px, 0px);
+}
+
+.manager-continue-button,
+.customer-continue-button {
+  grid-area: button;
+}
+
+.search-results-buttons {
+  @include button-style(40%, 2px);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  width: 40%
+}
+
+#exit-manager-reservation-button,
+#exit-reservation-button {
+  margin-left: 64%;
+}
+
+
+// LOGIN
 .login-info {
   align-items: center;
   display: flex;
@@ -101,6 +152,15 @@ button {
     "plabel rose"
     "submit submit"
     "error error";
+}
+
+.neon-rose-img {
+  @include image-style(80px, 50px);
+}
+
+.login-rose {
+  @include image-style(140px, 45px);
+  grid-area: rose;
 }
 
 .error {
@@ -123,42 +183,37 @@ button {
 }
 
 .username-input-label {
+  @include input-style();
   grid-area: ulabel;
-  text-align: left;
-  width: 320px;
 }
 
 .password-input-label {
+  @include input-style();
   grid-area: plabel;
-  text-align: left;
-  width: 320px;
 }
 
+
+// HEADER
+.header-rose {
+  @include image-style(55px, 2px);
+  margin-left: 15px;
+}
 
 .neon {
-  height: 40px;
+  @include image-style(40px, 2px);
 }
 
-.login-info .neon {
-  height: 80px;
-  margin-top: 50px;
+.line {
+  background-color: $primary-neon-color;
+  border-radius: 4px;
+  box-shadow: $primary-box-shadow;
+  height: 2px;
+  margin: 10px 0px 20px 0px;
+  width: 99%
 }
 
-.rose {
-  height: 140px;
-  grid-area: rose;
-  margin-top: 45px;
-}
 
-.header-logout {
-  align-items: center;
-  display: flex;
-}
-
-.logout-button {
-  margin: 0px 10px 0px 0px;
-}
-
+// MANAGER SEARCHBAR
 .manager-searchbar {
   align-items: center;
   display: flex;
@@ -174,14 +229,78 @@ button {
   visibility: hidden;
 }
 
-.search-button {
+.user-search {
+  margin: 0px 10px 0px 0px;
+}
+
+.user-search-error {
   margin-top: 0;
 }
 
-.dashboard {
-  align-content: center;
+
+//USER VIEWS
+.customer-view,
+.manager-view {
+  align-items: center;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.customer-shield,
+.manager-shield {
+  visibility: visible;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  visibility: hidden;
+  width: 95%;
+}
+
+#manager-popup,
+#customer-popup,
+#search-results-popup,
+#manager-reservation-popup,
+#customer-reservation-popup {
+  background: $primary-background;
+  border: 0;
+  border-radius: 10px;
+  box-shadow: none;
+  display: flex;
+  flex-direction: column;
+  height: 60%;
+  justify-content: flex-start;
+  margin: 0;
+  overflow-y: scroll;
+  padding: 2%;
+  position: fixed;
+  top: 15%;
+  width: 70%;
+  z-index: 1000;
+}
+
+#manager-reservation-popup,
+#customer-reservation-popup {
+  height: 65%;
+}
+
+
+// DASHBOARD
+.welcome {
+  align-items: center;
   display: flex;
   flex-direction: row;
+}
+
+.name {
+  margin: 0px 0px 0px 15px;
+}
+
+.dashboard {
+  @extend .welcome;
+  align-content: center;
   flex-wrap: wrap;
   justify-content: center;
   width: 100%
@@ -207,173 +326,13 @@ button {
   margin: 0px;
 }
 
-.welcome {
-  align-items: center;
-  display: flex;
-  flex-direction: row;
-}
-
-.name {
-  margin: 0px 0px 0px 15px;
-}
-
-.user-search {
-  margin: 0px 10px 0px 0px;
-}
-
-.user-search-results {
-  display: none;
-}
-
-.customer-view,
-.manager-view {
-  align-items: center;
-  display: none;
-  flex-direction: column;
-  justify-content: center;
-}
-
-// .new-manager-reservation,
-// .new-reservation {
-//   display: none;
-// }
-
-
-.see-available-button,
-.see-occupied-button,
-.see-reservations-button {
-  width: 160px;
-}
-
-#manager-popup,
-#customer-popup,
-#search-results-popup,
-#manager-reservation-popup,
-#customer-reservation-popup,
-#popup {
-  background: $primary-background;
-  border: 0;
-  border-radius: 10px;
-  box-shadow: none;
-  display: flex;
-  flex-direction: column;
-  height: 60%;
-  justify-content: flex-start;
-  margin: 0;
-  overflow-y: scroll;
-  padding: 2%;
-  position: fixed;
-  top: 15%;
-  width: 70%;
-  z-index: 1000;
-}
-
-#manager-reservation-popup,
-#customer-reservation-popup {
-  height: 65%;
-}
-
-ul {
-  align-self: center;
-  font-family: $secondary-font;
-  font-size: 1.3em;
-  list-style-type: none;
-  margin-top: 40px;
-  padding: 0;
-  text-align: left;
-  text-indent: .2em;
-}
-
-li {
-  margin-bottom: 15px;
-}
-
-.vacancies li {
-  display: block;
-  visibility: visible;
-}
-
-.customer-shield,
-.manager-shield {
-  visibility: visible;
-}
-
-
-#search-results-popup ul {
-  margin: 0;
-  padding: 0;
-}
-
-.user-search-error {
-  margin-top: 0;
-}
-
-.manager-popup-window,
-.customer-popup-window,
-.new-manager-reservation,
-.user-search-results,
-.new-reservation {
-  display: flex;
-  justify-content: center;
-  visibility: hidden;
-  width: 95%;
-}
-
 .todays-date {
   font-size: 2.3em;
   margin-top: 20px;
 }
 
-#customer-exit-button,
-#manager-exit-button,
-#exit-manager-reservation-button,
-#exit-search-results,
-#exit-reservation-button,
-#exit-popup-button {
-  font-size: 2em;
-  height: 40px;
-  margin-left: 32%;
-  position: fixed;
-  width: 40px;
-  text-align: center;
-}
 
-#exit-manager-reservation-button,
-#exit-reservation-button {
-  margin-left: 64%;
-}
-
-
-#overlay {
-  filter:alpha(opacity=40);
-  background-color: $secondary-neon-color;
-  height:97%;
-  left: 1.5%;
-  opacity:0.5;
-  position: fixed;
-  top: 2%;
-  width:97%;
-  z-index:100;
-}
-
-#active {
-  cursor: pointer;
-  &:hover {
-    background-color: $primary-neon-color;
-    box-shadow: $primary-box-shadow;
-  }
-}
-
-span {
-  color: $primary-neon-color;
-}
-
-h4 {
-  font-family: $primary-font;
-  font-size: 1.5em;
-  margin: 0px 0px 10px 0px;
-}
-
+// SELECT DATE POPUP
 .select-new-reservation-date {
   display: grid;
   grid-auto-columns: max-content;
@@ -386,18 +345,14 @@ h4 {
   width: 90%;
 }
 
+.reservation-rose {
+  grid-area: flower;
+  height: 140px;
+}
+
 .select-date-message {
   font-size: 2.5em;
   grid-area: msg;
-}
-
-#start-date {
-  grid-area: form;
-}
-
-.manager-continue-button,
-.customer-continue-button {
-  grid-area: button;
 }
 
 .start-date-label {
@@ -406,11 +361,42 @@ h4 {
   visibility: hidden;
 }
 
-.reservation-rose {
-  grid-area: flower;
-  height: 140px;
+#start-date {
+  grid-area: form;
 }
 
+
+// SEARCH RESULTS POPUP
+#search-results-popup {
+  align-items: center;
+}
+
+#search-results-popup input,
+.rooms-available-on-date input {
+  margin: 0px 10px 0px 0px;
+  width: initial;
+}
+
+#search-results-popup h3 {
+  font-size: 2em;
+  margin-top: 50px;
+}
+
+#search-results-popup ul {
+  margin: 0;
+  padding: 0;
+}
+
+.user-info {
+  display: block;
+}
+
+.found-users {
+  margin: 0;
+}
+
+
+// ROOM SEARCH RESULTS
 .rooms-available-on-date {
   align-items: center;
   display: none;
@@ -423,35 +409,8 @@ h4 {
   grid-template-columns: 2fr 1fr 6fr;
 }
 
-.vacancies-img {
-  grid-area: img;
-  margin-left: 35%;
-}
-
-.select-room {
-  font-size: 1.8em;
-  grid-area: h2;
-  margin-left: 5%;
-  text-align: left;
-}
-
-#search-results-popup input,
-.rooms-available-on-date input {
-  margin: 0px 10px 0px 0px;
-  width: initial;
-}
-
-#search-results-popup {
-  align-items: center;
-}
-
-#search-results-popup h3 {
-  font-size: 2em;
-  margin-top: 50px;
-}
-
-.found-users {
-  margin: 0;
+.rooms-available-on-date label {
+  font-size: 1em;
 }
 
 .rooms-available-on-date ul {
@@ -464,28 +423,46 @@ h4 {
   padding-left: 5%;
 }
 
-.filter-button {
-  margin-bottom: 30px;
-  width: max-content;
+.vacancies li {
+  display: block;
+  visibility: visible;
 }
 
-[type="checkbox"] {
-  vertical-align:middle;
-}
-
-.select-button {
-  grid-area: select;
-  margin-left: 25%;
-}
-
-.rooms-available-on-date label {
-  font-size: 1em;
+.vacancies-img {
+  grid-area: img;
+  margin-left: 35%;
 }
 
 .none-available {
   margin: 45px 0px;
 }
 
+.room-errors {
+  display: block;
+  grid-area: error;
+  margin: 8px 0px 0px 20px;
+  text-align: left;
+  visibility: hidden;
+}
+
+.select-room {
+  font-size: 1.8em;
+  grid-area: h2;
+  margin-left: 5%;
+  text-align: left;
+}
+
+.checkbox-list {
+  display: none;
+  font-size: .7em;
+}
+
+[type="checkbox"] {
+  vertical-align:middle;
+}
+
+
+// MESSAGES
 .deleted-message,
 .confirmation-message {
   align-items: center;
@@ -504,6 +481,8 @@ h4 {
   height: 60px;
 }
 
+
+// FILTER SIDEBAR
 .filter-sidebar {
   align-items: center;
   border: 1px solid $secondary-neon-color;
@@ -523,28 +502,26 @@ h4 {
   padding: 10px 0px 0px 10px;
 }
 
-.room-errors {
-  display: block;
-  grid-area: error;
-  margin: 8px 0px 0px 20px;
-  text-align: left;
-  visibility: hidden;
+
+// VISIBILITY IDS
+#overlay {
+  filter:alpha(opacity=40);
+  background-color: $secondary-neon-color;
+  height:97%;
+  left: 1.5%;
+  opacity:0.5;
+  position: fixed;
+  top: 2%;
+  width:97%;
+  z-index:100;
 }
 
-.search-results-buttons {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  width: 40%
-}
-
-.user-info {
-  display: block;
-}
-
-.checkbox-list {
-  display: none;
-  font-size: .7em;
+#active {
+  cursor: pointer;
+  &:hover {
+    background-color: $primary-neon-color;
+    box-shadow: $primary-box-shadow;
+  }
 }
 
 #toggle {
