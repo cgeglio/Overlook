@@ -1,8 +1,11 @@
 import chai from 'chai';
 const expect = chai.expect;
+import spies from "chai-spies";
+
+chai.use(spies);
 
 import User from "../src/User"
-
+import domUpdates from "../src/DomUpdate"
 
 describe('User', () => {
   let user;
@@ -13,7 +16,7 @@ describe('User', () => {
     reservation = {id: "5fwrgu4i7k55hl6t7", userID: 28, date: "2020/02/16", roomNumber: 7, roomServiceCharges: Array(0)}
   });
 
-  it('should be an instance of a player', () => {
+  it('should be an instance of a user', () => {
     expect(user).to.be.an.instanceOf(User)
   });
 
@@ -44,19 +47,33 @@ describe('User', () => {
     expect(user.reservations.length).to.equal(0)
   });
 
-  it('should be able to update the amount spent', () => {
-    user.reservedRooms.push({number: 1, costPerNight: 250})
-    user.addReservation({id: "5fwrgu4i7k55hl6t7", userID: 20, date: "2020/02/16", roomNumber: 1, roomServiceCharges: Array(0)})
-    user.findAmountSpent()
-    expect(user.amountSpent).to.equal(250)
+  describe('updateDOM', () => {
+    chai.spy.on(domUpdates, ['displayAmountSpent', 'displayUserReservationDetails', 'displayCostDetails'], () => {});
+
+    it('should update the amount spent on the DOM', function() {
+      user.reservedRooms.push({number: 1, costPerNight: 250})
+      user.addReservation({id: "5fwrgu4i7k55hl6t7", userID: 20, date: "2020/02/16", roomNumber: 1, roomServiceCharges: Array(0)})
+      user.findAmountSpent();
+      expect(domUpdates.displayAmountSpent).to.have.been.called(1);
+      expect(domUpdates.displayAmountSpent).to.have.been.called.with(250);
+    });
+
+    it('should show reservation details on the DOM', function() {
+      user.reservedRooms.push({number: 1, costPerNight: 250})
+      user.addReservation({id: "5fwrgu4i7k55hl6t7", userID: 20, date: "2020/02/16", roomNumber: 1, roomServiceCharges: Array(0)})
+      user.viewReservationDetails("reservations");
+      expect(domUpdates.displayUserReservationDetails).to.have.been.called(1);
+      expect(domUpdates.displayUserReservationDetails).to.have.been.called.with([{date: "2020/02/16", room: { number: 1, costPerNight: 250 }}]);
+    });
+
+    it('should show cost details on the DOM', function() {
+      user.reservedRooms.push({number: 1, costPerNight: 250})
+      user.addReservation({id: "5fwrgu4i7k55hl6t7", userID: 20, date: "2020/02/16", roomNumber: 1, roomServiceCharges: Array(0)})
+      user.viewReservationDetails();
+      expect(domUpdates.displayCostDetails).to.have.been.called(1);
+      expect(domUpdates.displayCostDetails).to.have.been.called.with([{date: "2020/02/16", room: { number: 1, costPerNight: 250 }}]);
+    });
+
   });
-
-  it('should be able to see details for a reservation', () => {
-    user.reservedRooms.push({number: 1, costPerNight: 250})
-    user.addReservation({id: "5fwrgu4i7k55hl6t7", userID: 20, date: "2020/02/16", roomNumber: 1, roomServiceCharges: Array(0)})
-    expect(user.viewReservationDetails('reservations')).to.equal({date: "2020/02/16", room: 1})
-  });
-
-
-
+  
 });

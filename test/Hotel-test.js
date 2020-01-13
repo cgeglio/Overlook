@@ -2,6 +2,7 @@ import chai from 'chai';
 const expect = chai.expect;
 
 import Hotel from "../src/Hotel"
+import domUpdates from "../src/DomUpdate"
 
 describe('Hotel', () => {
   let hotel;
