@@ -1,5 +1,4 @@
-import DomUpdate from "../src/DomUpdate"
-let domUpdates = new DomUpdate
+import domUpdates from "../src/DomUpdate"
 
 class Hotel {
   constructor(rooms, reservations) {
@@ -14,7 +13,7 @@ class Hotel {
   removeReservation(reservation) {
     this.reservations.splice(this.reservations.indexOf(this.reservations.find(r => r.id === reservation.id)), 1);
   }
-  
+
   findReservations(type, specific) {
     let reservations = this.reservations.filter(r => r[type] === specific);
     if (type === 'userID') {
@@ -63,6 +62,7 @@ class Hotel {
       domUpdates.displayPercentageOccupied((occupied.length/this.rooms.length)*100);
     } else {
       let rooms = this.rooms.filter(r => (occupied.map(o => o.roomNumber)).includes(r.number))
+      console.log(rooms)
       domUpdates.viewOccupiedRoomDetails(rooms);
     }
     return occupied;

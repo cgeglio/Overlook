@@ -1,6 +1,6 @@
 import $ from 'jquery';
 
-class DomUpdate {
+let domUpdates = {
 
   formatDate(day) {
     let monthNames = ["January", "February", "March", "April", "May", "June",
@@ -10,11 +10,11 @@ class DomUpdate {
     let m = day.split('').slice(4, 6).join('');
     let d = day.split('').slice(6, 8).join('');
     return `${monthNames[m -1]} ${d}, ${y}`;
-  }
+  },
 
   displayNumberOfAvailableRooms(rooms) {
     $('.rooms-available-today').text(`${rooms.length} Available Rooms`);
-  }
+  },
 
   viewAvailableRoomDetails(rooms) {
     $('#manager-popup').append("<button id='manager-exit-button' type='button' name='exit-button'>X</button>");
@@ -24,22 +24,22 @@ class DomUpdate {
       return `Room ${r.number}, type: ${r.roomType}, ${r.numBeds} ${r.bedSize} bed${r.numBeds > 1 ? 's' : ''}, $${r.costPerNight} per night`
     });
     details.forEach(d => $('.available').append(`<li>${d}</li>`));
-  }
+  },
 
   displayRevenue(revenue) {
     $('.todays-revenue').text(`$${revenue.toFixed(2)} in Revenue Today`);
-  }
+  },
 
   viewRevenueDetails(revenue) {
     $('#manager-popup').append("<button id='manager-exit-button' type='button' name='exit-button'>X</button>");
     $('#manager-popup').append("<img src='images/revenue.png' alt='the word revenue in neon letters' class='neon'>");
     $('#manager-popup').append("<ul class='revenue'></ul>");
     revenue.forEach(r => $('.revenue').append(`<li>${r}</li>`));
-  }
+  },
 
   displayAmountSpent(cost) {
     $('.customer-amount-spent').text(`You Have Spent $${cost.toFixed(2)}`)
-  }
+  },
 
   displayCostDetails(reservations) {
     $('#customer-popup').append("<button id='customer-exit-button' type='button' name='exit-button'>X</button>");
@@ -49,11 +49,11 @@ class DomUpdate {
       return `${this.formatDate(r.date)}: Room ${r.room.number}, $${r.room.costPerNight}`
     });
     details.forEach(d=> $('.charges').append(`<li>${d}</li>`));
-  }
+  },
 
   displayPercentageOccupied(occupied) {
     $('.rooms-occupied-today').text(`${occupied}% of Rooms are Occupied`);
-  }
+  },
 
   viewOccupiedRoomDetails(occupied) {
     $('#manager-popup').append("<button id='manager-exit-button' type='button' name='exit-button'>X</button>");
@@ -63,11 +63,11 @@ class DomUpdate {
       return `Room ${o.number}, type: ${o.roomType}, ${o.numBeds} ${o.bedSize} bed${o.numBeds > 1 ? 's' : ''}, $${o.costPerNight} per night`
     });
     details.forEach(d=> $('.occupied').append(`<li>${d}</li>`));
-  }
+  },
 
   displayUserReservations(reservations) {
     $('.customer-reservations').text(`You Have ${reservations.length} Reservations`);
-  }
+  },
 
   displayUserReservationDetails(reservations) {
     $('#customer-popup').append("<button id='customer-exit-button' type='button' name='exit-button'>X</button>");
@@ -77,7 +77,7 @@ class DomUpdate {
       return `${this.formatDate(r.date)}: Room ${r.room.number}, type: ${r.room.roomType}, ${r.room.numBeds} ${r.room.bedSize} bed${r.room.numBeds > 1 ? 's' : ''}, $${r.room.costPerNight} per night`
     });
     details.forEach(d => $('.reservations').append(`<li>${d}</li>`));
-  }
+  },
 
   listAvailableRooms(rooms) {
     if (rooms.length > 0) {
@@ -106,4 +106,4 @@ class DomUpdate {
 }
 
 
-export default DomUpdate;
+export default domUpdates;

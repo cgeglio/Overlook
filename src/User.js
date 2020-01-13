@@ -1,5 +1,6 @@
-import DomUpdate from "../src/DomUpdate"
-let domUpdates = new DomUpdate
+import $ from 'jquery';
+
+import domUpdates from "../src/DomUpdate"
 
 class User {
   constructor(name, id) {
