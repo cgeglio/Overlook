@@ -94,7 +94,7 @@ class DomUpdate {
       });
       $(".filter-sidebar").append('<button class="filter-button" type="button" name="filter-button">Filter Rooms</button>');
       $(".rooms-available-on-date").append("<ul class='vacancies'></ul>");
-      details.forEach(d => $(".vacancies").append(`<li id='${d.number}'><input type='checkbox' class='checked-room' id='${d.number}'><label for='${d.number}'>${d.detail}</label></li>`));
+      details.forEach(d => $(".vacancies").append(`<li class='${d.number} vacancy-list'><input type='checkbox' class='checked-room' id='${d.number}'><label for='${d.number}'>${d.detail}</label></li>`));
       $(".rooms-available-on-date").append('<button class="select-button" type="button" name="select-button">Reserve Room</button>');
     } else {
       $(".rooms-available-on-date").css("display", "flex");
