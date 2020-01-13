@@ -214,8 +214,8 @@ function showDashboard(loginType) {
 }
 
 function resetAfterLogout() {
-  $(".manager-popup-window").css("display", "none");
-  $(".customer-popup-window").css("display", "none");
+  $(".manager-popup-window").css("visibility", "hidden");
+  $(".customer-popup-window").css("visibility", "hidden");
   $('.customer-view').css("display", "none");
   $('.manager-view').css("display", "none");
   $('.error').css("display", "none");
@@ -324,6 +324,7 @@ function toggleCustomerPopup() {
 
 
 function toggleManagerPopup() {
+  console.log('here')
   if (document.getElementById("toggle")) {
     $('.manager-popup-window#toggle').removeAttr('id');
   } else {
@@ -337,6 +338,7 @@ function toggleManagerPopup() {
 }
 
 function toggleNewReservation() {
+  $('.vacancies').remove();
   $('.error').css("display", "none");
   $('.room-errors').css("visibility", "hidden");
   if (document.getElementById("toggle")) {
@@ -352,6 +354,7 @@ function toggleNewReservation() {
 }
 
 function toggleNewManagerReservation() {
+  $('.vacancies').remove();
   $('.error').css("display", "none");
   $('.room-errors').css("visibility", "hidden");
   if (document.getElementById("toggle")) {
@@ -379,7 +382,6 @@ function toggleSearchResults() {
     $('.manager-shield').attr("id", "overlay");
   }
 }
-
 
 function clearPopup(view) {
   $(`#${view}-popup`).html('');
@@ -434,7 +436,7 @@ function restartReservation() {
 
 function findCheckedRoomTypes() {
   $('.vacancies').children().each(function() {
-      $(this).css("display", "block");
+      $(this).removeClass('toggle-off');
     });
   let selectedTypes = [];
   $("input[type=checkbox][class=room-type]:checked").each(function() {
@@ -444,31 +446,11 @@ function findCheckedRoomTypes() {
 }
 
 
-// function findRoomsWithCheckedTypes(selectedTypes) {
-//   console.log(selectedTypes)
-//   let available = hotel.findAvailableRooms("date", selectedDate.split('-').join('/'));
-//   console.log(available)
-//   available.forEach(a => {
-//     console.log(typeof selectedTypes[0])
-//     console.log(typeof a.roomType)
-//     if (!selectedTypes.includes(a.roomType)) {
-//       $(`#${a.number}`).css("display", "none");
-//       console.log($(`#${a.number}`).css("displ"));
-//     }
-//   })
-//   $("input[type=checkbox][class=room-type]:checked").each(function() {
-//       $(this).prop('checked', false);
-//     });
-// }
-
-
-
 function findRoomsWithCheckedTypes(selectedTypes) {
   let available = hotel.findAvailableRooms("date", selectedDate.split('-').join('/'));
   available.forEach(a => {
     if (!selectedTypes.includes(a.roomType)) {
-      $(`#${a.number}`).css("display", "none");
-
+      $(`.${a.number}`).addClass("toggle-off");
     }
   })
   $("input[type=checkbox][class=room-type]:checked").each(function() {

@@ -290,6 +290,7 @@ li {
 
 .vacancies li {
   display: block;
+  visibility: visible;
 }
 
 .customer-shield,
@@ -311,8 +312,7 @@ li {
 .customer-popup-window,
 .new-manager-reservation,
 .user-search-results,
-.new-reservation,
-.popup-window {
+.new-reservation {
   display: flex;
   justify-content: center;
   visibility: hidden;
@@ -343,14 +343,6 @@ li {
   margin-left: 64%;
 }
 
-// #manager-exit-button,
-// #exit-search-results {
-//
-// }
-
-#toggle {
-  visibility: visible;
-}
 
 #overlay {
   filter:alpha(opacity=40);
@@ -553,4 +545,12 @@ h4 {
 .checkbox-list {
   display: none;
   font-size: .7em;
+}
+
+#toggle {
+  visibility: visible !important;
+}
+
+.toggle-off {
+  visibility: hidden !important;
 }
