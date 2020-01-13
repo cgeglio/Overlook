@@ -98,9 +98,7 @@ button {
   height: 300px;
   grid-template-areas:
     "ulabel rose"
-    "uinput rose"
     "plabel rose"
-    "pinput rose"
     "submit submit"
     "error error";
 }
@@ -124,21 +122,18 @@ button {
   }
 }
 
-label .username {
+.username-input-label {
   grid-area: ulabel;
+  text-align: left;
+  width: 320px;
 }
 
-input .username-input {
-  grid-area: uinput;
-}
-
-label .password {
+.password-input-label {
   grid-area: plabel;
+  text-align: left;
+  width: 320px;
 }
 
-input .password-input {
-  grid-area: pinput;
-}
 
 .neon {
   height: 40px;
