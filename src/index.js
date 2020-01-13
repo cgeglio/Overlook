@@ -35,8 +35,6 @@ let today;
 let user;
 let users = [];
 
-
-
 $(document).on('click', '#customer-popup #customer-exit-button', function(){
   toggleCustomerPopup();
 });
@@ -285,29 +283,6 @@ function viewRevenue() {
   hotel.findRevenueDetails("date", today);
   toggleManagerPopup();
 }
-//
-// function toggleCustomerPopup() {
-//   $('#popup').html('');
-//   $('#popup').append("<img src='images/reservations.png' alt='the word reservations in neon letters' class='neon'>");
-//   $('#popup').append("<ul class='reservations'></ul>")
-//   let details = user.reservations.sort((a, b) => new Date(a.date) - new Date(b.date)).map(r => {
-//     let room = hotel.rooms.find(o => o.number === r.roomNumber)
-//     return `${formatDate(r.date)}: Room ${r.roomNumber}, type: ${room.roomType}, ${room.numBeds} ${room.bedSize} bed${room.numBeds > 1 ? 's' : ''}, $${room.costPerNight} per night`
-//   });
-//   details.forEach(d=> $('.reservations').append(`<li>${d}</li>`));
-//   togglePopup();
-// }
-//
-// function viewCharges() {
-//   $('#popup').html('');
-//   $('#popup').append("<h2 class='charges-heading'>All Charges</h2>");
-//   $('#popup').append("<ul class='charges'></ul>")
-//   let details = user.reservations.sort((a, b) => new Date(a.date) - new Date(b.date)).map(r => {
-//     return `${formatDate(r.date)}: Room ${r.roomNumber}, $${hotel.rooms.find(o => o.number === r.roomNumber).costPerNight}`
-//   });
-//   details.forEach(d=> $('.charges').append(`<li>${d}</li>`));
-//   toggleCustomerPopup();
-// }
 
 function toggleCustomerPopup() {
   $('.error').css("display", "none");
@@ -323,9 +298,7 @@ function toggleCustomerPopup() {
   }
 }
 
-
 function toggleManagerPopup() {
-  console.log('here')
   if (document.getElementById("toggle")) {
     $('.manager-popup-window#toggle').removeAttr('id');
   } else {

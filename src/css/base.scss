@@ -271,13 +271,11 @@ span {
   width: 95%;
 }
 
-//
-// #manager-popup,
-// #customer-popup,
-// #search-results-popup,
-// #manager-reservation-popup,
-// #customer-reservation-popup
-.popup {
+#manager-popup,
+#customer-popup,
+#search-results-popup,
+#manager-reservation-popup,
+#customer-reservation-popup {
   background: $primary-background;
   border: 0;
   border-radius: 10px;
@@ -406,10 +404,6 @@ span {
 // USER SEARCH RESULTS
 .user-info {
   display: block;
-}
-
-.user-search-results {
-  display: none;
 }
 
 .found-users {
