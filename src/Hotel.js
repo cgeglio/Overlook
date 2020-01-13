@@ -1,5 +1,3 @@
-import $ from 'jquery';
-
 import domUpdates from "../src/DomUpdate"
 
 class Hotel {
@@ -64,6 +62,7 @@ class Hotel {
       domUpdates.displayPercentageOccupied((occupied.length/this.rooms.length)*100);
     } else {
       let rooms = this.rooms.filter(r => (occupied.map(o => o.roomNumber)).includes(r.number))
+      console.log(rooms)
       domUpdates.viewOccupiedRoomDetails(rooms);
     }
     return occupied;

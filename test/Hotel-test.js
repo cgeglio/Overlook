@@ -1,5 +1,8 @@
 import chai from 'chai';
 const expect = chai.expect;
+import spies from "chai-spies";
+
+chai.use(spies);
 
 import Hotel from "../src/Hotel"
 import domUpdates from "../src/DomUpdate"
@@ -38,24 +41,57 @@ describe('Hotel', () => {
     expect(hotel.reservations.length).to.equal(0)
   });
 
-  it('should be able to find reserved rooms', () => {
-    expect(hotel.findReservations("2020/02/16")).to.deep.equal([reservations[0]])
-  });
+  describe('updateDOM', () => {
+    chai.spy.on(domUpdates, ['displayUserReservations', 'displayNumberOfAvailableRooms', 'viewAvailableRoomDetails', 'listAvailableRooms', 'displayRevenue', 'viewRevenueDetails', 'displayPercentageOccupied', 'viewOccupiedRoomDetails'], () => {});
 
-  it('should be able to find available rooms', () => {
-    expect(hotel.findAvailableRooms("2020/02/20")).to.deep.equal([rooms[0]])
-  });
+    it('should be able to find and display reservations on the DOM', function() {
+      hotel.findReservations('userID', 20)
+      expect(domUpdates.displayUserReservations).to.have.been.called(1);
+      expect(domUpdates.displayUserReservations).to.have.been.called.with([{id: "5fwrgu4i7k55hl6t7", userID: 20, date: "2020/02/16", roomNumber: 1, roomServiceCharges: Array(0)}]);
+    });
 
-  it('should be able to calculate room costs', () => {
-    expect(hotel.calculateCost("date", "2020/02/16")).to.equal(358.4)
-  });
+    it('should be able to find and display the number of available rooms on the DOM', function() {
+      hotel.findAvailableRooms("dashboard", "2020/02/16")
+      expect(domUpdates.displayNumberOfAvailableRooms).to.have.been.called(1);
+      expect(domUpdates.displayNumberOfAvailableRooms).to.have.been.called.with([]);
+    });
 
-  it('should be able to find revenue details', () => {
-    expect(hotel.findRevenueDetails("date", "2020/02/16")).to.equal(`Room 1, $358.40`)
-  });
+    it('should be able to find and display the details of available rooms on the DOM', function() {
+      hotel.findAvailableRooms("details", "2020/02/16")
+      expect(domUpdates.viewAvailableRoomDetails).to.have.been.called(1);
+      expect(domUpdates.viewAvailableRoomDetails).to.have.been.called.with([]);
+    });
 
-  it('should be able to calculate the percentage of rooms occupied', () => {
-    expect(hotel.calculatePercentageOccupied("date", "2020/02/16")).to.equal(100)
+    it('should be able to find and create a lit of available rooms on the DOM', function() {
+      hotel.findAvailableRooms("newReservation", "2020/02/16")
+      expect(domUpdates.listAvailableRooms).to.have.been.called(1);
+      expect(domUpdates.listAvailableRooms).to.have.been.called.with([]);
+    });
+
+    it('should be able to calculate the revenue and display that number on the DOM', function() {
+      hotel.calculateCost("date", "2020/02/16")
+      expect(domUpdates.displayRevenue).to.have.been.called(1);
+      expect(domUpdates.displayRevenue).to.have.been.called.with(358.4);
+    });
+
+    it('should be able to find the revenue details and display on the DOM', function() {
+      hotel.findRevenueDetails("date", "2020/02/16")
+      expect(domUpdates.viewRevenueDetails).to.have.been.called(1);
+      expect(domUpdates.viewRevenueDetails).to.have.been.called.with([`Room 1, $358.4`]);
+    });
+
+    it('should be able to calculate the percentage of rooms that are occupied and display that percentage on the DOM', function() {
+      hotel.calculatePercentageOccupied("dashboard", "2020/02/16")
+      expect(domUpdates.displayPercentageOccupied).to.have.been.called(1);
+      expect(domUpdates.displayPercentageOccupied).to.have.been.called.with(100);
+    });
+
+    it('should be able to find the details of the rooms that are occupied and display on the DOM', function() {
+      hotel.calculatePercentageOccupied("details", "2020/02/16")
+      expect(domUpdates.viewOccupiedRoomDetails).to.have.been.called(1);
+      expect(domUpdates.viewOccupiedRoomDetails).to.have.been.called.with([{number: 1, roomType: "residential suite", bidet: true, bedSize: "queen", numBeds: 1, costPerNight: 358.4}]);
+    });
+
   });
 
 });
