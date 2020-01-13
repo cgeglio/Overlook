@@ -1,0 +1,13 @@
+$primary-background: hsla(0, 0%, 11%, 1);
+$primary-box-shadow: 0px 0px 10px .5px hsla(169, 100%, 50%, 1);
+$primary-font-color: hsla(360, 100%, 100%, 1);
+$primary-neon-color: hsla(169, 93%, 66%, 1);
+
+$secondary-box-shadow: 0px 0px 10px 1px hsla(326, 100%, 63%, 1);
+$secondary-neon-color: hsla(320, 100%, 85%, 1);
+
+@import url(https://fonts.googleapis.com/css?family=DM+Serif+Display&display=swap);
+$primary-font: 'DM Serif Display', serif;
+
+@import url(https://fonts.googleapis.com/css?family=Poppins&display=swap);
+$secondary-font: 'Poppins', sans-serif;
