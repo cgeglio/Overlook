@@ -261,13 +261,16 @@ function findCheckedRoomTypes() {
   $("input[type=checkbox][class=bed-number]:checked").each(function() {
     selectedTypes.push($(this).val());
   });
+  $("input[type=checkbox][class=bed-size]:checked").each(function() {
+    selectedTypes.push($(this).val());
+  });
   findRoomsWithCheckedTypes(selectedTypes);
 }
 
 function findRoomsWithCheckedTypes(selectedTypes) {
   let available = hotel.findAvailableRooms("date", selectedDate.split('-').join('/'));
   available.forEach(a => {
-    if (!selectedTypes.includes(a.roomType) || !selectedTypes.includes(a.numBeds.toString())) {
+    if (!selectedTypes.includes(a.roomType) || !selectedTypes.includes(a.numBeds.toString()) || !selectedTypes.includes(a.bedSize)) {
       $(`.${a.number}`).addClass("toggle-off");
     }
   })
@@ -275,6 +278,9 @@ function findRoomsWithCheckedTypes(selectedTypes) {
     $(this).prop('checked', false);
   });
   $("input[type=checkbox][class=bed-number]:checked").each(function() {
+    $(this).prop('checked', false);
+  });
+  $("input[type=checkbox][class=bed-size]:checked").each(function() {
     $(this).prop('checked', false);
   });
 }
