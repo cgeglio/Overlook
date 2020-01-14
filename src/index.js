@@ -53,13 +53,14 @@ $(document).on('click', '#search-results-popup .select-reservation-to-delete-but
 
 $('.customer-continue-button').click(validateDate);
 $('.customer-shield').click(domUpdates.toggleCustomerPopup);
+$('.customer-reservation-shield').click(domUpdates.toggleNewReservation);
 $('.login').keyup(checkInputs);
 $('.logout-button').click(domUpdates.resetAfterLogout);
 $('.manager-continue-button').click(validateDate);
 $('.manager-shield').click(domUpdates.toggleManagerPopup);
+$('.manager-search-shield').click(domUpdates.toggleSearchResults);
 $('.manager-reservation-shield').click(domUpdates.toggleNewManagerReservation);
 $('.new-reservation-button').click(startNewReservation);
-$('.reservation-shield').click(domUpdates.toggleNewReservation);
 $('.revenue-details-button').click(viewRevenue);
 $('.search-button').click(findUserInfo);
 $('.see-available-button').click(viewAvailableRooms);

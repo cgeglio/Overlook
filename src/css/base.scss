@@ -58,7 +58,7 @@ button {
 ul {
   align-self: center;
   font-family: $secondary-font;
-  font-size: 1.3em;
+  font-size: 1.2em;
   list-style-type: none;
   margin-top: 40px;
   padding: 0;
@@ -102,10 +102,7 @@ span {
   text-align: center;
 }
 
-.select-reservation-to-delete-button {
-  @include button-style(max-content, 2px);
-}
-
+.select-reservation-to-delete-button
 .new-reservation-button,
 .delete-reservation-button {
   @include button-style(150px, 20px);
@@ -123,7 +120,7 @@ span {
 }
 
 .search-results-buttons {
-  @include button-style(40%, 2px);
+  @include button-style(40%, 2%);
   display: flex;
   flex-direction: row;
   justify-content: space-around;
@@ -247,6 +244,9 @@ span {
   justify-content: center;
 }
 
+.customer-reservation-shield,
+.manager-reservation-shield,
+.manager-search-shield,
 .customer-shield,
 .manager-shield {
   visibility: visible;
@@ -331,6 +331,21 @@ span {
   margin-top: 20px;
 }
 
+#occupied,
+#available,
+#charges {
+  margin-top: 10px;
+}
+
+.found-reservations,
+#revenue {
+  font-size: 1.8em;
+}
+
+#charges {
+  font-size: 1.4em;
+}
+
 
 // SELECT DATE POPUP
 .select-new-reservation-date {
@@ -369,6 +384,7 @@ span {
 // SEARCH RESULTS POPUP
 #search-results-popup {
   align-items: center;
+  padding-top: 5%;
 }
 
 #search-results-popup input,
@@ -389,10 +405,15 @@ span {
 
 .user-info {
   display: block;
+  width: 90%;
 }
 
 .found-users {
   margin: 0;
+}
+
+.multiple-results {
+  width: 90%;
 }
 
 
