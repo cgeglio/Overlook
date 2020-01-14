@@ -261,7 +261,7 @@ let domUpdates = {
       $(".rooms-available-on-date").append('<img src="images/vacancies.png" alt="the word vacancies in neon letters" class="vacancies-img neon">');
       $(".rooms-available-on-date").append('<h2 class="select-room">Please select a room to reserve:</h2>');
       let details = rooms.map(r => {
-        return {number: r.number, type: r.roomType, detail: `Room ${r.number}, Type: ${r.roomType}, ${r.numBeds} ${r.bedSize} Bed${r.numBeds > 1 ? 's' : ''}, $${r.costPerNight} per Night`};
+        return {number: r.number, type: r.roomType, bedNumber: r.numBeds, detail: `Room ${r.number}, Type: ${r.roomType}, ${r.numBeds} ${r.bedSize} Bed${r.numBeds > 1 ? 's' : ''}, $${r.costPerNight} per Night`};
       });
       this.populateFilterSidebar(details);
       this.populateVacancyList(details);
@@ -281,6 +281,13 @@ let domUpdates = {
     details.forEach(d => {
       if (!document.getElementById(`${d.type}`)) {
         $(".types").append(`<li id='${d.type}'><input type='checkbox' class='room-type' value='${d.type}'><label for='room-type'>${d.type}</label></li>`)
+      }
+    })
+    // $(".filter-sidebar").append('<button class="filter-button" type="button" name="filter-button">Filter Rooms</button>');
+    $(".filter-sidebar").append("<ul class='bed-number'></ul>");
+    details.forEach(d => {
+      if (!document.getElementById(`${d.bedNumber}`)) {
+        $(".bed-number").append(`<li id='${d.bedNumber}'><input type='checkbox' class='bed-number' value='${d.bedNumber}'><label for='bed-number'>${d.bedNumber} bed${d.bedNumber > 1 ? 's' : ''}</label></li>`)
       }
     })
     $(".filter-sidebar").append('<button class="filter-button" type="button" name="filter-button">Filter Rooms</button>');
