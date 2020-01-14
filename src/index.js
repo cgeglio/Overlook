@@ -225,12 +225,12 @@ function viewRevenue() {
 function startNewManagerReservation() {
   domUpdates.toggleSearchResults();
   domUpdates.toggleNewManagerReservation();
-  domUpdates.resetForNewManagerReservation();
+  domUpdates.resetForNewManagerReservation(today, customer);
 }
 
 function startNewReservation() {
   domUpdates.toggleNewReservation();
-  domUpdates.resetForNewCustomerReservation();
+  domUpdates.resetForNewCustomerReservation(today);
 }
 
 function validateDate() {

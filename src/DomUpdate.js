@@ -12,70 +12,10 @@ let domUpdates = {
     return `${monthNames[m - 1]} ${d}, ${y}`;
   },
 
-  resetAfterLogout() {
-    $(".manager-popup-window").css("visibility", "hidden");
-    $(".customer-popup-window").css("visibility", "hidden");
-    $('.customer-view').css("display", "none");
-    $('.manager-view').css("display", "none");
-    $('.error').css("display", "none");
-    $('.room-errors').css("visibility", "hidden");
-    $('header').css("display", "none");
-    $('.login-input').val('');
-    $(".submit#active").removeAttr('id');
-    $('.login-info').css("display", "flex");
-  },
-
-  restartReservation(today) {
-    $('#manager-start-date').val(today.split('/').join('-'));
-    $('#customer-start-date').val(today.split('/').join('-'));
-    $(".select-new-reservation-date").css("display", "grid");
-    $(".rooms-available-on-date").css("display", "none");
-    $(".rooms-available-on-date").html("");
-    $(".date-error").css("display", "none");
-  },
-
-  selectUserFromResults(userInfo) {
-    $('#search-results-popup').html('');
-    $('#search-results-popup').append("<button class='exit-button' id='exit-search-results' type='button' name='exit-button'>X</button>");
-    $('#search-results-popup').append("<h3>There are multiple results for your search. Which user were you looking for?</h3>");
-    $('#search-results-popup').append("<ul class='found-users'></ul>");
-    userInfo.forEach(u => $('.found-users').append(`<li class='users-to-select'><input type='checkbox' class="user-results" value='${u.id}'><label for='user-results'>${u.name}</label></li>`));
-    $("#search-results-popup").append('<h3 class="error select-user-error">Please select 1 user.</h3>');
-    $('#search-results-popup').append("<button class='select-user-button' type='button' name='select-user-button'>Select User</button>");
-  },
-
-  populateUserResults() {
-    $('#search-results-popup').html('');
-    $('#search-results-popup').append("<button class='exit-button' id='exit-search-results' type='button' name='exit-button'>X</button>");
-    $('#search-results-popup').append("<img src='images/GOTIT.png' alt='the words got it in neon letters' class='confirmation-img'>");
-  },
-
-  populateCustomerInfo(reservationList, customer) {
-    $('#search-results-popup').append(`<h3 class="user-info"><span>Name</span> ${customer.name}, <span>ID</span> ${reservationList[0].userID}, <span>Amount Spent</span> $ ${(customer.amountSpent).toFixed(2)}</h3>`);
-    $('#search-results-popup').append("<div class='search-results-buttons'><button class='manager-new-reservation-button' type='button' name='new-reservation-button'>Add Reservation</button></div>");
-    $('.search-results-buttons').append("<button class='delete-reservation-button' type='button' name='delete-reservation-button'>Delete Reservation</button>");
-  },
-
-addCheckboxesToReservations() {
-    $('.no-checkbox-list').css("display", "none");
-    $('.checkbox-list').css("display", "block");
-    $('.found-reservations').append("<button class='select-reservation-to-delete-button' type='button' name='select-reservation-to-delete-button'>Delete Selected Reservation</button>");
-    $('#search-results-popup').append('<h3 class="error reservation-error1">You can only delete one reservation at a time.</h3>');
-    $('#search-results-popup').append('<h3 class="error reservation-error2">Please select a reservation to delete.</h3>');
-    $('#search-results-popup').append('<h3 class="error reservation-error3">Past reservations can not be removed. Please select an upcoming reservation to delete.</h3>');
-  },
-
-  displayRemoveMessage(reservation, customer) {
-    $('.found-reservations').css("display", "none");
-    $('.user-info').css("display", "none");
-    $('.search-results-buttons').css("display", "none");
-    $('#search-results-popup').append(`<div class='deleted-message'><h2><span>${customer.name.split(' ')[0]}'s</span> reservation for <span>${this.formatDate(reservation.date)}</span>, Room <span>${reservation.roomNumber}</span> has been removed.</h2></div>`);
-  },
-
-  populateCustomerReservationInfo(details) {
-    $('#search-results-popup').append("<ul class='found-reservations'><h4>Reservations:</h4></ul>");
-    details.forEach(d => $('.found-reservations').append(`<li class="no-checkbox-list">Date: ${d.date}, Room: ${d.number}</li>`));
-    details.forEach(d => $('.found-reservations').append(`<li class="checkbox-list" id='${d.id}'><input type='checkbox' class='specific-reservation' value='${d.id}'><label for='specific-reservation'>Date: ${d.date}, Room: ${d.number}</label></li>`));
+  displayDash(loginType) {
+    $('.login-info').css("display", "none");
+    $('header').css("display", "flex");
+    $(`.${loginType}-view`).css("display", "flex");
   },
 
   displayNumberOfAvailableRooms(rooms) {
@@ -175,7 +115,20 @@ addCheckboxesToReservations() {
     $(`#${view}-popup`).html('');
   },
 
-  resetForNewManagerReservation() {
+  resetAfterLogout() {
+    $(".manager-popup-window").css("visibility", "hidden");
+    $(".customer-popup-window").css("visibility", "hidden");
+    $('.customer-view').css("display", "none");
+    $('.manager-view').css("display", "none");
+    $('.error').css("display", "none");
+    $('.room-errors').css("visibility", "hidden");
+    $('header').css("display", "none");
+    $('.login-input').val('');
+    $(".submit#active").removeAttr('id');
+    $('.login-info').css("display", "flex");
+  },
+
+  resetForNewManagerReservation(today, customer) {
     $('#manager-start-date').val(today.split('/').join('-'));
     $('.user').text(customer.name.split(' ')[0]);
     $(".select-new-reservation-date").css("display", "grid");
@@ -185,7 +138,7 @@ addCheckboxesToReservations() {
     $(".date-error").css("display", "none");
   },
 
-  resetForNewManagerReservation() {
+  resetForNewCustomerReservation(today) {
     $('#customer-start-date').val(today.split('/').join('-'));
     $(".select-new-reservation-date").css("display", "grid");
     $(".rooms-available-on-date").css("display", "none");
@@ -200,28 +153,50 @@ addCheckboxesToReservations() {
     $(".rooms-available-on-date").html("");
   },
 
-  displayDash(loginType) {
-    $('.login-info').css("display", "none");
-    $('header').css("display", "flex");
-    $(`.${loginType}-view`).css("display", "flex");
-  }
-
-  showRoomError1() {
-    $(".rooms-available-on-date").append('<h3 class="error room-errors room-error1">Please select 1 room.</h3>');
-    $(`.room-error1`).css("visibility", "visible");
-  }
-
-  showRoomError2() {
-    $(".rooms-available-on-date").append('<h3 class="error room-errors room-error2">Please select a room to continue!</h3>');
-    $(`.room-error2`).css("visibility", "visible");
-  }
-
-  showConfirmationMessage(roomNumber, selectedDate) {
-    $(".rooms-available-on-date").html('');
+  restartReservation(today) {
+    $('#manager-start-date').val(today.split('/').join('-'));
+    $('#customer-start-date').val(today.split('/').join('-'));
+    $(".select-new-reservation-date").css("display", "grid");
     $(".rooms-available-on-date").css("display", "none");
-    $(".confirmation-message").css("display", "flex");
-    $(".reserved-room-number").text(`${roomNumber}`);
-    $(".reserved-date").text(`${this.formatDate(selectedDate.split('-').join('/'))}`);
+    $(".rooms-available-on-date").html("");
+    $(".date-error").css("display", "none");
+  },
+
+  selectUserFromResults(userInfo) {
+    $('#search-results-popup').html('');
+    $('#search-results-popup').append("<button class='exit-button' id='exit-search-results' type='button' name='exit-button'>X</button>");
+    $('#search-results-popup').append("<h3>There are multiple results for your search. Which user were you looking for?</h3>");
+    $('#search-results-popup').append("<ul class='found-users'></ul>");
+    userInfo.forEach(u => $('.found-users').append(`<li class='users-to-select'><input type='checkbox' class="user-results" value='${u.id}'><label for='user-results'>${u.name}</label></li>`));
+    $("#search-results-popup").append('<h3 class="error select-user-error">Please select 1 user.</h3>');
+    $('#search-results-popup').append("<button class='select-user-button' type='button' name='select-user-button'>Select User</button>");
+  },
+
+  populateUserResults() {
+    $('#search-results-popup').html('');
+    $('#search-results-popup').append("<button class='exit-button' id='exit-search-results' type='button' name='exit-button'>X</button>");
+    $('#search-results-popup').append("<img src='images/GOTIT.png' alt='the words got it in neon letters' class='confirmation-img'>");
+  },
+
+  populateCustomerInfo(reservationList, customer) {
+    $('#search-results-popup').append(`<h3 class="user-info"><span>Name</span> ${customer.name}, <span>ID</span> ${reservationList[0].userID}, <span>Amount Spent</span> $ ${(customer.amountSpent).toFixed(2)}</h3>`);
+    $('#search-results-popup').append("<div class='search-results-buttons'><button class='manager-new-reservation-button' type='button' name='new-reservation-button'>Add Reservation</button></div>");
+    $('.search-results-buttons').append("<button class='delete-reservation-button' type='button' name='delete-reservation-button'>Delete Reservation</button>");
+  },
+
+  addCheckboxesToReservations() {
+    $('.no-checkbox-list').css("display", "none");
+    $('.checkbox-list').css("display", "block");
+    $('.found-reservations').append("<button class='select-reservation-to-delete-button' type='button' name='select-reservation-to-delete-button'>Delete Selected Reservation</button>");
+    $('#search-results-popup').append('<h3 class="error reservation-error1">You can only delete one reservation at a time.</h3>');
+    $('#search-results-popup').append('<h3 class="error reservation-error2">Please select a reservation to delete.</h3>');
+    $('#search-results-popup').append('<h3 class="error reservation-error3">Past reservations can not be removed. Please select an upcoming reservation to delete.</h3>');
+  },
+
+  populateCustomerReservationInfo(details) {
+    $('#search-results-popup').append("<ul class='found-reservations'><h4>Reservations:</h4></ul>");
+    details.forEach(d => $('.found-reservations').append(`<li class="no-checkbox-list">Date: ${d.date}, Room: ${d.number}</li>`));
+    details.forEach(d => $('.found-reservations').append(`<li class="checkbox-list" id='${d.id}'><input type='checkbox' class='specific-reservation' value='${d.id}'><label for='specific-reservation'>Date: ${d.date}, Room: ${d.number}</label></li>`));
   },
 
   viewAvailableRoomDetails(rooms) {
@@ -306,6 +281,31 @@ addCheckboxesToReservations() {
     $(".rooms-available-on-date").append('<img src="images/novacancies.png" alt="the words no vacancies in neon letters" class="neon">');
     $(".rooms-available-on-date").append('<h2 class="none-available">Oh no! We don\'t have any available rooms for the date you\'ve selected.</h2>')
     $(".rooms-available-on-date").append('<button class="return-button" type="button" name="return-button">Pick A New Date</button>');
+  },
+
+  showConfirmationMessage(roomNumber, selectedDate) {
+    $(".rooms-available-on-date").html('');
+    $(".rooms-available-on-date").css("display", "none");
+    $(".confirmation-message").css("display", "flex");
+    $(".reserved-room-number").text(`${roomNumber}`);
+    $(".reserved-date").text(`${this.formatDate(selectedDate.split('-').join('/'))}`);
+  },
+
+  displayRemoveMessage(reservation, customer) {
+    $('.found-reservations').css("display", "none");
+    $('.user-info').css("display", "none");
+    $('.search-results-buttons').css("display", "none");
+    $('#search-results-popup').append(`<div class='deleted-message'><h2><span>${customer.name.split(' ')[0]}'s</span> reservation for <span>${this.formatDate(reservation.date)}</span>, Room <span>${reservation.roomNumber}</span> has been removed.</h2></div>`);
+  },
+
+  showRoomError1() {
+    $(".rooms-available-on-date").append('<h3 class="error room-errors room-error1">Please select 1 room.</h3>');
+    $(`.room-error1`).css("visibility", "visible");
+  },
+
+  showRoomError2() {
+    $(".rooms-available-on-date").append('<h3 class="error room-errors room-error2">Please select a room to continue!</h3>');
+    $(`.room-error2`).css("visibility", "visible");
   }
 }
 
