@@ -1,0 +1,103 @@
+
+@media only screen and (max-width: 600px) {
+  #manager-reservation-popup,
+  #customer-reservation-popup {
+    width: 80%;
+  }
+
+  .select-new-reservation-date {
+    grid-template-areas:
+    'msg'
+    'label'
+    'form'
+    'button'
+    'error'
+    'flower';
+  }
+
+  .reservation-rose {
+    align-self: flex-start;
+    height: 60px !important;
+    margin-top: 15px;
+  }
+
+  .select-date-message {
+    font-size: 1.5em;
+    margin-top: 60px;
+  }
+
+  .rooms-available-on-date {
+    grid-template-areas:
+    'img'
+    'h2'
+    'sidebar'
+    'list'
+    'select'
+    'error';
+    grid-template-columns: 70%;
+    margin-left: 5%
+  }
+
+  .filter-sidebar {
+    flex-direction: row;
+    margin: 5% 0%;
+  }
+
+  .filter-button {
+    margin-left: 5%;
+    height: fit-content;
+    width: initial;
+  }
+
+  .vacancies-img {
+    margin-left: 5%;
+  }
+
+  .select-room {
+    font-size: 1.3em;
+  }
+
+  h2 {
+    font-size: 2em;
+  }
+
+  h3 {
+    font-size: 1.5em;
+  }
+
+  ul {
+    width: 90%;
+  }
+
+  .manager-searchbar {
+    flex-direction: column;
+    margin: -20% 0 0 0;
+  }
+
+  .search-button {
+    margin: 5%;
+  }
+
+  .exit-button {
+    margin-left: 30%;
+  }
+
+  .user-info {
+    width: 90%;
+  }
+
+  #search-results-popup h3 {
+    font-size: 1.5em;
+    margin-top: 60px;
+  }
+
+  .found-users {
+    font-size: 1em;
+  }
+
+  .search-results-buttons {
+    align-items: center;
+    flex-direction: column;
+  }
+
+}
