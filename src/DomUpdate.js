@@ -19,23 +19,23 @@ let domUpdates = {
   },
 
   displayNumberOfAvailableRooms(rooms) {
-    $('.rooms-available-today').text(`${rooms.length} Available Rooms`);
+    $('.rooms-available-today').html(`<span>${rooms.length}</span> Available Rooms`);
   },
 
   displayRevenue(revenue) {
-    $('.todays-revenue').text(`$${revenue.toFixed(2)} in Revenue Today`);
+    $('.todays-revenue').html(`<span>$${revenue.toFixed(2)}</span> in Revenue Today`);
   },
 
   displayAmountSpent(cost) {
-    $('.customer-amount-spent').text(`You Have Spent $${cost.toFixed(2)}`)
+    $('.customer-amount-spent').html(`You Have Spent <span>$${cost.toFixed(2)}</span>`)
   },
 
   displayPercentageOccupied(occupied) {
-    $('.rooms-occupied-today').text(`${occupied}% of Rooms are Occupied`);
+    $('.rooms-occupied-today').html(`<span>${occupied}%</span> of Rooms are Occupied`);
   },
 
   displayUserReservations(reservations) {
-    $('.customer-reservations').text(`You Have ${reservations.length} Reservations`);
+    $('.customer-reservations').html(`You Have <span>${reservations.length}</span> Reservations`);
   },
 
   toggleCustomerPopup() {
