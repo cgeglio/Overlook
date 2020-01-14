@@ -6,12 +6,8 @@ class Hotel {
     this.reservations = reservations;
   }
 
-  addReservation(reservation) {
-    this.reservations.push(reservation);
-  }
-
-  removeReservation(reservation) {
-    this.reservations.splice(this.reservations.indexOf(this.reservations.find(r => r.id === reservation.id)), 1);
+  updateReservations(reservations) {
+    this.reservations = reservations;
   }
 
   findReservations(type, specific) {
@@ -59,10 +55,9 @@ class Hotel {
   calculatePercentageOccupied(type, specific) {
     let occupied = this.findReservations("date", specific);
     if (type === "dashboard") {
-      domUpdates.displayPercentageOccupied((occupied.length/this.rooms.length)*100);
+      domUpdates.displayPercentageOccupied((occupied.length / this.rooms.length) * 100);
     } else {
       let rooms = this.rooms.filter(r => (occupied.map(o => o.roomNumber)).includes(r.number))
-      console.log(rooms)
       domUpdates.viewOccupiedRoomDetails(rooms);
     }
     return occupied;

@@ -1,14 +1,6 @@
-// This is the JavaScript entry file - your code begins here
-// Do not delete or rename this file ********
-
-// An example of how you import jQuery into a JS file if you use jQuery in that file
 import $ from 'jquery';
-
-// An example of how you tell webpack to use a CSS (SCSS) file
 import './css/base.scss';
 import './css/variables.scss';
-
-// An example of how you tell webpack to use an image (also need to link to it in the index.html)
 import './images/GOTIT.png'
 import './images/neonRose.png'
 import './images/neonroselogo.png'
@@ -23,17 +15,23 @@ import './images/occupied.png'
 import './images/revenue.png'
 import './images/todayis.png'
 import User from "../src/User"
+import Customer from "../src/Customer"
+import Manager from "../src/Manager"
 import Hotel from "../src/Hotel"
 
 
+let customer;
+let customers = [];
 let date = new Date();
 let hotel;
+let manager;
 let reservations = [];
 let rooms = [];
 let selectedDate;
 let today;
-let user;
+let user
 let users = [];
+
 
 $(document).on('click', '#customer-popup #customer-exit-button', function(){
   toggleCustomerPopup();
@@ -119,9 +117,8 @@ function usersFetch() {
     .then(data => data.json())
     .then(data => data.users)
     .then(userData => {
-      userData.forEach(customer => {
-        customer = new User(customer.name, customer.id);
-        users.push(customer);
+      userData.forEach(user => {
+        users.push(user);
       })
     })
     .catch(error => console.log(error))
@@ -155,7 +152,22 @@ getFetches()
   .then(() => instantiateHotel(), createDate())
 
 function instantiateHotel() {
+  reservations.forEach(r => r.roomNumber = Number(r.roomNumber))
   hotel = new Hotel(rooms, reservations);
+  instantiateManager();
+}
+
+function instantiateManager() {
+  manager = new Manager(reservations, hotel);
+  instantiateCustomers();
+}
+
+function instantiateCustomers() {
+  users.forEach(u => {
+    let reservationList = reservations.find(r => r.userID === u.id);
+    u = new Customer(reservationList, u.name, u.id);
+    customers.push(u);
+  })
 }
 
 function createDate() {
@@ -196,7 +208,7 @@ function validateLoginInfo() {
     if ($('.username-input').val() === 'manager' && $('.password-input').val() === 'overlook2019') {
       showDashboard('manager');
     } else if (ids.find(i => `customer${i}` === $('.username-input').val()) && $('.password-input').val() === 'overlook2019') {
-        user = users.find(u => ('customer' + u.id) === $('.username-input').val())
+        customer = customers.find(c => ('customer' + c.id) === $('.username-input').val())
         showDashboard('customer');
     } else {
       $('.login-input').val('');
@@ -242,27 +254,21 @@ function populateManagerDash() {
 }
 
 function populateCustomerDash() {
-  $('.user-name').text(user.name.split(' ')[0]);
-  user.reservations = hotel.findReservations("userID", user.id);
-  user.reservedRooms = user.reservations.reduce((acc, res) => {
-    let room = hotel.rooms.find(r => r.number === res.roomNumber);
-      if (!acc.includes(room)) {
-        acc.push(room)
-      }
-    return acc ;
-  }, [])
-  user.findAmountSpent();
+  $('.user-name').text(customer.name.split(' ')[0]);
+  customer.reservations = hotel.findReservations("userID", customer.id);
+  customer.updateReservedRooms(rooms);
+  customer.findAmountSpent(rooms);
 }
 
 function viewReservations() {
   clearPopup("customer");
-  user.viewReservationDetails("reservations");
+  customer.viewReservationDetails("reservations");
   toggleCustomerPopup();
 }
 
 function viewCosts() {
   clearPopup("customer");
-  user.viewReservationDetails("costs");
+  customer.viewReservationDetails("costs");
   toggleCustomerPopup();
 }
 
@@ -365,7 +371,7 @@ function startNewManagerReservation() {
   toggleSearchResults();
   toggleNewManagerReservation();
   $('#manager-start-date').val(today.split('/').join('-'));
-  $('.user').text(user.name.split(' ')[0]);
+  $('.user').text(customer.name.split(' ')[0]);
   $(".select-new-reservation-date").css("display", "grid");
   $(".rooms-available-on-date").css("display", "none");
   $(".rooms-available-on-date").html("");
@@ -457,10 +463,11 @@ function confirmReservation(roomNumber) {
 }
 
 function logReservation(room) {
-  let reservation = {userID: Number(user.id), date: selectedDate.split('-').join('/'), roomNumber: Number(room.number)}
-  user.addReservation(reservation);
-  user.findAmountSpent();
-  hotel.addReservation(reservation);
+  let reservation = {userID: Number(customer.id), date: selectedDate.split('-').join('/'), roomNumber: Number(room.number)}
+  customer.addReservation(reservation);
+  customer.findAmountSpent(rooms);
+  manager.addReservation(reservation);
+  manager.updateHotelReservations();
   postReservation(reservation);
 }
 
@@ -550,17 +557,11 @@ function populateUserResults(reservationList) {
   $('#search-results-popup').html('');
   $('#search-results-popup').append("<button class='exit-button' id='exit-search-results' type='button' name='exit-button'>X</button>");
   $('#search-results-popup').append("<img src='images/GOTIT.png' alt='the words got it in neon letters' class='confirmation-img'>");
-  user = users.find(u => u.id === Number(reservationList[0].userID));
-  user.reservations = hotel.findReservations("userID", user.id);
-  user.reservedRooms = user.reservations.reduce((acc, res) => {
-    let room = hotel.rooms.find(r => r.number === res.roomNumber);
-      if (!acc.includes(room)) {
-        acc.push(room)
-      }
-    return acc ;
-  }, [])
-  user.findAmountSpent();
-  $('#search-results-popup').append(`<h3 class="user-info"><span>Name</span> ${user.name}, <span>ID</span> ${reservationList[0].userID}, <span>Amount Spent</span> $ ${(user.amountSpent).toFixed(2)}</h3>`);
+  customer = customers.find(c => c.id === Number(reservationList[0].userID));
+  customer.reservations = hotel.findReservations("userID", customer.id);
+  customer.updateReservedRooms(rooms);
+  customer.findAmountSpent(rooms);
+  $('#search-results-popup').append(`<h3 class="user-info"><span>Name</span> ${customer.name}, <span>ID</span> ${reservationList[0].userID}, <span>Amount Spent</span> $ ${(customer.amountSpent).toFixed(2)}</h3>`);
   $('#search-results-popup').append("<div class='search-results-buttons'><button class='manager-new-reservation-button' type='button' name='new-reservation-button'>Add Reservation</button></div>");
   $('.search-results-buttons').append("<button class='delete-reservation-button' type='button' name='delete-reservation-button'>Delete Reservation</button>");
   $('#search-results-popup').append("<ul class='found-reservations'><h4>Reservations:</h4></ul>");
@@ -607,14 +608,15 @@ function validateDeleteDate(reservation) {
 }
 
 function removeReservation(reservation) {
-  user.removeReservation(reservation);
-  user.findAmountSpent();
-  hotel.removeReservation(reservation);
+  customer.removeReservation(reservation);
+  customer.findAmountSpent(rooms);
+  manager.removeReservation(reservation);
+  manager.updateHotelReservations();
   deleteReservationData(reservation);
   $('.found-reservations').css("display", "none");
   $('.user-info').css("display", "none");
   $('.search-results-buttons').css("display", "none");
-  $('#search-results-popup').append(`<div class='deleted-message'><h2><span>${user.name.split(' ')[0]}'s</span> reservation for <span>${formatDate(reservation.date)}</span>, Room <span>${reservation.roomNumber}</span> has been removed.</h2></div>`);
+  $('#search-results-popup').append(`<div class='deleted-message'><h2><span>${customer.name.split(' ')[0]}'s</span> reservation for <span>${formatDate(reservation.date)}</span>, Room <span>${reservation.roomNumber}</span> has been removed.</h2></div>`);
 }
 
 function deleteReservationData(reservation) {

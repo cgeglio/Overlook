@@ -8,13 +8,15 @@ import Hotel from "../src/Hotel"
 import domUpdates from "../src/DomUpdate"
 
 describe('Hotel', () => {
-  let hotel;
   let rooms;
   let reservations;
+  let newReservations;
+  let hotel;
 
   beforeEach(() => {
-    rooms = [{number: 1, roomType: "residential suite", bidet: true, bedSize: "queen", numBeds: 1, costPerNight: 358.4}]
+    rooms = [{number: 1, roomType: "residential suite", bidet: true, bedSize: "queen", numBeds: 1, costPerNight: 358.4}]
     reservations = [{id: "5fwrgu4i7k55hl6t7", userID: 20, date: "2020/02/16", roomNumber: 1, roomServiceCharges: Array(0)}]
+    newReservations = [{id: "5fwrgu4i7k55hl6t5", userID: 43, date: "2020/01/24", roomNumber: 24, roomServiceCharges: []}, {id: "5fwrgu4i7k55hl6t7", userID: 20, date: "2020/02/16", roomNumber: 1, roomServiceCharges: Array(0)}];
     hotel = new Hotel(rooms, reservations)
   });
 
@@ -30,15 +32,9 @@ describe('Hotel', () => {
     expect(hotel.reservations).to.equal(reservations)
   });
 
-  it('should be able to add a reservation', () => {
-    let newReservation = {id: "5fwrgu4i7k55hl6t8", userID: 10, date: "2020/04/16", roomNumber: 3, roomServiceCharges: Array(0)}
-    hotel.addReservation(newReservation)
+  it('should be able to update reservations', () => {
+    hotel.updateReservations(newReservations)
     expect(hotel.reservations.length).to.equal(2)
-  });
-
-  it('should be able to remove a reservation', () => {
-    hotel.removeReservation(hotel.reservations[0])
-    expect(hotel.reservations.length).to.equal(0)
   });
 
   describe('updateDOM', () => {
@@ -89,7 +85,7 @@ describe('Hotel', () => {
     it('should be able to find the details of the rooms that are occupied and display on the DOM', function() {
       hotel.calculatePercentageOccupied("details", "2020/02/16")
       expect(domUpdates.viewOccupiedRoomDetails).to.have.been.called(1);
-      expect(domUpdates.viewOccupiedRoomDetails).to.have.been.called.with([{number: 1, roomType: "residential suite", bidet: true, bedSize: "queen", numBeds: 1, costPerNight: 358.4}]);
+      expect(domUpdates.viewOccupiedRoomDetails).to.have.been.called.with([{number: 1, roomType: "residential suite", bidet: true, bedSize: "queen", numBeds: 1, costPerNight: 358.4}]);
     });
 
   });

@@ -74,6 +74,7 @@ let domUpdates = {
     $('#customer-popup').append("<img src='images/reservations.png' alt='the word reservations in neon letters' class='neon'>");
     $('#customer-popup').append("<ul class='reservations'></ul>");
     let details = reservations.map(r => {
+      console.log(reservations)
       return `${this.formatDate(r.date)}: Room ${r.room.number}, type: ${r.room.roomType}, ${r.room.numBeds} ${r.room.bedSize} bed${r.room.numBeds > 1 ? 's' : ''}, $${r.room.costPerNight} per night`
     });
     details.forEach(d => $('.reservations').append(`<li>${d}</li>`));
