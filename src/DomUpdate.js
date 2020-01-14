@@ -165,9 +165,9 @@ let domUpdates = {
   selectUserFromResults(userInfo) {
     $('#search-results-popup').html('');
     $('#search-results-popup').append("<button class='exit-button' id='exit-search-results' type='button' name='exit-button'>X</button>");
-    $('#search-results-popup').append("<h3>There are multiple results for your search. Which user were you looking for?</h3>");
+    $('#search-results-popup').append("<h3 class='multiple-results'>There are multiple results for your search. Which user were you looking for?</h3>");
     $('#search-results-popup').append("<ul class='found-users'></ul>");
-    userInfo.forEach(u => $('.found-users').append(`<li class='users-to-select'><input type='checkbox' class="user-results" value='${u.id}'><label for='user-results'>${u.name}</label></li>`));
+    userInfo.forEach(u => $('.found-users').append(`<li class='users-to-select'><input type='checkbox' class="user-results" value='${u.id}'><label for='user-results'><span>${u.name}</span></label></li>`));
     $("#search-results-popup").append('<h3 class="error select-user-error">Please select 1 user.</h3>');
     $('#search-results-popup').append("<button class='select-user-button' type='button' name='select-user-button'>Select User</button>");
   },
@@ -185,9 +185,10 @@ let domUpdates = {
   },
 
   addCheckboxesToReservations() {
+    $('.delete-reservation-button').remove();
     $('.no-checkbox-list').css("display", "none");
     $('.checkbox-list').css("display", "block");
-    $('.found-reservations').append("<button class='select-reservation-to-delete-button' type='button' name='select-reservation-to-delete-button'>Delete Selected Reservation</button>");
+    $('.search-results-buttons').append("<button class='select-reservation-to-delete-button' type='button' name='select-reservation-to-delete-button'>Delete Selected</button>");
     $('#search-results-popup').append('<h3 class="error reservation-error1">You can only delete one reservation at a time.</h3>');
     $('#search-results-popup').append('<h3 class="error reservation-error2">Please select a reservation to delete.</h3>');
     $('#search-results-popup').append('<h3 class="error reservation-error3">Past reservations can not be removed. Please select an upcoming reservation to delete.</h3>');

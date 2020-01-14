@@ -102,10 +102,7 @@ span {
   text-align: center;
 }
 
-.select-reservation-to-delete-button {
-  @include button-style(max-content, 2px);
-}
-
+.select-reservation-to-delete-button
 .new-reservation-button,
 .delete-reservation-button {
   @include button-style(150px, 20px);
@@ -123,7 +120,7 @@ span {
 }
 
 .search-results-buttons {
-  @include button-style(40%, 2px);
+  @include button-style(40%, 2%);
   display: flex;
   flex-direction: row;
   justify-content: space-around;
@@ -369,6 +366,7 @@ span {
 // SEARCH RESULTS POPUP
 #search-results-popup {
   align-items: center;
+  padding-top: 5%;
 }
 
 #search-results-popup input,
@@ -389,10 +387,15 @@ span {
 
 .user-info {
   display: block;
+  width: 90%;
 }
 
 .found-users {
   margin: 0;
+}
+
+.multiple-results {
+  width: 90%;
 }
 
 
