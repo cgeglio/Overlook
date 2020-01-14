@@ -8,10 +8,10 @@ import Hotel from "../src/Hotel"
 import domUpdates from "../src/DomUpdate"
 
 describe('Hotel', () => {
-  let hotel;
   let rooms;
   let reservations;
   let newReservations;
+  let hotel;
 
   beforeEach(() => {
     rooms = [{number: 1, roomType: "residential suite", bidet: true, bedSize: "queen", numBeds: 1, costPerNight: 358.4}]

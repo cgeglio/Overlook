@@ -4,9 +4,9 @@ const expect = chai.expect;
 import User from "../src/User"
 
 describe('User', () => {
-  let user;
   let newReservation;
   let reservations;
+  let user;
 
   beforeEach(() => {
     newReservation = {id: "5fwrgu4i7k55hl6t5", userID: 43, date: "2020/01/24", roomNumber: 24, roomServiceCharges: []};

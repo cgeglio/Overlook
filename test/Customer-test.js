@@ -8,10 +8,10 @@ import Customer from "../src/Customer"
 import domUpdates from "../src/DomUpdate"
 
 describe('Customer', () => {
-  let customer;
+  let room;
   let newReservation;
   let reservations;
-  let room;
+  let customer;
 
   beforeEach(() => {
     room = {number: 3, roomType: "single room", bidet: false, bedSize: "king", numBeds: 1, costPerNight: 491.14};
