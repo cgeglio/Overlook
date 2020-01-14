@@ -73,7 +73,7 @@ describe('Hotel', () => {
     it('should be able to find the revenue details and display on the DOM', function() {
       hotel.findRevenueDetails("date", "2020/02/16")
       expect(domUpdates.viewRevenueDetails).to.have.been.called(1);
-      expect(domUpdates.viewRevenueDetails).to.have.been.called.with([`Room 1, $358.4`]);
+      expect(domUpdates.viewRevenueDetails).to.have.been.called.with([ { room: 1, cost: 358.4 } ]);
     });
 
     it('should be able to calculate the percentage of rooms that are occupied and display that percentage on the DOM', function() {
