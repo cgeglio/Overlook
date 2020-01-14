@@ -222,7 +222,7 @@ let domUpdates = {
     $('#manager-popup').append("<img src='images/occupied.png' alt='the word occupied in neon letters' class='neon'>");
     $('#manager-popup').append("<ul id='occupied'></ul>");
     let details = occupied.map(o => {
-      return {number:`Room ${o.number}:`, info: `Type: ${o.roomType}, ${o.numBeds} ${o.bedSize} bed${o.numBeds > 1 ? 's' : ''}, $${o.costPerNight} per night`}
+      return {number: `Room ${o.number}:`, info: `Type: ${o.roomType}, ${o.numBeds} ${o.bedSize} bed${o.numBeds > 1 ? 's' : ''}, $${o.costPerNight} per night`}
     });
     details.forEach(d => $('#occupied').append(`<ul><span>${d.number}</span><li>${d.info}</li></ul>`));
   },
@@ -232,7 +232,7 @@ let domUpdates = {
     $('#customer-popup').append("<img src='images/charges.png' alt='the word charges in neon letters' class='neon'>");
     $('#customer-popup').append("<ul id='charges'></ul>");
     let details = reservations.map(r => {
-      return {date: `${this.formatDate(r.date)}:`, details:` Room ${r.room.number}, $${r.room.costPerNight}`};
+      return {date: `${this.formatDate(r.date)}:`, details: ` Room ${r.room.number}, $${r.room.costPerNight}`};
     });
     details.forEach(d => $('#charges').append(`<ul><span>${d.date}</span><li>${d.details}</li></ul>`));
   },
