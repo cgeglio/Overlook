@@ -28,7 +28,7 @@ describe('Manager', () => {
   });
 
   it('should start off with hotel information', () => {
-      expect(manager.hotel).to.equal(hotel)
+    expect(manager.hotel).to.equal(hotel)
   });
 
   it('should be able to reserve a room', () => {

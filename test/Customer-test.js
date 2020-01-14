@@ -8,13 +8,11 @@ import Customer from "../src/Customer"
 import domUpdates from "../src/DomUpdate"
 
 describe('Customer', () => {
-  let room;
   let newReservation;
   let reservations;
   let customer;
 
   beforeEach(() => {
-    room = {number: 3, roomType: "single room", bidet: false, bedSize: "king", numBeds: 1, costPerNight: 491.14};
     newReservation = {id: "5fwrgu4i7k55hl6t5", userID: 43, date: "2020/01/24", roomNumber: 24, roomServiceCharges: []};
     reservations = [{id: "5fwrgu4i7k55hl6t7", userID: 28, date: "2020/02/16", roomNumber: 7, roomServiceCharges: []}];
     customer = new Customer(reservations, 'Marlowe', 28);
@@ -65,8 +63,11 @@ describe('Customer', () => {
     let roomList;
     chai.spy.on(domUpdates, ['displayAmountSpent', 'displayUserReservationDetails', 'displayCostDetails'], () => {});
 
-    beforeEach(() => {;
-      roomList = [{number: 1, costPerNight: 250}, {number: 7, costPerNight: 300} ];
+    beforeEach(() => {
+      roomList = [
+        {number: 1, costPerNight: 250},
+        {number: 7, costPerNight: 300}
+      ];
     })
 
     it('should update the amount spent on the DOM', function() {

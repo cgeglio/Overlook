@@ -1,4 +1,3 @@
-import domUpdates from "../src/DomUpdate"
 import User from "../src/User"
 
 class Manager extends User {
