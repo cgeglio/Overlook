@@ -33,65 +33,21 @@ let user
 let users = [];
 
 
-$(document).on('click', '#customer-popup #customer-exit-button', function(){
-  toggleCustomerPopup();
-});
-
-$(document).on('click', '#manager-popup #manager-exit-button', function(){
-  toggleManagerPopup();
-});
-
-$(document).on('click', '#customer-reservation-popup .return-button', function(){
-  restartReservation();
-});
-
-$(document).on('click', '#manager-reservation-popup .return-button', function(){
-  restartReservation();
-});
-
-$(document).on('click', '#customer-reservation-popup .filter-button', function(){
-  findCheckedRoomTypes();
-});
-
-$(document).on('click', '#manager-reservation-popup .filter-button', function(){
-  findCheckedRoomTypes();
-});
-
-$(document).on('click', '#manager-reservation-popup #exit-manager-reservation-button', function(){
-  toggleNewManagerReservation();
-});
-
-$(document).on('click', '#customer-reservation-popup #exit-reservation-button', function(){
-  toggleNewReservation();
-});
-
-$(document).on('click', '#customer-reservation-popup .select-button', function(){
-  validateRoomSelected();
-});
-
-$(document).on('click', '#manager-reservation-popup .select-button', function(){
-  validateRoomSelected();
-});
-
-$(document).on('click', '#search-results-popup #exit-search-results', function(){
-  toggleSearchResults();
-});
-
-$(document).on('click', '#search-results-popup .delete-reservation-button', function(){
-  addCheckboxesToReservations();
-});
-
-$(document).on('click', '#search-results-popup .select-user-button', function(){
-  findCheckedUser();
-});
-
-$(document).on('click', '#search-results-popup .select-reservation-to-delete-button', function(){
-  findCheckedReservation();
-});
-
-$(document).on('click', '#search-results-popup .manager-new-reservation-button', function(){
-  startNewManagerReservation();
-});
+$(document).on('click', '#customer-popup #customer-exit-button', () => toggleCustomerPopup());
+$(document).on('click', '#customer-reservation-popup #exit-reservation-button', () => toggleNewReservation());
+$(document).on('click', '#customer-reservation-popup .filter-button', () => findCheckedRoomTypes());
+$(document).on('click', '#customer-reservation-popup .select-button', () => validateRoomSelected());
+$(document).on('click', '#customer-reservation-popup .return-button', () => restartReservation());
+$(document).on('click', '#manager-popup #manager-exit-button', () => toggleManagerPopup());
+$(document).on('click', '#manager-reservation-popup #exit-manager-reservation-button', () => toggleNewManagerReservation());
+$(document).on('click', '#manager-reservation-popup .filter-button', () => findCheckedRoomTypes());
+$(document).on('click', '#manager-reservation-popup .return-button', () => restartReservation());
+$(document).on('click', '#manager-reservation-popup .select-button', () => validateRoomSelected());
+$(document).on('click', '#search-results-popup .delete-reservation-button', () => addCheckboxesToReservations());
+$(document).on('click', '#search-results-popup #exit-search-results', () => toggleSearchResults());
+$(document).on('click', '#search-results-popup .manager-new-reservation-button', () => startNewManagerReservation());
+$(document).on('click', '#search-results-popup .select-user-button', () => findCheckedUser());
+$(document).on('click', '#search-results-popup .select-reservation-to-delete-button', () => findCheckedReservation());
 
 
 $('.customer-continue-button').click(validateDate);
@@ -425,7 +381,6 @@ function findCheckedRoomTypes() {
   findRoomsWithCheckedTypes(selectedTypes);
 }
 
-
 function findRoomsWithCheckedTypes(selectedTypes) {
   let available = hotel.findAvailableRooms("date", selectedDate.split('-').join('/'));
   available.forEach(a => {
@@ -557,18 +512,34 @@ function populateUserResults(reservationList) {
   $('#search-results-popup').html('');
   $('#search-results-popup').append("<button class='exit-button' id='exit-search-results' type='button' name='exit-button'>X</button>");
   $('#search-results-popup').append("<img src='images/GOTIT.png' alt='the words got it in neon letters' class='confirmation-img'>");
+  findCustomer(reservationList);
+}
+
+function findCustomer(reservationList) {
   customer = customers.find(c => c.id === Number(reservationList[0].userID));
   customer.reservations = hotel.findReservations("userID", customer.id);
   customer.updateReservedRooms(rooms);
   customer.findAmountSpent(rooms);
+  populateCustomerInfo();
+}
+
+function populateCustomerInfo() {
   $('#search-results-popup').append(`<h3 class="user-info"><span>Name</span> ${customer.name}, <span>ID</span> ${reservationList[0].userID}, <span>Amount Spent</span> $ ${(customer.amountSpent).toFixed(2)}</h3>`);
   $('#search-results-popup').append("<div class='search-results-buttons'><button class='manager-new-reservation-button' type='button' name='new-reservation-button'>Add Reservation</button></div>");
   $('.search-results-buttons').append("<button class='delete-reservation-button' type='button' name='delete-reservation-button'>Delete Reservation</button>");
-  $('#search-results-popup').append("<ul class='found-reservations'><h4>Reservations:</h4></ul>");
+  findCustomerReservations();
+}
+
+function findCustomerReservations() {
   reservationList.sort((a, b) => new Date(a.date) - new Date(b.date));
   let details = reservationList.map(r => {
     return {date: formatDate(r.date), number: r.roomNumber, id: r.id};
   });
+  populateCustomerReservationInfo(details);
+}
+
+function populateCustomerReservationInfo(details) {
+  $('#search-results-popup').append("<ul class='found-reservations'><h4>Reservations:</h4></ul>");
   details.forEach(d => $('.found-reservations').append(`<li class="no-checkbox-list">Date: ${d.date}, Room: ${d.number}</li>`));
   details.forEach(d => $('.found-reservations').append(`<li class="checkbox-list" id='${d.id}'><input type='checkbox' class='specific-reservation' value='${d.id}'><label for='specific-reservation'>Date: ${d.date}, Room: ${d.number}</label></li>`));
 }
@@ -581,7 +552,6 @@ function addCheckboxesToReservations() {
   $('#search-results-popup').append('<h3 class="error reservation-error2">Please select a reservation to delete.</h3>');
   $('#search-results-popup').append('<h3 class="error reservation-error3">Past reservations can not be removed. Please select an upcoming reservation to delete.</h3>');
 }
-
 
 function findCheckedReservation() {
   $('.error').css("display", "none");
