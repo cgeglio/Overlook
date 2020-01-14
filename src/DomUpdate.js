@@ -74,7 +74,6 @@ let domUpdates = {
     $('#customer-popup').append("<img src='images/reservations.png' alt='the word reservations in neon letters' class='neon'>");
     $('#customer-popup').append("<ul class='reservations'></ul>");
     let details = reservations.map(r => {
-      console.log(reservations)
       return `${this.formatDate(r.date)}: Room ${r.room.number}, type: ${r.room.roomType}, ${r.room.numBeds} ${r.room.bedSize} bed${r.room.numBeds > 1 ? 's' : ''}, $${r.room.costPerNight} per night`
     });
     details.forEach(d => $('.reservations').append(`<li>${d}</li>`));
@@ -84,25 +83,37 @@ let domUpdates = {
     if (rooms.length > 0) {
       $(".rooms-available-on-date").append('<img src="images/vacancies.png" alt="the word vacancies in neon letters" class="vacancies-img neon">');
       $(".rooms-available-on-date").append('<h2 class="select-room">Please select a room to reserve:</h2>');
-      $(".rooms-available-on-date").append("<div class='filter-sidebar'><ul class='types'></ul></div>");
       let details = rooms.map(r => {
         return {number: r.number, type: r.roomType, detail: `Room ${r.number}, type: ${r.roomType}, ${r.numBeds} ${r.bedSize} bed${r.numBeds > 1 ? 's' : ''}, $${r.costPerNight} per night`};
       });
-      details.forEach(d => {
-        if (!document.getElementById(`${d.type}`)) {
-          $(".types").append(`<li id='${d.type}'><input type='checkbox' class='room-type' value='${d.type}'><label for='room-type'>${d.type}</label></li>`)
-        }
-      });
-      $(".filter-sidebar").append('<button class="filter-button" type="button" name="filter-button">Filter Rooms</button>');
-      $(".rooms-available-on-date").append("<ul class='vacancies'></ul>");
-      details.forEach(d => $(".vacancies").append(`<li class='${d.number} vacancy-list'><input type='checkbox' class='checked-room' id='${d.number}'><label for='${d.number}'>${d.detail}</label></li>`));
-      $(".rooms-available-on-date").append('<button class="select-button" type="button" name="select-button">Reserve Room</button>');
+      this.populateFilterSidebar(details);
+      this.populateVacancyList(details);
     } else {
-      $(".rooms-available-on-date").css("display", "flex");
-      $(".rooms-available-on-date").append('<img src="images/novacancies.png" alt="the words no vacancies in neon letters" class="neon">');
-      $(".rooms-available-on-date").append('<h2 class="none-available">Oh no! We don\'t have any available rooms for the date you\'ve selected.</h2>')
-      $(".rooms-available-on-date").append('<button class="return-button" type="button" name="return-button">Pick A New Date</button>');
+      this.showNoVanciesMessage();
     }
+  }
+
+  populateVacancyList(details) {
+    $(".rooms-available-on-date").append("<ul class='vacancies'></ul>");
+    details.forEach(d => $(".vacancies").append(`<li class='${d.number} vacancy-list'><input type='checkbox' class='checked-room' id='${d.number}'><label for='${d.number}'>${d.detail}</label></li>`));
+    $(".rooms-available-on-date").append('<button class="select-button" type="button" name="select-button">Reserve Room</button>');
+  }
+
+  populateFilterSidebar(details) {
+    $(".rooms-available-on-date").append("<div class='filter-sidebar'><ul class='types'></ul></div>");
+    details.forEach(d => {
+      if (!document.getElementById(`${d.type}`)) {
+        $(".types").append(`<li id='${d.type}'><input type='checkbox' class='room-type' value='${d.type}'><label for='room-type'>${d.type}</label></li>`)
+      }
+    }
+    $(".filter-sidebar").append('<button class="filter-button" type="button" name="filter-button">Filter Rooms</button>');
+  }
+
+  showNoVacanciesMessage() {
+    $(".rooms-available-on-date").css("display", "flex");
+    $(".rooms-available-on-date").append('<img src="images/novacancies.png" alt="the words no vacancies in neon letters" class="neon">');
+    $(".rooms-available-on-date").append('<h2 class="none-available">Oh no! We don\'t have any available rooms for the date you\'ve selected.</h2>')
+    $(".rooms-available-on-date").append('<button class="return-button" type="button" name="return-button">Pick A New Date</button>');
   }
 }
 
