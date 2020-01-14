@@ -143,16 +143,6 @@ function displayTodaysDate() {
   } ${d}, ${y}`);
 }
 
-function formatDate(day) {
-  let monthNames = ["January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December"];
-  day = day.split('/').join('');
-  let y = day.split('').slice(0, 4).join('');
-  let m = day.split('').slice(4, 6).join('');
-  let d = day.split('').slice(6, 8).join('');
-  return `${monthNames[m - 1]} ${d}, ${y}`;
-}
-
 function checkInputs() {
   if ($('.username-input').val() && $('.password-input').val()) {
     $('.submit').attr("id", "active");
@@ -414,7 +404,7 @@ function confirmReservation(roomNumber) {
   $(".rooms-available-on-date").css("display", "none");
   $(".confirmation-message").css("display", "flex");
   $(".reserved-room-number").text(`${roomNumber}`);
-  $(".reserved-date").text(`${formatDate(selectedDate.split('-').join('/'))}`);
+  $(".reserved-date").text(`${domUpdates.formatDate(selectedDate.split('-').join('/'))}`);
   logReservation(reservedRoom)
 }
 
@@ -534,7 +524,7 @@ function populateCustomerInfo(reservationList) {
 function findCustomerReservations(reservationList) {
   reservationList.sort((a, b) => new Date(a.date) - new Date(b.date));
   let details = reservationList.map(r => {
-    return {date: formatDate(r.date), number: r.roomNumber, id: r.id};
+    return {date: domUpdates.formatDate(r.date), number: r.roomNumber, id: r.id};
   });
   populateCustomerReservationInfo(details);
 }
@@ -587,7 +577,7 @@ function removeReservation(reservation) {
   $('.found-reservations').css("display", "none");
   $('.user-info').css("display", "none");
   $('.search-results-buttons').css("display", "none");
-  $('#search-results-popup').append(`<div class='deleted-message'><h2><span>${customer.name.split(' ')[0]}'s</span> reservation for <span>${formatDate(reservation.date)}</span>, Room <span>${reservation.roomNumber}</span> has been removed.</h2></div>`);
+  $('#search-results-popup').append(`<div class='deleted-message'><h2><span>${customer.name.split(' ')[0]}'s</span> reservation for <span>${domUpdates.formatDate(reservation.date)}</span>, Room <span>${reservation.roomNumber}</span> has been removed.</h2></div>`);
 }
 
 function deleteReservationData(reservation) {
