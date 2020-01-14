@@ -16,6 +16,22 @@ let domUpdates = {
     $('.rooms-available-today').text(`${rooms.length} Available Rooms`);
   },
 
+  displayRevenue(revenue) {
+    $('.todays-revenue').text(`$${revenue.toFixed(2)} in Revenue Today`);
+  },
+
+  displayAmountSpent(cost) {
+    $('.customer-amount-spent').text(`You Have Spent $${cost.toFixed(2)}`)
+  },
+
+  displayPercentageOccupied(occupied) {
+    $('.rooms-occupied-today').text(`${occupied}% of Rooms are Occupied`);
+  },
+
+  displayUserReservations(reservations) {
+    $('.customer-reservations').text(`You Have ${reservations.length} Reservations`);
+  },
+
   viewAvailableRoomDetails(rooms) {
     $('#manager-popup').append("<button class='exit-button' id='manager-exit-button' type='button' name='exit-button'>X</button>");
     $('#manager-popup').append("<img src='images/available.png' alt='the word available in neon letters' class='neon'>");
@@ -26,33 +42,11 @@ let domUpdates = {
     details.forEach(d => $('.available').append(`<li>${d}</li>`));
   },
 
-  displayRevenue(revenue) {
-    $('.todays-revenue').text(`$${revenue.toFixed(2)} in Revenue Today`);
-  },
-
   viewRevenueDetails(revenue) {
     $('#manager-popup').append("<button class='exit-button' id='manager-exit-button' type='button' name='exit-button'>X</button>");
     $('#manager-popup').append("<img src='images/revenue.png' alt='the word revenue in neon letters' class='neon'>");
     $('#manager-popup').append("<ul class='revenue'></ul>");
     revenue.forEach(r => $('.revenue').append(`<li>${r}</li>`));
-  },
-
-  displayAmountSpent(cost) {
-    $('.customer-amount-spent').text(`You Have Spent $${cost.toFixed(2)}`)
-  },
-
-  displayCostDetails(reservations) {
-    $('#customer-popup').append("<button class='exit-button' id='customer-exit-button' type='button' name='exit-button'>X</button>");
-    $('#customer-popup').append("<img src='images/charges.png' alt='the word charges in neon letters' class='neon'>");
-    $('#customer-popup').append("<ul class='charges'></ul>");
-    let details = reservations.map(r => {
-      return `${this.formatDate(r.date)}: Room ${r.room.number}, $${r.room.costPerNight}`
-    });
-    details.forEach(d=> $('.charges').append(`<li>${d}</li>`));
-  },
-
-  displayPercentageOccupied(occupied) {
-    $('.rooms-occupied-today').text(`${occupied}% of Rooms are Occupied`);
   },
 
   viewOccupiedRoomDetails(occupied) {
@@ -65,8 +59,14 @@ let domUpdates = {
     details.forEach(d=> $('.occupied').append(`<li>${d}</li>`));
   },
 
-  displayUserReservations(reservations) {
-    $('.customer-reservations').text(`You Have ${reservations.length} Reservations`);
+  displayCostDetails(reservations) {
+    $('#customer-popup').append("<button class='exit-button' id='customer-exit-button' type='button' name='exit-button'>X</button>");
+    $('#customer-popup').append("<img src='images/charges.png' alt='the word charges in neon letters' class='neon'>");
+    $('#customer-popup').append("<ul class='charges'></ul>");
+    let details = reservations.map(r => {
+      return `${this.formatDate(r.date)}: Room ${r.room.number}, $${r.room.costPerNight}`
+    });
+    details.forEach(d=> $('.charges').append(`<li>${d}</li>`));
   },
 
   displayUserReservationDetails(reservations) {
@@ -116,6 +116,5 @@ let domUpdates = {
     $(".rooms-available-on-date").append('<button class="return-button" type="button" name="return-button">Pick A New Date</button>');
   }
 }
-
 
 export default domUpdates;
