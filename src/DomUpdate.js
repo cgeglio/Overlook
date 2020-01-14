@@ -4,12 +4,12 @@ let domUpdates = {
 
   formatDate(day) {
     let monthNames = ["January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December"];
+      "July", "August", "September", "October", "November", "December"];
     day = day.split('/').join('');
     let y = day.split('').slice(0, 4).join('');
     let m = day.split('').slice(4, 6).join('');
     let d = day.split('').slice(6, 8).join('');
-    return `${monthNames[m -1]} ${d}, ${y}`;
+    return `${monthNames[m - 1]} ${d}, ${y}`;
   },
 
   displayNumberOfAvailableRooms(rooms) {

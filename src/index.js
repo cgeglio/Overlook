@@ -18,6 +18,7 @@ import User from "../src/User"
 import Customer from "../src/Customer"
 import Manager from "../src/Manager"
 import Hotel from "../src/Hotel"
+import domUpdates from "../src/DomUpdate"
 
 
 let customer;
@@ -29,7 +30,7 @@ let reservations = [];
 let rooms = [];
 let selectedDate;
 let today;
-let user
+let user;
 let users = [];
 
 
@@ -135,7 +136,7 @@ function createDate() {
 
 function displayTodaysDate() {
   let monthNames = ["January", "February", "March", "April", "May", "June",
-  "July", "August", "September", "October", "November", "December"];
+    "July", "August", "September", "October", "November", "December"];
   let y = date.getFullYear();
   let d = String(date.getDate()).padStart(2, '0');
   $('.todays-date').text(`${monthNames[date.getMonth()]
@@ -144,12 +145,12 @@ function displayTodaysDate() {
 
 function formatDate(day) {
   let monthNames = ["January", "February", "March", "April", "May", "June",
-  "July", "August", "September", "October", "November", "December"];
+    "July", "August", "September", "October", "November", "December"];
   day = day.split('/').join('');
   let y = day.split('').slice(0, 4).join('');
   let m = day.split('').slice(4, 6).join('');
   let d = day.split('').slice(6, 8).join('');
-  return `${monthNames[m -1]} ${d}, ${y}`;
+  return `${monthNames[m - 1]} ${d}, ${y}`;
 }
 
 function checkInputs() {
@@ -164,8 +165,8 @@ function validateLoginInfo() {
     if ($('.username-input').val() === 'manager' && $('.password-input').val() === 'overlook2019') {
       showDashboard('manager');
     } else if (ids.find(i => `customer${i}` === $('.username-input').val()) && $('.password-input').val() === 'overlook2019') {
-        customer = customers.find(c => ('customer' + c.id) === $('.username-input').val())
-        showDashboard('customer');
+      customer = customers.find(c => ('customer' + c.id) === $('.username-input').val())
+      showDashboard('customer');
     } else {
       $('.login-input').val('');
       $(".login-error").css("display", "flex");
@@ -266,7 +267,7 @@ function toggleManagerPopup() {
   } else {
     $('.manager-popup-window').attr('id', "toggle");
   }
- if (document.getElementById("overlay")) {
+  if (document.getElementById("overlay")) {
     $(".manager-shield#overlay").removeAttr('id');
   } else {
     $('.manager-shield').attr("id", "overlay");
@@ -372,12 +373,12 @@ function restartReservation() {
 
 function findCheckedRoomTypes() {
   $('.vacancies').children().each(function() {
-      $(this).removeClass('toggle-off');
-    });
+    $(this).removeClass('toggle-off');
+  });
   let selectedTypes = [];
   $("input[type=checkbox][class=room-type]:checked").each(function() {
-        selectedTypes.push($(this).val());
-    });
+    selectedTypes.push($(this).val());
+  });
   findRoomsWithCheckedTypes(selectedTypes);
 }
 
@@ -389,8 +390,8 @@ function findRoomsWithCheckedTypes(selectedTypes) {
     }
   })
   $("input[type=checkbox][class=room-type]:checked").each(function() {
-      $(this).prop('checked', false);
-    });
+    $(this).prop('checked', false);
+  });
 }
 
 function validateRoomSelected() {
@@ -488,8 +489,8 @@ function findUserDetails(userInfo) {
 function findCheckedUser() {
   let selectedUsers = [];
   $("input[type=checkbox][class=user-results]:checked").each(function() {
-        selectedUsers.push($(this).val());
-    });
+    selectedUsers.push($(this).val());
+  });
   if (selectedUsers.length > 1) {
     $('.select-user-error').css("display", "block");
   } else {
@@ -520,17 +521,17 @@ function findCustomer(reservationList) {
   customer.reservations = hotel.findReservations("userID", customer.id);
   customer.updateReservedRooms(rooms);
   customer.findAmountSpent(rooms);
-  populateCustomerInfo();
+  populateCustomerInfo(reservationList);
 }
 
-function populateCustomerInfo() {
+function populateCustomerInfo(reservationList) {
   $('#search-results-popup').append(`<h3 class="user-info"><span>Name</span> ${customer.name}, <span>ID</span> ${reservationList[0].userID}, <span>Amount Spent</span> $ ${(customer.amountSpent).toFixed(2)}</h3>`);
   $('#search-results-popup').append("<div class='search-results-buttons'><button class='manager-new-reservation-button' type='button' name='new-reservation-button'>Add Reservation</button></div>");
   $('.search-results-buttons').append("<button class='delete-reservation-button' type='button' name='delete-reservation-button'>Delete Reservation</button>");
-  findCustomerReservations();
+  findCustomerReservations(reservationList);
 }
 
-function findCustomerReservations() {
+function findCustomerReservations(reservationList) {
   reservationList.sort((a, b) => new Date(a.date) - new Date(b.date));
   let details = reservationList.map(r => {
     return {date: formatDate(r.date), number: r.roomNumber, id: r.id};
@@ -557,8 +558,8 @@ function findCheckedReservation() {
   $('.error').css("display", "none");
   let selectedReservation = [];
   $("input[type=checkbox][class=specific-reservation]:checked").each(function() {
-        selectedReservation.push($(this).val());
-    });
+    selectedReservation.push($(this).val());
+  });
   if (selectedReservation.length > 1) {
     $('.reservation-error1').css("display", "block");
   } else if (selectedReservation.length === 0) {
