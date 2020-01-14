@@ -1,30 +1,5 @@
 
 @media only screen and (max-width: 600px) {
-  #manager-reservation-popup,
-  #customer-reservation-popup {
-    width: 80%;
-  }
-
-  .select-new-reservation-date {
-    grid-template-areas:
-    'msg'
-    'label'
-    'form'
-    'button'
-    'error'
-    'flower';
-  }
-
-  .reservation-rose {
-    align-self: flex-start;
-    height: 60px !important;
-    margin-top: 15px;
-  }
-
-  .select-date-message {
-    font-size: 1.5em;
-    margin-top: 60px;
-  }
 
   .rooms-available-on-date {
     grid-template-areas:
@@ -69,21 +44,17 @@
     width: 90%;
   }
 
-  .manager-searchbar {
-    flex-direction: column;
-    margin: -20% 0 0 0;
-  }
-
-  .search-button {
-    margin: 5%;
-  }
-
   .exit-button {
     margin-left: 30%;
   }
 
   .user-info {
     width: 90%;
+  }
+
+  .manager-searchbar {
+    flex-direction: column;
+    margin: -20% 0 0 0;
   }
 
   #search-results-popup h3 {
@@ -93,6 +64,57 @@
 
   .found-users {
     font-size: 1em;
+  }
+
+}
+
+@media only screen and (max-width: 1020px) {
+
+  #manager-reservation-popup,
+  #customer-reservation-popup {
+    width: 80%;
+  }
+
+  .select-new-reservation-date {
+    grid-template-areas:
+    'msg'
+    'label'
+    'form'
+    'button'
+    'error'
+    'flower';
+  }
+
+  .reservation-rose {
+    align-self: flex-start;
+    height: 60px !important;
+    margin-top: 15px;
+  }
+
+  .select-date-message {
+    font-size: 1.5em;
+    margin-top: 60px;
+  }
+
+  .dashboard {
+    margin: 0;
+  }
+
+  .manager-searchbar {
+    flex-direction: column;
+    margin: -10% 0 0 5%;
+  }
+
+  .search-button {
+    margin: 5%;
+  }
+
+}
+
+@media only screen and (max-width: 1220px) {
+
+  .dashboard {
+    width: 70%;
   }
 
   .search-results-buttons {
