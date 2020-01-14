@@ -42,6 +42,7 @@ let domUpdates = {
     $('.error').css("display", "none");
     if (document.getElementById("toggle")) {
       $('.customer-popup-window#toggle').removeAttr('id');
+      $('#customer-popup').html('');
     } else {
       $('.customer-popup-window').attr('id', "toggle");
     }
@@ -53,8 +54,10 @@ let domUpdates = {
   },
 
   toggleManagerPopup() {
+    $('.error').css("display", "none");
     if (document.getElementById("toggle")) {
       $('.manager-popup-window#toggle').removeAttr('id');
+      $('#manager-popup').html('');
     } else {
       $('.manager-popup-window').attr('id', "toggle");
     }
@@ -101,6 +104,7 @@ let domUpdates = {
     $('.error').css("display", "none");
     if (document.getElementById("toggle")) {
       $(".user-search-results#toggle").removeAttr('id');
+      $('#search-results-popup').html('');
     } else {
       $('.user-search-results').attr("id", "toggle");
     }
