@@ -105,9 +105,9 @@ let domUpdates = {
       $('.user-search-results').attr("id", "toggle");
     }
     if (document.getElementById("overlay")) {
-      $(".manager-shield#overlay").removeAttr('id');
+      $(".manager-search-shield#overlay").removeAttr('id');
     } else {
-      $('.manager-shield').attr("id", "overlay");
+      $('.manager-search-shield').attr("id", "overlay");
     }
   },
 
@@ -182,6 +182,9 @@ let domUpdates = {
     $('#search-results-popup').append(`<h3 class="user-info"><span>Name</span> ${customer.name}, <span>ID</span> ${reservationList[0].userID}, <span>Amount Spent</span> $ ${(customer.amountSpent).toFixed(2)}</h3>`);
     $('#search-results-popup').append("<div class='search-results-buttons'><button class='manager-new-reservation-button' type='button' name='new-reservation-button'>Add Reservation</button></div>");
     $('.search-results-buttons').append("<button class='delete-reservation-button' type='button' name='delete-reservation-button'>Delete Reservation</button>");
+    $('#search-results-popup').append('<h3 class="error reservation-error1">You can only delete one reservation at a time.</h3>');
+    $('#search-results-popup').append('<h3 class="error reservation-error2">Please select a reservation to delete.</h3>');
+    $('#search-results-popup').append('<h3 class="error reservation-error3">Past reservations can not be removed. Please select an upcoming reservation to delete.</h3>');
   },
 
   addCheckboxesToReservations() {
@@ -189,52 +192,49 @@ let domUpdates = {
     $('.no-checkbox-list').css("display", "none");
     $('.checkbox-list').css("display", "block");
     $('.search-results-buttons').append("<button class='select-reservation-to-delete-button' type='button' name='select-reservation-to-delete-button'>Delete Selected</button>");
-    $('#search-results-popup').append('<h3 class="error reservation-error1">You can only delete one reservation at a time.</h3>');
-    $('#search-results-popup').append('<h3 class="error reservation-error2">Please select a reservation to delete.</h3>');
-    $('#search-results-popup').append('<h3 class="error reservation-error3">Past reservations can not be removed. Please select an upcoming reservation to delete.</h3>');
   },
 
   populateCustomerReservationInfo(details) {
     $('#search-results-popup').append("<ul class='found-reservations'><h4>Reservations:</h4></ul>");
-    details.forEach(d => $('.found-reservations').append(`<li class="no-checkbox-list">Date: ${d.date}, Room: ${d.number}</li>`));
-    details.forEach(d => $('.found-reservations').append(`<li class="checkbox-list" id='${d.id}'><input type='checkbox' class='specific-reservation' value='${d.id}'><label for='specific-reservation'>Date: ${d.date}, Room: ${d.number}</label></li>`));
+    details.forEach(d => $('.found-reservations').append(`<li class="no-checkbox-list"><span>${d.date}:</span> Room ${d.number}</li>`));
+    details.forEach(d => $('.found-reservations').append(`<li class="checkbox-list" id='${d.id}'><input type='checkbox' class='specific-reservation' value='${d.id}'><label for='specific-reservation'><span>${d.date}:</span> Room ${d.number}</label></li>`));
   },
 
   viewAvailableRoomDetails(rooms) {
     $('#manager-popup').append("<button class='exit-button' id='manager-exit-button' type='button' name='exit-button'>X</button>");
     $('#manager-popup').append("<img src='images/available.png' alt='the word available in neon letters' class='neon'>");
-    $('#manager-popup').append("<ul class='available'></ul>")
+    $('#manager-popup').append("<ul id='available'></ul>")
     let details = rooms.map(r => {
-      return `Room ${r.number}: type: ${r.roomType}, ${r.numBeds} ${r.bedSize} bed${r.numBeds > 1 ? 's' : ''}, $${r.costPerNight} per night`
+      return {number: `Room ${r.number}:`, info: `Type: ${r.roomType}, ${r.numBeds} ${r.bedSize} bed${r.numBeds > 1 ? 's' : ''}, $${r.costPerNight} per night`}
     });
-    details.forEach(d => $('.available').append(`<li>${d}</li>`));
+    details.forEach(d => $('#available').append(`<ul><span>${d.number}</span><li>${d.info}</li></ul>`));
   },
 
   viewRevenueDetails(revenue) {
     $('#manager-popup').append("<button class='exit-button' id='manager-exit-button' type='button' name='exit-button'>X</button>");
     $('#manager-popup').append("<img src='images/revenue.png' alt='the word revenue in neon letters' class='neon'>");
-    $('#manager-popup').append("<ul class='revenue'></ul>");
-    revenue.forEach(r => $('.revenue').append(`<li>${r}</li>`));
+    $('#manager-popup').append("<ul id='revenue'></ul>");
+    revenue.forEach(r => $('#revenue').append(`<li><span>Room ${r.room}:</span> $${r.cost}</li>`));
   },
 
   viewOccupiedRoomDetails(occupied) {
     $('#manager-popup').append("<button class='exit-button' id='manager-exit-button' type='button' name='exit-button'>X</button>");
     $('#manager-popup').append("<img src='images/occupied.png' alt='the word occupied in neon letters' class='neon'>");
-    $('#manager-popup').append("<ul class='occupied'></ul>");
+    $('#manager-popup').append("<ul id='occupied'></ul>");
     let details = occupied.map(o => {
-      return `Room ${o.number}, type: ${o.roomType}, ${o.numBeds} ${o.bedSize} bed${o.numBeds > 1 ? 's' : ''}, $${o.costPerNight} per night`
+      return {number:`Room ${o.number}:`, info: `Type: ${o.roomType}, ${o.numBeds} ${o.bedSize} bed${o.numBeds > 1 ? 's' : ''}, $${o.costPerNight} per night`}
     });
-    details.forEach(d=> $('.occupied').append(`<li>${d}</li>`));
+    details.forEach(d => $('#occupied').append(`<ul><span>${d.number}</span><li>${d.info}</li></ul>`));
   },
 
   displayCostDetails(reservations) {
     $('#customer-popup').append("<button class='exit-button' id='customer-exit-button' type='button' name='exit-button'>X</button>");
     $('#customer-popup').append("<img src='images/charges.png' alt='the word charges in neon letters' class='neon'>");
-    $('#customer-popup').append("<ul class='charges'></ul>");
+    $('#customer-popup').append("<ul id='charges'></ul>");
     let details = reservations.map(r => {
-      return `${this.formatDate(r.date)}: Room ${r.room.number}, $${r.room.costPerNight}`
+      return {date: `${this.formatDate(r.date)}:`, details:` Room ${r.room.number}, $${r.room.costPerNight}`};
     });
-    details.forEach(d=> $('.charges').append(`<li>${d}</li>`));
+    details.forEach(d => $('#charges').append(`<ul><span>${d.date}</span><li>${d.details}</li></ul>`));
   },
 
   displayUserReservationDetails(reservations) {
@@ -252,7 +252,7 @@ let domUpdates = {
       $(".rooms-available-on-date").append('<img src="images/vacancies.png" alt="the word vacancies in neon letters" class="vacancies-img neon">');
       $(".rooms-available-on-date").append('<h2 class="select-room">Please select a room to reserve:</h2>');
       let details = rooms.map(r => {
-        return {number: r.number, type: r.roomType, detail: `Room ${r.number}, type: ${r.roomType}, ${r.numBeds} ${r.bedSize} bed${r.numBeds > 1 ? 's' : ''}, $${r.costPerNight} per night`};
+        return {number: r.number, type: r.roomType, detail: `Room ${r.number}, Type: ${r.roomType}, ${r.numBeds} ${r.bedSize} Bed${r.numBeds > 1 ? 's' : ''}, $${r.costPerNight} per Night`};
       });
       this.populateFilterSidebar(details);
       this.populateVacancyList(details);

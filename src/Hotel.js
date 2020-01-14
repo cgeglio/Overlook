@@ -47,7 +47,9 @@ class Hotel {
 
   findRevenueDetails(type, specific) {
     let reserved = this.findReservations(type, specific);
-    let revenueDetails = reserved.sort((a, b) => a.roomNumber - b.roomNumber).map(room => `Room ${room.roomNumber}, $${this.rooms.find(r => r.number === room.roomNumber).costPerNight}`);
+    let revenueDetails = reserved.sort((a, b) => a.roomNumber - b.roomNumber).map(r => {
+      return {room: r.roomNumber, cost: ( this.rooms.find(room => room.number === r.roomNumber).costPerNight)}
+    });
     domUpdates.viewRevenueDetails(revenueDetails);
     return revenueDetails;
   }
