@@ -35,6 +35,8 @@ let users = [];
 
 
 $(document).on('click', '#customer-popup #customer-exit-button', () => domUpdates.toggleCustomerPopup());
+$(document).on('click', '#customer-popup .upcoming-button', () => findUpcomingReservations());
+$(document).on('click', '#customer-popup .past-button', () => findPastReservations());
 $(document).on('click', '#customer-reservation-popup #exit-reservation-button', () => domUpdates.toggleNewReservation());
 $(document).on('click', '#customer-reservation-popup .filter-button', () => findCheckedRoomTypes());
 $(document).on('click', '#customer-reservation-popup .select-button', () => validateRoomSelected());
@@ -431,5 +433,27 @@ function deleteReservationData(reservation) {
     body: JSON.stringify({
       id: `${reservation.id}`
     })
+  })
+}
+
+function findPastReservations() {
+  $('.reservations').children().each(function() {
+    $(this).removeClass('toggle-off');
+  });
+  $('.reservations').children().each(function () {
+    if (this.id >= today.split('/').join('')) {
+      $(this).addClass('toggle-off');
+    }
+  })
+}
+
+function findUpcomingReservations() {
+  $('.reservations').children().each(function() {
+    $(this).removeClass('toggle-off');
+  });
+  $('.reservations').children().each(function () {
+    if (this.id <= today.split('/').join('')) {
+      $(this).addClass('toggle-off');
+    }
   })
 }

@@ -116,6 +116,9 @@ let domUpdates = {
   },
 
   resetAfterLogout() {
+    if (document.getElementById("overlay")) {
+      this.removeAttr('id');
+    }
     $(".manager-popup-window").css("visibility", "hidden");
     $(".customer-popup-window").css("visibility", "hidden");
     $('.customer-view').css("display", "none");
@@ -240,11 +243,13 @@ let domUpdates = {
   displayUserReservationDetails(reservations) {
     $('#customer-popup').append("<button class='exit-button' id='customer-exit-button' type='button' name='exit-button'>X</button>");
     $('#customer-popup').append("<img src='images/reservations.png' alt='the word reservations in neon letters' class='neon'>");
+    $('#customer-popup').append("<section class='customer-reservation-buttons'><button class='upcoming-button' type='button' name='upcoming-reservations-button'>Upcoming</button></section>");
+    $('.customer-reservation-buttons').append("<button class='past-button' type='button' name='past-reservations-button'>Past</button>");
     $('#customer-popup').append("<ul class='reservations'></ul>");
     let details = reservations.map(r => {
-      return {date: `${this.formatDate(r.date)}:`, details: `Room ${r.room.number}, type: ${r.room.roomType}, ${r.room.numBeds} ${r.room.bedSize} bed${r.room.numBeds > 1 ? 's' : ''}, $${r.room.costPerNight} per night`}
+      return {date: r.date, details: `Room ${r.room.number}, type: ${r.room.roomType}, ${r.room.numBeds} ${r.room.bedSize} bed${r.room.numBeds > 1 ? 's' : ''}, $${r.room.costPerNight} per night`}
     });
-    details.forEach(d => $('.reservations').append(`<ul><span>${d.date}</span><li>${d.details}</li></ul>`));
+    details.forEach(d => $('.reservations').append(`<ul class='customer-res' id='${d.date.split('/').join('')}'><span>${this.formatDate(d.date)}:</span><li>${d.details}</li></ul>`));
   },
 
   listAvailableRooms(rooms) {
