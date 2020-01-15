@@ -118,7 +118,6 @@ span {
   grid-area: button;
 }
 
-
 .customer-reservation-buttons,
 .search-results-buttons {
   @include button-style(40%, 2%);
@@ -127,7 +126,6 @@ span {
   justify-content: space-around;
   width: 40%
 }
-
 
 .customer-reservation-buttons {
   margin: 5% 0 -5% 0;
@@ -430,12 +428,6 @@ span {
   display: none;
   flex-direction: column;
   position: relative;
-  // grid-template-areas:
-  // 'sidebar img img'
-  // 'sidebar h2 h2'
-  // 'sidebar list list'
-  // 'sidebar select error';
-  // grid-template-columns: 2fr 1fr 6fr;
 }
 
 .rooms-available-on-date label {

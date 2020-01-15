@@ -306,7 +306,7 @@ let domUpdates = {
     this.populateCostSidebar(details);
   },
 
-  populateCostSidebar(details) {
+  populateCostSidebar() {
     $(".filter-sidebar").append("<ul class='room-cost'><span>Cost</span></ul>");
     $(".room-cost").append(`<li id='[100, 199]'><input type='checkbox' class='room-cost' value='100, 199'><label for='room-cost'>$100 - $199</label></li>`)
     $(".room-cost").append(`<li id='[200, 299]'><input type='checkbox' class='room-cost' value='200, 299'><label for='room-cost'>$200 - $299</label></li>`)
