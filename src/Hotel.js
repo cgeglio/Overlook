@@ -57,7 +57,7 @@ class Hotel {
   calculatePercentageOccupied(type, specific) {
     let occupied = this.findReservations("date", specific);
     if (type === "dashboard") {
-      domUpdates.displayPercentageOccupied((occupied.length / this.rooms.length) * 100);
+      domUpdates.displayPercentageOccupied(Math.round((occupied.length / this.rooms.length) * 100));
     } else {
       let rooms = this.rooms.filter(r => (occupied.map(o => o.roomNumber)).includes(r.number))
       domUpdates.viewOccupiedRoomDetails(rooms);

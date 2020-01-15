@@ -156,7 +156,7 @@ let domUpdates = {
 
   newDateReset() {
     $(".select-new-reservation-date").css("display", "none");
-    $(".rooms-available-on-date").css("display", "grid");
+    $(".rooms-available-on-date").css("display", "flex");
     $(".rooms-available-on-date").html("");
   },
 
