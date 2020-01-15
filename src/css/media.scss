@@ -1,35 +1,35 @@
 
 @media only screen and (max-width: 600px) {
 
-  .rooms-available-on-date {
-    grid-template-areas:
-    'img'
-    'h2'
-    'sidebar'
-    'list'
-    'select'
-    'error';
-    grid-template-columns: 70%;
-    margin-left: 5%
-  }
-
   .filter-sidebar {
-    flex-direction: row;
+    align-self: center;
     margin: 5% 0%;
+    position: inherit;
   }
 
-  .filter-button {
-    margin-left: 5%;
-    height: fit-content;
-    width: initial;
+  .customer-reservation-buttons {
+    width: 90% !important;
   }
 
   .vacancies-img {
-    margin-left: 5%;
+    align-self: center;
+    margin: 0;
+  }
+
+  .vacancies {
+    padding: 0;
   }
 
   .select-room {
+    align-self: center;
     font-size: 1.3em;
+    margin: 0;
+    margin-left: 0 !important;
+  }
+
+  .select-button {
+    align-self: center;
+    margin: 0;
   }
 
   h2 {
@@ -41,6 +41,8 @@
   }
 
   ul {
+    font-size: 1.1em;
+    text-indent: 0;
     width: 90%;
   }
 
@@ -75,6 +77,10 @@
     width: 80%;
   }
 
+  #exit-reservation-button {
+    margin-left: 75%;
+  }
+
   .select-new-reservation-date {
     grid-template-areas:
     'msg'
@@ -89,6 +95,10 @@
     align-self: flex-start;
     height: 60px !important;
     margin-top: 15px;
+  }
+
+  .customer-reservation-buttons {
+    width: 60%;
   }
 
   .select-date-message {
@@ -109,11 +119,20 @@
     margin: 5%;
   }
 
+  .vacancies {
+    padding-left: 25%;
+  }
+
+  .select-room {
+    margin-left: 25%;
+  }
+
 }
 
 @media only screen and (max-width: 1220px) {
 
   .dashboard {
+    margin-top: 6%;
     width: 70%;
   }
 
