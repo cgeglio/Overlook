@@ -251,29 +251,55 @@ function validateDate() {
 }
 
 function findCheckedRoomTypes() {
+  $(`.room-errors`).css("visibility", "hidden");
   $('.vacancies').children().each(function() {
     $(this).removeClass('toggle-off');
   });
   let selectedTypes = [];
+  let selectedBedNum = [];
+  let selectedBedSize = [];
+  let costRange = [];
   $("input[type=checkbox][class=room-type]:checked").each(function() {
     selectedTypes.push($(this).val());
   });
   $("input[type=checkbox][class=bed-number]:checked").each(function() {
-    selectedTypes.push($(this).val());
+    selectedBedNum.push($(this).val());
   });
   $("input[type=checkbox][class=bed-size]:checked").each(function() {
-    selectedTypes.push($(this).val());
+    selectedBedSize.push($(this).val());
   });
-  findRoomsWithCheckedTypes(selectedTypes);
+  $("input[type=checkbox][class=room-cost]:checked").each(function() {
+    let cost = $(this).val().split(', ');
+    costRange.push(Number(cost[0]), Number(cost[1]));
+  });
+  findRoomsWithCheckedTypes(selectedTypes, selectedBedNum, selectedBedSize, costRange.sort());
 }
 
-function findRoomsWithCheckedTypes(selectedTypes) {
+function findRoomsWithCheckedTypes(selectedTypes, selectedBedNum, selectedBedSize, costRange) {
+  let count = 0;
   let available = hotel.findAvailableRooms("date", selectedDate.split('-').join('/'));
   available.forEach(a => {
-    if (!selectedTypes.includes(a.roomType) || !selectedTypes.includes(a.numBeds.toString()) || !selectedTypes.includes(a.bedSize)) {
+    if (selectedTypes.length && !selectedTypes.includes(a.roomType)) {
       $(`.${a.number}`).addClass("toggle-off");
+      count++;
+    } else if (selectedBedNum.length && !selectedBedNum.includes(a.numBeds.toString())) {
+      $(`.${a.number}`).addClass("toggle-off");
+      count++;
+    } else if (selectedBedSize.length && !selectedBedSize.includes(a.bedSize)) {
+      $(`.${a.number}`).addClass("toggle-off");
+      count++;
+    } else if (costRange.length && (a.costPerNight < costRange[0] || a.costPerNight > costRange[costRange.length - 1])) {
+      $(`.${a.number}`).addClass("toggle-off");
+      count++;
     }
   })
+  if (count === available.length) {
+    domUpdates.showRoomError3();
+    $('.vacancies').children().each(function() {
+      $(this).removeClass('toggle-off');
+    });
+  }
+
   $("input[type=checkbox][class=room-type]:checked").each(function() {
     $(this).prop('checked', false);
   });
@@ -281,6 +307,9 @@ function findRoomsWithCheckedTypes(selectedTypes) {
     $(this).prop('checked', false);
   });
   $("input[type=checkbox][class=bed-size]:checked").each(function() {
+    $(this).prop('checked', false);
+  });
+  $("input[type=checkbox][class=room-cost]:checked").each(function() {
     $(this).prop('checked', false);
   });
 }

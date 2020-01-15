@@ -261,7 +261,7 @@ let domUpdates = {
       $(".rooms-available-on-date").append('<img src="images/vacancies.png" alt="the word vacancies in neon letters" class="vacancies-img neon">');
       $(".rooms-available-on-date").append('<h2 class="select-room">Please select a room to reserve:</h2>');
       let details = rooms.map(r => {
-        return {number: r.number, type: r.roomType, bedNumber: r.numBeds, bedSize: r.bedSize, detail: `Room ${r.number}, Type: ${r.roomType}, ${r.numBeds} ${r.bedSize} Bed${r.numBeds > 1 ? 's' : ''}, $${r.costPerNight} per Night`};
+        return {number: r.number, type: r.roomType, bedNumber: r.numBeds, bedSize: r.bedSize, cost: r.costPerNight, detail: `Room ${r.number}, Type: ${r.roomType}, ${r.numBeds} ${r.bedSize} Bed${r.numBeds > 1 ? 's' : ''}, $${r.costPerNight} per Night`};
       });
       this.populateFilterSidebar(details);
       this.populateVacancyList(details);
@@ -277,24 +277,29 @@ let domUpdates = {
   },
 
   populateFilterSidebar(details) {
-    $(".rooms-available-on-date").append("<div class='filter-sidebar'><ul class='types'>Room Type</ul></div>");
+    $(".rooms-available-on-date").append("<div class='filter-sidebar'><ul class='types'><span>Room Type</span></ul></div>");
     details.forEach(d => {
       if (!document.getElementById(`${d.type}`)) {
         $(".types").append(`<li id='${d.type}'><input type='checkbox' class='room-type' value='${d.type}'><label for='room-type'>${d.type}</label></li>`)
       }
     })
-    $(".filter-sidebar").append("<ul class='bed-number'>Bed Number</ul>");
+    $(".filter-sidebar").append("<ul class='bed-number'><span>Bed Number</span></ul>");
     details.forEach(d => {
       if (!document.getElementById(`${d.bedNumber}`)) {
         $(".bed-number").append(`<li id='${d.bedNumber}'><input type='checkbox' class='bed-number' value='${d.bedNumber}'><label for='bed-number'>${d.bedNumber} bed${d.bedNumber > 1 ? 's' : ''}</label></li>`)
       }
     })
-    $(".filter-sidebar").append("<ul class='bed-size'>Bed Size</ul>");
+    $(".filter-sidebar").append("<ul class='bed-size'><span>Bed Size</span></ul>");
     details.forEach(d => {
       if (!document.getElementById(`${d.bedSize}`)) {
         $(".bed-size").append(`<li id='${d.bedSize}'><input type='checkbox' class='bed-size' value='${d.bedSize}'><label for='bed-number'>${d.bedSize}</label></li>`)
       }
     })
+    $(".filter-sidebar").append("<ul class='room-cost'><span>Cost</span></ul>");
+    $(".room-cost").append(`<li id='[100, 199]'><input type='checkbox' class='room-cost' value='100, 199'><label for='room-cost'>$100 - $199</label></li>`)
+    $(".room-cost").append(`<li id='[200, 299]'><input type='checkbox' class='room-cost' value='200, 299'><label for='room-cost'>$200 - $299</label></li>`)
+    $(".room-cost").append(`<li id='[300, 399]'><input type='checkbox' class='room-cost' value='300, 399'><label for='room-cost'>$300 - $399</label></li>`)
+    $(".room-cost").append(`<li id='[400, 499]'><input type='checkbox' class='room-cost' value='400, 499'><label for='room-cost'>$400 - $499</label></li>`)
     $(".filter-sidebar").append('<button class="filter-button" type="button" name="filter-button">Filter Rooms</button>');
   },
 
@@ -328,6 +333,11 @@ let domUpdates = {
   showRoomError2() {
     $(".rooms-available-on-date").append('<h3 class="error room-errors room-error2">Please select a room to continue!</h3>');
     $(`.room-error2`).css("visibility", "visible");
+  },
+
+  showRoomError3() {
+    $(".rooms-available-on-date").append('<h3 class="error room-errors room-error3">Sorry! Your search didn\'t match any rooms!</h3>');
+    $(`.room-error3`).css("visibility", "visible");
   }
 }
 
