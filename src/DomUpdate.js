@@ -338,17 +338,17 @@ let domUpdates = {
   },
 
   showRoomError1() {
-    $(".rooms-available-on-date").append('<h3 class="error room-errors room-error1">Please select 1 room.</h3>');
+    $(".vacancies").prepend('<h3 class="error room-errors room-error1">Please select 1 room.</h3>');
     $(`.room-error1`).css("visibility", "visible");
   },
 
   showRoomError2() {
-    $(".rooms-available-on-date").append('<h3 class="error room-errors room-error2">Please select a room to continue!</h3>');
+    $(".vacancies").prepend('<h3 class="error room-errors room-error2">Please select a room to continue!</h3>');
     $(`.room-error2`).css("visibility", "visible");
   },
 
   showRoomError3() {
-    $(".rooms-available-on-date").append('<h3 class="error room-errors room-error3">Sorry! Your search didn\'t match any rooms!</h3>');
+    $(".vacancies").prepend('<h3 class="error room-errors room-error3">Sorry! Your search didn\'t match any rooms!</h3>');
     $(`.room-error3`).css("visibility", "visible");
   }
 }
