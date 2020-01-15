@@ -85,7 +85,6 @@ span {
 }
 
 .select-button {
-  grid-area: select;
   margin-left: 25%;
 }
 
@@ -119,12 +118,17 @@ span {
   grid-area: button;
 }
 
+.customer-reservation-buttons,
 .search-results-buttons {
   @include button-style(40%, 2%);
   display: flex;
   flex-direction: row;
   justify-content: space-around;
   width: 40%
+}
+
+.customer-reservation-buttons {
+  margin: 5% 0 -5% 0;
 }
 
 #exit-manager-reservation-button,
@@ -420,15 +424,10 @@ span {
 
 // ROOM SEARCH RESULTS
 .rooms-available-on-date {
-  align-items: center;
+  align-items: flex-start;
   display: none;
   flex-direction: column;
-  grid-template-areas:
-  'img img img'
-  'sidebar h2 h2'
-  'sidebar list list'
-  'sidebar select error';
-  grid-template-columns: 2fr 1fr 6fr;
+  position: relative;
 }
 
 .rooms-available-on-date label {
@@ -440,8 +439,11 @@ span {
   text-align: left;
 }
 
+.reservations ul {
+  visibility: visible;
+}
+
 .vacancies {
-  grid-area: list;
   padding-left: 5%;
 }
 
@@ -451,7 +453,6 @@ span {
 }
 
 .vacancies-img {
-  grid-area: img;
   margin-left: 35%;
 }
 
@@ -461,16 +462,15 @@ span {
 
 .room-errors {
   display: block;
-  grid-area: error;
-  margin: 8px 0px 0px 20px;
+  font-size: 1em;
+  margin-top: -2%;
   text-align: left;
   visibility: hidden;
 }
 
 .select-room {
   font-size: 1.8em;
-  grid-area: h2;
-  margin-left: 5%;
+  margin-left: 23%;
   text-align: left;
 }
 
@@ -512,12 +512,15 @@ span {
   box-shadow: $secondary-box-shadow;
   display: flex;
   flex-direction: column;
-  grid-area: sidebar;
   height: max-content;
-  margin: 20% 0 0 5%;
+  margin: 0;
   padding: 10px;
+  position: absolute;
 }
 
+.room-cost,
+.bed-number,
+.bed-size,
 .types {
   align-self: flex-start;
   font-size: 1em;
@@ -551,6 +554,8 @@ span {
 }
 
 .toggle-off {
+  height: 0;
+  margin: 0;
   visibility: hidden !important;
 }
 

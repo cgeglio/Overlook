@@ -42,6 +42,7 @@ let domUpdates = {
     $('.error').css("display", "none");
     if (document.getElementById("toggle")) {
       $('.customer-popup-window#toggle').removeAttr('id');
+      $('#customer-popup').html('');
     } else {
       $('.customer-popup-window').attr('id', "toggle");
     }
@@ -53,8 +54,10 @@ let domUpdates = {
   },
 
   toggleManagerPopup() {
+    $('.error').css("display", "none");
     if (document.getElementById("toggle")) {
       $('.manager-popup-window#toggle').removeAttr('id');
+      $('#manager-popup').html('');
     } else {
       $('.manager-popup-window').attr('id', "toggle");
     }
@@ -101,6 +104,7 @@ let domUpdates = {
     $('.error').css("display", "none");
     if (document.getElementById("toggle")) {
       $(".user-search-results#toggle").removeAttr('id');
+      $('#search-results-popup').html('');
     } else {
       $('.user-search-results').attr("id", "toggle");
     }
@@ -116,6 +120,9 @@ let domUpdates = {
   },
 
   resetAfterLogout() {
+    if (document.getElementById("overlay")) {
+      this.removeAttr('id');
+    }
     $(".manager-popup-window").css("visibility", "hidden");
     $(".customer-popup-window").css("visibility", "hidden");
     $('.customer-view').css("display", "none");
@@ -149,7 +156,7 @@ let domUpdates = {
 
   newDateReset() {
     $(".select-new-reservation-date").css("display", "none");
-    $(".rooms-available-on-date").css("display", "grid");
+    $(".rooms-available-on-date").css("display", "flex");
     $(".rooms-available-on-date").html("");
   },
 
@@ -240,11 +247,13 @@ let domUpdates = {
   displayUserReservationDetails(reservations) {
     $('#customer-popup').append("<button class='exit-button' id='customer-exit-button' type='button' name='exit-button'>X</button>");
     $('#customer-popup').append("<img src='images/reservations.png' alt='the word reservations in neon letters' class='neon'>");
+    $('#customer-popup').append("<section class='customer-reservation-buttons'><button class='upcoming-button' type='button' name='upcoming-reservations-button'>Upcoming</button></section>");
+    $('.customer-reservation-buttons').append("<button class='past-button' type='button' name='past-reservations-button'>Past</button>");
     $('#customer-popup').append("<ul class='reservations'></ul>");
     let details = reservations.map(r => {
-      return {date: `${this.formatDate(r.date)}:`, details: `Room ${r.room.number}, type: ${r.room.roomType}, ${r.room.numBeds} ${r.room.bedSize} bed${r.room.numBeds > 1 ? 's' : ''}, $${r.room.costPerNight} per night`}
+      return {date: r.date, details: `Room ${r.room.number}, type: ${r.room.roomType}, ${r.room.numBeds} ${r.room.bedSize} bed${r.room.numBeds > 1 ? 's' : ''}, $${r.room.costPerNight} per night`}
     });
-    details.forEach(d => $('.reservations').append(`<ul><span>${d.date}</span><li>${d.details}</li></ul>`));
+    details.forEach(d => $('.reservations').append(`<ul class='customer-res' id='${d.date.split('/').join('')}'><span>${this.formatDate(d.date)}:</span><li>${d.details}</li></ul>`));
   },
 
   listAvailableRooms(rooms) {
@@ -252,9 +261,9 @@ let domUpdates = {
       $(".rooms-available-on-date").append('<img src="images/vacancies.png" alt="the word vacancies in neon letters" class="vacancies-img neon">');
       $(".rooms-available-on-date").append('<h2 class="select-room">Please select a room to reserve:</h2>');
       let details = rooms.map(r => {
-        return {number: r.number, type: r.roomType, detail: `Room ${r.number}, Type: ${r.roomType}, ${r.numBeds} ${r.bedSize} Bed${r.numBeds > 1 ? 's' : ''}, $${r.costPerNight} per Night`};
+        return {number: r.number, type: r.roomType, bedNumber: r.numBeds, bedSize: r.bedSize, cost: r.costPerNight, detail: `Room ${r.number}, Type: ${r.roomType}, ${r.numBeds} ${r.bedSize} Bed${r.numBeds > 1 ? 's' : ''}, $${r.costPerNight} per Night`};
       });
-      this.populateFilterSidebar(details);
+      this.populateRoomTypesSidebar(details);
       this.populateVacancyList(details);
     } else {
       this.showNoVacanciesMessage();
@@ -267,13 +276,42 @@ let domUpdates = {
     $(".rooms-available-on-date").append('<button class="select-button" type="button" name="select-button">Reserve Room</button>');
   },
 
-  populateFilterSidebar(details) {
-    $(".rooms-available-on-date").append("<div class='filter-sidebar'><ul class='types'></ul></div>");
+  populateRoomTypesSidebar(details) {
+    $(".rooms-available-on-date").append("<div class='filter-sidebar'><ul class='types'><span>Room Type</span></ul></div>");
     details.forEach(d => {
       if (!document.getElementById(`${d.type}`)) {
         $(".types").append(`<li id='${d.type}'><input type='checkbox' class='room-type' value='${d.type}'><label for='room-type'>${d.type}</label></li>`)
       }
     })
+    this.populateBedNumSidebar(details);
+  },
+
+  populateBedNumSidebar(details) {
+    $(".filter-sidebar").append("<ul class='bed-number'><span>Bed Number</span></ul>");
+    details.forEach(d => {
+      if (!document.getElementById(`${d.bedNumber}`)) {
+        $(".bed-number").append(`<li id='${d.bedNumber}'><input type='checkbox' class='bed-number' value='${d.bedNumber}'><label for='bed-number'>${d.bedNumber} bed${d.bedNumber > 1 ? 's' : ''}</label></li>`)
+      }
+    })
+    this.populateBedSizeSidebar(details);
+  },
+
+  populateBedSizeSidebar(details) {
+    $(".filter-sidebar").append("<ul class='bed-size'><span>Bed Size</span></ul>");
+    details.forEach(d => {
+      if (!document.getElementById(`${d.bedSize}`)) {
+        $(".bed-size").append(`<li id='${d.bedSize}'><input type='checkbox' class='bed-size' value='${d.bedSize}'><label for='bed-number'>${d.bedSize}</label></li>`)
+      }
+    })
+    this.populateCostSidebar(details);
+  },
+
+  populateCostSidebar() {
+    $(".filter-sidebar").append("<ul class='room-cost'><span>Cost</span></ul>");
+    $(".room-cost").append(`<li id='[100, 199]'><input type='checkbox' class='room-cost' value='100, 199'><label for='room-cost'>$100 - $199</label></li>`)
+    $(".room-cost").append(`<li id='[200, 299]'><input type='checkbox' class='room-cost' value='200, 299'><label for='room-cost'>$200 - $299</label></li>`)
+    $(".room-cost").append(`<li id='[300, 399]'><input type='checkbox' class='room-cost' value='300, 399'><label for='room-cost'>$300 - $399</label></li>`)
+    $(".room-cost").append(`<li id='[400, 499]'><input type='checkbox' class='room-cost' value='400, 499'><label for='room-cost'>$400 - $499</label></li>`)
     $(".filter-sidebar").append('<button class="filter-button" type="button" name="filter-button">Filter Rooms</button>');
   },
 
@@ -300,13 +338,18 @@ let domUpdates = {
   },
 
   showRoomError1() {
-    $(".rooms-available-on-date").append('<h3 class="error room-errors room-error1">Please select 1 room.</h3>');
+    $(".vacancies").prepend('<h3 class="error room-errors room-error1">Please select 1 room.</h3>');
     $(`.room-error1`).css("visibility", "visible");
   },
 
   showRoomError2() {
-    $(".rooms-available-on-date").append('<h3 class="error room-errors room-error2">Please select a room to continue!</h3>');
+    $(".vacancies").prepend('<h3 class="error room-errors room-error2">Please select a room to continue!</h3>');
     $(`.room-error2`).css("visibility", "visible");
+  },
+
+  showRoomError3() {
+    $(".vacancies").prepend('<h3 class="error room-errors room-error3">Sorry! Your search didn\'t match any rooms!</h3>');
+    $(`.room-error3`).css("visibility", "visible");
   }
 }
 

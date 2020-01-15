@@ -35,6 +35,8 @@ let users = [];
 
 
 $(document).on('click', '#customer-popup #customer-exit-button', () => domUpdates.toggleCustomerPopup());
+$(document).on('click', '#customer-popup .upcoming-button', () => findUpcomingReservations());
+$(document).on('click', '#customer-popup .past-button', () => findPastReservations());
 $(document).on('click', '#customer-reservation-popup #exit-reservation-button', () => domUpdates.toggleNewReservation());
 $(document).on('click', '#customer-reservation-popup .filter-button', () => findCheckedRoomTypes());
 $(document).on('click', '#customer-reservation-popup .select-button', () => validateRoomSelected());
@@ -249,24 +251,72 @@ function validateDate() {
 }
 
 function findCheckedRoomTypes() {
+  $(`.room-errors`).css("visibility", "hidden");
   $('.vacancies').children().each(function() {
     $(this).removeClass('toggle-off');
   });
+  evaluateCheckedBoxes()
+}
+
+function evaluateCheckedBoxes() {
   let selectedTypes = [];
+  let selectedBedNum = [];
+  let selectedBedSize = [];
+  let costRange = [];
   $("input[type=checkbox][class=room-type]:checked").each(function() {
     selectedTypes.push($(this).val());
   });
-  findRoomsWithCheckedTypes(selectedTypes);
+  $("input[type=checkbox][class=bed-number]:checked").each(function() {
+    selectedBedNum.push($(this).val());
+  });
+  $("input[type=checkbox][class=bed-size]:checked").each(function() {
+    selectedBedSize.push($(this).val());
+  });
+  $("input[type=checkbox][class=room-cost]:checked").each(function() {
+    let cost = $(this).val().split(', ');
+    costRange.push(Number(cost[0]), Number(cost[1]));
+  });
+  findRoomsWithCheckedTypes(selectedTypes, selectedBedNum, selectedBedSize, costRange.sort());
 }
 
-function findRoomsWithCheckedTypes(selectedTypes) {
+function findRoomsWithCheckedTypes(selectedTypes, selectedBedNum, selectedBedSize, costRange) {
+  let count = 0;
   let available = hotel.findAvailableRooms("date", selectedDate.split('-').join('/'));
   available.forEach(a => {
-    if (!selectedTypes.includes(a.roomType)) {
+    if (selectedTypes.length && !selectedTypes.includes(a.roomType)) {
       $(`.${a.number}`).addClass("toggle-off");
+      count++;
+    } else if (selectedBedNum.length && !selectedBedNum.includes(a.numBeds.toString())) {
+      $(`.${a.number}`).addClass("toggle-off");
+      count++;
+    } else if (selectedBedSize.length && !selectedBedSize.includes(a.bedSize)) {
+      $(`.${a.number}`).addClass("toggle-off");
+      count++;
+    } else if (costRange.length && (a.costPerNight < costRange[0] || a.costPerNight > costRange[costRange.length - 1])) {
+      $(`.${a.number}`).addClass("toggle-off");
+      count++;
     }
   })
+  resetReservationToggles(count, available);
+}
+
+function resetReservationToggles(count, available) {
+  if (count === available.length) {
+    domUpdates.showRoomError3();
+    $('.vacancies').children().each(function() {
+      $(this).removeClass('toggle-off');
+    });
+  }
   $("input[type=checkbox][class=room-type]:checked").each(function() {
+    $(this).prop('checked', false);
+  });
+  $("input[type=checkbox][class=bed-number]:checked").each(function() {
+    $(this).prop('checked', false);
+  });
+  $("input[type=checkbox][class=bed-size]:checked").each(function() {
+    $(this).prop('checked', false);
+  });
+  $("input[type=checkbox][class=room-cost]:checked").each(function() {
     $(this).prop('checked', false);
   });
 }
@@ -431,5 +481,27 @@ function deleteReservationData(reservation) {
     body: JSON.stringify({
       id: `${reservation.id}`
     })
+  })
+}
+
+function findPastReservations() {
+  $('.reservations').children().each(function() {
+    $(this).removeClass('toggle-off');
+  });
+  $('.reservations').children().each(function () {
+    if (this.id >= today.split('/').join('')) {
+      $(this).addClass('toggle-off');
+    }
+  })
+}
+
+function findUpcomingReservations() {
+  $('.reservations').children().each(function() {
+    $(this).removeClass('toggle-off');
+  });
+  $('.reservations').children().each(function () {
+    if (this.id <= today.split('/').join('')) {
+      $(this).addClass('toggle-off');
+    }
   })
 }
