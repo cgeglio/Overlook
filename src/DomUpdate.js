@@ -263,7 +263,7 @@ let domUpdates = {
       let details = rooms.map(r => {
         return {number: r.number, type: r.roomType, bedNumber: r.numBeds, bedSize: r.bedSize, cost: r.costPerNight, detail: `Room ${r.number}, Type: ${r.roomType}, ${r.numBeds} ${r.bedSize} Bed${r.numBeds > 1 ? 's' : ''}, $${r.costPerNight} per Night`};
       });
-      this.populateFilterSidebar(details);
+      this.populateRoomTypesSidebar(details);
       this.populateVacancyList(details);
     } else {
       this.showNoVacanciesMessage();
@@ -276,25 +276,37 @@ let domUpdates = {
     $(".rooms-available-on-date").append('<button class="select-button" type="button" name="select-button">Reserve Room</button>');
   },
 
-  populateFilterSidebar(details) {
+  populateRoomTypesSidebar(details) {
     $(".rooms-available-on-date").append("<div class='filter-sidebar'><ul class='types'><span>Room Type</span></ul></div>");
     details.forEach(d => {
       if (!document.getElementById(`${d.type}`)) {
         $(".types").append(`<li id='${d.type}'><input type='checkbox' class='room-type' value='${d.type}'><label for='room-type'>${d.type}</label></li>`)
       }
     })
+    this.populateBedNumSidebar(details);
+  },
+
+  populateBedNumSidebar(details) {
     $(".filter-sidebar").append("<ul class='bed-number'><span>Bed Number</span></ul>");
     details.forEach(d => {
       if (!document.getElementById(`${d.bedNumber}`)) {
         $(".bed-number").append(`<li id='${d.bedNumber}'><input type='checkbox' class='bed-number' value='${d.bedNumber}'><label for='bed-number'>${d.bedNumber} bed${d.bedNumber > 1 ? 's' : ''}</label></li>`)
       }
     })
+    this.populateBedSizeSidebar(details);
+  },
+
+  populateBedSizeSidebar(details) {
     $(".filter-sidebar").append("<ul class='bed-size'><span>Bed Size</span></ul>");
     details.forEach(d => {
       if (!document.getElementById(`${d.bedSize}`)) {
         $(".bed-size").append(`<li id='${d.bedSize}'><input type='checkbox' class='bed-size' value='${d.bedSize}'><label for='bed-number'>${d.bedSize}</label></li>`)
       }
     })
+    this.populateCostSidebar(details);
+  },
+
+  populateCostSidebar(details) {
     $(".filter-sidebar").append("<ul class='room-cost'><span>Cost</span></ul>");
     $(".room-cost").append(`<li id='[100, 199]'><input type='checkbox' class='room-cost' value='100, 199'><label for='room-cost'>$100 - $199</label></li>`)
     $(".room-cost").append(`<li id='[200, 299]'><input type='checkbox' class='room-cost' value='200, 299'><label for='room-cost'>$200 - $299</label></li>`)
