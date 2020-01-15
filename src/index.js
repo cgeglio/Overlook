@@ -255,6 +255,10 @@ function findCheckedRoomTypes() {
   $('.vacancies').children().each(function() {
     $(this).removeClass('toggle-off');
   });
+  evaluateCheckedBoxes()
+}
+
+function evaluateCheckedBoxes() {
   let selectedTypes = [];
   let selectedBedNum = [];
   let selectedBedSize = [];
@@ -293,13 +297,16 @@ function findRoomsWithCheckedTypes(selectedTypes, selectedBedNum, selectedBedSiz
       count++;
     }
   })
+  resetReservationToggles(count, available);
+}
+
+function resetReservationToggles(count, available) {
   if (count === available.length) {
     domUpdates.showRoomError3();
     $('.vacancies').children().each(function() {
       $(this).removeClass('toggle-off');
     });
   }
-
   $("input[type=checkbox][class=room-type]:checked").each(function() {
     $(this).prop('checked', false);
   });
