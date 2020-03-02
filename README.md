@@ -11,6 +11,19 @@ My assignment was to build a hotel management tool for hotel customers and staff
 - Login as a manager with username: manager, password: overlook2019
 - Login as a customer with username: customer[1-50], password: overlook2019
 
+## Project Goals
+- Use OOP to drive the design of the application and the code
+- Work with an API to send and receive data
+- Solidify the code review process
+- Create a robust test suite that thoroughly tests all functionality of a client-side application
+
+## Technologies Used
+- JavaScript
+- jQuery
+- Mocha & Chai
+- Fetch API 
+- Sass/SCSS
+
 ## Customer's Page
 ![Customer example gif](https://media.giphy.com/media/Tg6VFUoyGyd56fHB4s/giphy.gif)
 
