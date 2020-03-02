@@ -1,7 +1,7 @@
 # Neon Rose Hotel
 
 ## About
-My assignment was to build a hotel management tool for hotel customers and staff to manage room bookings and calculate customer bills. I decided to call my fictional hotel the Neon Rose and I created several neon features throughout the app.
+My assignment was to build a hotel management tool for hotel customers and staff to manage room bookings and calculate customer bills. I decided to call my fictional hotel the Neon Rose and used a neon theme throuhout the app.
 
 ## Setup
 - Fork and clone down this repo
